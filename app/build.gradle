@@ -24,4 +24,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
+    compile 'com.octo.android.robospice:robospice-google-http-client:1.4.14'
+    compile('com.google.http-client:google-http-client-jackson2:1.20.0') {
+        exclude module: 'xpp3'
+        exclude group: 'stax'
+    }
 }
