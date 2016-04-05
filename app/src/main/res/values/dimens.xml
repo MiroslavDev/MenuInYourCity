@@ -3,4 +3,19 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="item_height">48dp</dimen>
+    <dimen name="actionbar_height">56dp</dimen>
+    <dimen name="xxxxlarg_padding">64dp</dimen>
+    <dimen name="xxxlarg_padding">48dp</dimen>
+    <dimen name="xlarge_padding">32dp</dimen>
+    <dimen name="padding">16dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+
+    <dimen name="padding_title_bottom_actionbar">20dp</dimen>
+    <dimen name="img_height_actionbar">40dp</dimen>
+    <dimen name="icn_height_actbar">24dp</dimen>
+
+    <dimen name="menu_title_size_actbar">14sp</dimen>
+    <dimen name="title_text_size_actbar">18sp</dimen>
 </resources>

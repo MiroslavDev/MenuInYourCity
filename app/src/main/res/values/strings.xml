@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MenuInYourCity</string>
     <string name="action_settings">Settings</string>
+
+    <string name="default_city">Петропавловск</string>
+    <string name="splash_text">Для того, что бы разместить свое заведение - свяжитесь с нами.</string>
 </resources>
