@@ -11,18 +11,14 @@ import com.octo.android.robospice.request.googlehttpclient.GoogleHttpClientSpice
 
 public abstract class BaseRequest<Result> extends GoogleHttpClientSpiceRequest<Result> {
 
-    private Context context;
+    private static final String DOMAIN = "http://menu.frameapp.com.ua/api";
 
-    private static final String PROTOCOL = "http";
-    private static final String DOMAIN = "192.168.1.115";
-
-    protected BaseRequest(Class<Result> clazz, Context context) {
+    protected BaseRequest(Class<Result> clazz) {
         super(clazz);
-        this.context = context;
     }
 
     protected String buildURL() {
-        return PROTOCOL + "://" + DOMAIN + "/restapi" + "/" + getResourceUri();
+        return DOMAIN + "/" + getResourceUri();
     }
 
     public String getResourceUri() {
@@ -31,10 +27,6 @@ public abstract class BaseRequest<Result> extends GoogleHttpClientSpiceRequest<R
 
     public long getCacheExpiryDuration() {
         return DurationInMillis.ALWAYS_EXPIRED;
-    }
-
-    public Context getContext() {
-        return context;
     }
 
     @Override

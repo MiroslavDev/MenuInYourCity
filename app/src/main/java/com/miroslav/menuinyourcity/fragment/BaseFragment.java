@@ -7,7 +7,7 @@ import com.octo.android.robospice.SpiceManager;
 
 public abstract class BaseFragment extends Fragment {
 
-    private SpiceManager spiceManager = new SpiceManager(Jackson2GoogleHttpClientSpiceService.class);
+    protected SpiceManager spiceManager = new SpiceManager(Jackson2GoogleHttpClientSpiceService.class);
 
     @Override
     public void onStart() {

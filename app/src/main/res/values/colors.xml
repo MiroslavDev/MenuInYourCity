@@ -4,12 +4,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="frg_background">#FFFFFF</color>
     <color name="toolbar_color">@color/main_green</color>
 
     <color name="text_color_actbar">#FFFFFF</color>
-    <color name="main_green">#5EE045</color>
+    <color name="main_green">#27AE60</color>
 
     <color name="text_color_white">#FFFFFF</color>
     <color name="accent_green">#30986C</color>
-    <color name="main_orange">#EE6500</color>
+    <color name="devider_color">#455A64</color>
+    <color name="main_orange">#FF9500</color>
 </resources>

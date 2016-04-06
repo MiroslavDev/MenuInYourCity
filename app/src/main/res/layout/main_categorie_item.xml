@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.miroslav.menuinyourcity.view.CategorieItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="1dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frg_main_categorie_item_img"
+        android:background="@drawable/ic_mask_category_item"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Large Text"
+        android:id="@+id/frg_main_categorie_item_name"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="false"
+        android:textSize="@dimen/cat_text_size"
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/frg_main_categorie_item_img"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginRight="@dimen/padding"
+        android:layout_marginBottom="@dimen/padding"
+        android:gravity="center"
+        android:textColor="@color/text_color_white" />
+</com.miroslav.menuinyourcity.view.CategorieItemView>

@@ -16,24 +16,35 @@ import com.miroslav.menuinyourcity.R;
 public class SplashFragment extends BaseFragment {
     private static final String TAG = "SplashFragment";
     private final int SPLASH_DISPLAY_LENGTH = 7000;
+    private Handler handler = new Handler();
+    private Runnable myRunnable = new Runnable() {
+        @Override
+        public void run() {
+            ((MainActivity) getActivity()).addFragment(new CategoriesFragment());
+        }
+    };
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         ((MainActivity)getActivity()).hideActBar();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ((MainActivity) getActivity()).addFragment(new CategoriesFragment());
-            }
-        }, SPLASH_DISPLAY_LENGTH);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.frg_splash, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        handler.postDelayed(myRunnable, SPLASH_DISPLAY_LENGTH);
+    }
+
+    @Override
+    public void onStop() {
+        handler.removeCallbacks(myRunnable);
+        super.onStop();
     }
 }
