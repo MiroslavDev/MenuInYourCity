@@ -25,6 +25,13 @@ public class MainCategoriesAdapter extends BaseAdapter{
     public MainCategoriesAdapter(Context context, List<CategorieModel> data) {
         this.context = context;
         this.data = data;
+
+//        Picasso.Builder builder = new Picasso.Builder(context);
+//        builder.downloader(new OkHttpDownloader(context ,Integer.MAX_VALUE));
+//        Picasso built = builder.build();
+//        built.setIndicatorsEnabled(true);
+//        built.setLoggingEnabled(true);
+//        Picasso.setSingletonInstance(built);
     }
 
     @Override
@@ -61,11 +68,11 @@ public class MainCategoriesAdapter extends BaseAdapter{
 
         CategorieModel item = data.get(position);
 
-        if(item.getImageUrl() != null) {
-            Picasso.with(context).load(URLHelper.imageDomain + item.getImageUrl()).into(holder.image);
-        } else {
-            holder.image.setImageResource(R.drawable.ic_mask_category_item);
-        }
+        Picasso.with(context)
+                .load(URLHelper.imageDomain + item.getImageUrl())
+                //.error(R.drawable.ic_mask_category_item)
+                .into(holder.image);
+
         holder.name.setText(item.getName());
 
         return convertView;

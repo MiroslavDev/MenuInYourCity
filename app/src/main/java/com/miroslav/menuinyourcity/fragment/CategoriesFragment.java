@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -35,12 +35,15 @@ public class CategoriesFragment extends BaseFragment implements BaseSliderView.O
     private GridView gridLayout;
     private GetCategoriesRequest request;
     private SliderLayout topSlider;
+    private List<CategorieModel> categorieModelList;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ((MainActivity)getActivity()).showActBar();
+        ((MainActivity)getActivity()).setVisibleSpinnerInActBar();
+
         setupUI(view);
         createTestData();
     }
@@ -48,7 +51,29 @@ public class CategoriesFragment extends BaseFragment implements BaseSliderView.O
     private void setupUI(View view) {
         gridLayout = (GridView) view.findViewById(R.id.frg_categories_grid_layout);
         gridLayout.setAdapter(new MainCategoriesAdapter(getContext(), new ArrayList<CategorieModel>()));
+        gridLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Long parentId = ((CategorieModel)(gridLayout.getAdapter()).getItem(position)).getId();
+                //((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId));
+                ((MainActivity) getActivity()).replaceFragment(CatalogFragment.newInstance(parentId));
+
+            }
+        });
         topSlider = (SliderLayout) view.findViewById(R.id.frg_categories_top_slider);
+        view.findViewById(R.id.frg_categories_btn_event).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        view.findViewById(R.id.frg_categories_btn_liked).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     private void createTestData() {
@@ -86,8 +111,11 @@ public class CategoriesFragment extends BaseFragment implements BaseSliderView.O
     public void onStart() {
         super.onStart();
 
-        if(request == null)
+        if(categorieModelList == null) {
             categoriesRequest();
+        } else {
+            updaateAdapterData(categorieModelList);
+        }
     }
 
     private void categoriesRequest() {
@@ -110,6 +138,7 @@ public class CategoriesFragment extends BaseFragment implements BaseSliderView.O
     }
 
     private void updaateAdapterData(List<CategorieModel> data) {
+        categorieModelList = data;
         MainCategoriesAdapter adapter = (MainCategoriesAdapter) gridLayout.getAdapter();
         adapter.clear();
         adapter.addAll(data);
@@ -123,7 +152,6 @@ public class CategoriesFragment extends BaseFragment implements BaseSliderView.O
 
     @Override
     public void onPageSelected(int position) {
-
     }
 
     @Override

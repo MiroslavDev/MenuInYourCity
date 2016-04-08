@@ -20,7 +20,7 @@ public class SplashFragment extends BaseFragment {
     private Runnable myRunnable = new Runnable() {
         @Override
         public void run() {
-            ((MainActivity) getActivity()).addFragment(new CategoriesFragment());
+            ((MainActivity) getActivity()).replaceFragmentWithoutBackStack(new CategoriesFragment());
         }
     };
 

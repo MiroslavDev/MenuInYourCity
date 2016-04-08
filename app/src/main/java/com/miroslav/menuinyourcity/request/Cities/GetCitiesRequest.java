@@ -1,4 +1,4 @@
-package com.miroslav.menuinyourcity.request.Categories;
+package com.miroslav.menuinyourcity.request.Cities;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
@@ -7,28 +7,28 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.miroslav.menuinyourcity.request.BaseRequest;
 
 /**
- * Created by apple on 4/6/16.
+ * Created by apple on 4/8/16.
  */
-public class GetCategoriesRequest extends BaseRequest<BaseCategoriesModel> {
+public class GetCitiesRequest extends BaseRequest<BaseCitiesModel> {
 
-    protected Long id;
+    private Long id;
 
-    public GetCategoriesRequest(Long id) {
-        super(BaseCategoriesModel.class);
+    public GetCitiesRequest(Long id) {
+        super(BaseCitiesModel.class);
         this.id = id;
     }
 
-    public GetCategoriesRequest() {
-        super(BaseCategoriesModel.class);
+    public GetCitiesRequest() {
+        super(BaseCitiesModel.class);
     }
 
     @Override
     public String getResourceUri() {
-        return "categories" + (id == null ? "" : "/" + id);
+        return "cities" + (id == null ? "" : "/" + id);
     }
 
     @Override
-    public BaseCategoriesModel loadDataFromNetwork() throws Exception {
+    public BaseCitiesModel loadDataFromNetwork() throws Exception {
         HttpRequest request = getHttpRequestFactory().buildGetRequest(new GenericUrl(buildURL()));
         request.setParser(new JacksonFactory().createJsonObjectParser());
 

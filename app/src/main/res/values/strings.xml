@@ -6,4 +6,6 @@
     <string name="splash_text">Для того, что бы разместить свое заведение - свяжитесь с нами.</string>
     <string name="city_events">События города</string>
     <string name="liked">Избранное</string>
+    <string name="category">Каталог</string>
+    <string name="shares">Акции</string>
 </resources>

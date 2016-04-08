@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding"
+        android:textSize="@dimen/cat_text_size"
+        android:textColor="@android:color/black"
+        android:text="Medium Text"
+        android:id="@+id/catalog_item_name"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/padding_small"
+        android:textSize="@dimen/cat_text_size"
+        android:textStyle="bold"
+        android:text="Medium Text"
+        android:id="@+id/catalog_item_count"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>
