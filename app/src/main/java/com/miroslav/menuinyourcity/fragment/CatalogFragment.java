@@ -2,6 +2,7 @@ package com.miroslav.menuinyourcity.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by apple on 4/8/16.
  */
-public class CatalogFragment extends BaseFragment {
+public class CatalogFragment extends com.miroslav.menuinyourcity.fragment.BaseFragment {
 
     public  static final String PARENT_ID = "parent_id";
 
@@ -35,6 +36,7 @@ public class CatalogFragment extends BaseFragment {
         CatalogFragment fr = new CatalogFragment();
         Bundle arg = new Bundle();
         arg.putLong(PARENT_ID, id);
+        Log.d("parentId = ", id+"");
         fr.setArguments(arg);
         return fr;
     }
@@ -44,7 +46,7 @@ public class CatalogFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         parentId = getArguments().getLong(CatalogFragment.PARENT_ID);
-
+        Log.d("parentId = ", parentId+"");
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
         listView.setAdapter(new CatalogAdapter(getContext(), new ArrayList<CategorieModel>()));
         setupActionBar();
@@ -65,6 +67,8 @@ public class CatalogFragment extends BaseFragment {
         }
     }
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +76,7 @@ public class CatalogFragment extends BaseFragment {
     }
 
     private void categoriesRequest() {
+        Log.d("parentId = ", parentId+"");
         GetChildrenCategoriesRequest request = new GetChildrenCategoriesRequest(parentId);
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseCategoriesModel>() {
             @Override

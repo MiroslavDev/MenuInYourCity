@@ -13,9 +13,9 @@ import com.miroslav.menuinyourcity.R;
 /**
  * Created by apple on 4/5/16.
  */
-public class SplashFragment extends BaseFragment {
+public class SplashFragment extends com.miroslav.menuinyourcity.fragment.BaseFragment {
     private static final String TAG = "SplashFragment";
-    private final int SPLASH_DISPLAY_LENGTH = 7000;
+    private final int SPLASH_DISPLAY_LENGTH = 3000;
     private Handler handler = new Handler();
     private Runnable myRunnable = new Runnable() {
         @Override

@@ -2,6 +2,7 @@ package com.miroslav.menuinyourcity.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ import java.util.List;
 /**
  * Created by apple on 4/5/16.
  */
-public class CategoriesFragment extends BaseFragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.BaseFragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
     private static final String TAG = "CategoriesFragment";
 
     private GridView gridLayout;
@@ -55,12 +56,15 @@ public class CategoriesFragment extends BaseFragment implements BaseSliderView.O
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Long parentId = ((CategorieModel)(gridLayout.getAdapter()).getItem(position)).getId();
-                //((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId));
-                ((MainActivity) getActivity()).replaceFragment(CatalogFragment.newInstance(parentId));
+                Log.d("parentId = ",parentId+"");
+                ((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId));
+                //((MainActivity) getActivity()).replaceFragment(CatalogFragment.newInstance(parentId));
 
             }
         });
         topSlider = (SliderLayout) view.findViewById(R.id.frg_categories_top_slider);
+
+
         view.findViewById(R.id.frg_categories_btn_event).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,4 +167,7 @@ public class CategoriesFragment extends BaseFragment implements BaseSliderView.O
     public void onSliderClick(BaseSliderView slider) {
 
     }
+
+
+
 }

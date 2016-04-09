@@ -9,17 +9,17 @@ import com.miroslav.menuinyourcity.request.BaseRequest;
 /**
  * Created by apple on 4/8/16.
  */
-public class GetCitiesRequest extends BaseRequest<BaseCitiesModel> {
+public class GetCitiesRequest extends BaseRequest<com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel> {
 
     private Long id;
 
     public GetCitiesRequest(Long id) {
-        super(BaseCitiesModel.class);
+        super(com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel.class);
         this.id = id;
     }
 
     public GetCitiesRequest() {
-        super(BaseCitiesModel.class);
+        super(com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel.class);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class GetCitiesRequest extends BaseRequest<BaseCitiesModel> {
     }
 
     @Override
-    public BaseCitiesModel loadDataFromNetwork() throws Exception {
+    public com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel loadDataFromNetwork() throws Exception {
         HttpRequest request = getHttpRequestFactory().buildGetRequest(new GenericUrl(buildURL()));
         request.setParser(new JacksonFactory().createJsonObjectParser());
 

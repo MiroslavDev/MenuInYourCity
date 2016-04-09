@@ -8,10 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.Categories.CategorieModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,12 +26,6 @@ public class MainCategoriesAdapter extends BaseAdapter{
         this.context = context;
         this.data = data;
 
-//        Picasso.Builder builder = new Picasso.Builder(context);
-//        builder.downloader(new OkHttpDownloader(context ,Integer.MAX_VALUE));
-//        Picasso built = builder.build();
-//        built.setIndicatorsEnabled(true);
-//        built.setLoggingEnabled(true);
-//        Picasso.setSingletonInstance(built);
     }
 
     @Override
@@ -68,10 +62,7 @@ public class MainCategoriesAdapter extends BaseAdapter{
 
         CategorieModel item = data.get(position);
 
-        Picasso.with(context)
-                .load(URLHelper.imageDomain + item.getImageUrl())
-                //.error(R.drawable.ic_mask_category_item)
-                .into(holder.image);
+        MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getImageUrl(),holder.image);
 
         holder.name.setText(item.getName());
 

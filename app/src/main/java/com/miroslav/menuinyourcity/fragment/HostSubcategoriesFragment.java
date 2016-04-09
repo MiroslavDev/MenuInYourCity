@@ -2,18 +2,17 @@ package com.miroslav.menuinyourcity.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.ogaclejapan.smarttablayout.utils.v4.Bundler;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.miroslav.menuinyourcity.adapter.TabsPagerAdapter;
 
 /**
  * Created by apple on 4/8/16.
@@ -22,10 +21,15 @@ public class HostSubcategoriesFragment extends Fragment {
 
     private Long parentId;
 
+    private ViewPager viewPager;
+    private TabsPagerAdapter mAdapter;
+    private TabLayout tabLayout;
+
+
     public static HostSubcategoriesFragment newInstance(Long id) {
         HostSubcategoriesFragment fr = new HostSubcategoriesFragment();
         Bundle arg = new Bundle();
-        arg.putLong(CatalogFragment.PARENT_ID, id);
+        arg.putLong(com.miroslav.menuinyourcity.fragment.CatalogFragment.PARENT_ID, id);
         fr.setArguments(arg);
         return fr;
     }
@@ -34,7 +38,7 @@ public class HostSubcategoriesFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        parentId = getArguments().getLong(CatalogFragment.PARENT_ID);
+        parentId = getArguments().getLong(com.miroslav.menuinyourcity.fragment.CatalogFragment.PARENT_ID);
 
         //setupActionBar();
         setupUI(view);
@@ -53,19 +57,51 @@ public class HostSubcategoriesFragment extends Fragment {
 
     private void setupUI(View view) {
 
-        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
-                getActivity().getSupportFragmentManager(), FragmentPagerItems.with(getContext())
-                .add(R.string.category, CatalogFragment.class, new Bundler().putLong(CatalogFragment.PARENT_ID, parentId).get())
-                .add(R.string.shares, SharesFragment.class)
-                .create());
+        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Каталог"));
+        tabLayout.addTab(tabLayout.newTab().setText("Акции"));
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        viewPager.setAdapter(adapter);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        viewPager = (ViewPager) view.findViewById(R.id.pager);
+        Log.d("parentId = ", parentId+"");
+        mAdapter = new TabsPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount(), parentId);
+        viewPager.setAdapter(mAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+        /**
+         * on swiping the viewpager make respective tab selected
+         * */
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("onPageSelected ", position + "");
+                tabLayout.getTabAt(position).select();
+            }
 
-        SmartTabLayout viewPagerTab = (SmartTabLayout) view.findViewById(R.id.view_pager_tab);
-        viewPagerTab.setViewPager(viewPager);
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
 
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
 
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("onTabSelected", tab.getPosition() + "");
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 }

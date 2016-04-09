@@ -2,8 +2,6 @@ package com.miroslav.menuinyourcity.request.Categories;
 
 import com.google.api.client.util.Key;
 
-import java.util.Date;
-
 /**
  * Created by apple on 4/6/16.
  */

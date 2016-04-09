@@ -12,8 +12,9 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        spiceManager.start(getActivity());
-
+        if(!spiceManager.isStarted()){
+            spiceManager.start(getActivity());
+        }
     }
 
     @Override

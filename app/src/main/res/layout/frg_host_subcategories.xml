@@ -4,21 +4,30 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.ogaclejapan.smarttablayout.SmartTabLayout
-        android:id="@+id/view_pager_tab"
+    <RelativeLayout
+        android:layout_below="@+id/container_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        app:stl_distributeEvenly="true"
-        app:stl_indicatorColor="@color/main_green"
-        app:stl_indicatorThickness="3dp"
-        app:stl_indicatorInFront="true"
-        app:stl_dividerColor="@android:color/transparent"/>
+        android:layout_height="match_parent">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/accent_green"
+            android:elevation="6dp"
+            app:tabIndicatorColor="#03a9f4"
+            app:tabIndicatorHeight="2dp"
+            app:tabTextColor="@color/text_color_white"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/view_pager_tab"
-        />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/tab_layout"/>
+
+
+    </RelativeLayout>
+
+
 </LinearLayout>

@@ -10,17 +10,17 @@ import java.util.List;
 public class BaseCategoriesModel {
 
     @Key("response")
-    private List<CategorieModel> categorieList;
+    private List<com.miroslav.menuinyourcity.request.Categories.CategorieModel> categorieList;
     @Key("error")
     private Boolean error;
     @Key("message")
     private String message;
 
-    public List<CategorieModel> getCategorieList() {
+    public List<com.miroslav.menuinyourcity.request.Categories.CategorieModel> getCategorieList() {
         return categorieList;
     }
 
-    public void setCategorieList(List<CategorieModel> categorieList) {
+    public void setCategorieList(List<com.miroslav.menuinyourcity.request.Categories.CategorieModel> categorieList) {
         this.categorieList = categorieList;
     }
 

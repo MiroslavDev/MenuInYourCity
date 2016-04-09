@@ -1,7 +1,6 @@
 package com.miroslav.menuinyourcity.request.Cities;
 
 import com.google.api.client.util.Key;
-import com.miroslav.menuinyourcity.request.Categories.CategorieModel;
 
 import java.util.List;
 
@@ -11,17 +10,17 @@ import java.util.List;
 public class BaseCitiesModel {
 
     @Key("response")
-    private List<CitiesModel> citiesModel;
+    private List<com.miroslav.menuinyourcity.request.Cities.CitiesModel> citiesModel;
     @Key("error")
     private Boolean error;
     @Key("message")
     private String message;
 
-    public List<CitiesModel> getCitiesModel() {
+    public List<com.miroslav.menuinyourcity.request.Cities.CitiesModel> getCitiesModel() {
         return citiesModel;
     }
 
-    public void setCitiesModel(List<CitiesModel> citiesModel) {
+    public void setCitiesModel(List<com.miroslav.menuinyourcity.request.Cities.CitiesModel> citiesModel) {
         this.citiesModel = citiesModel;
     }
 

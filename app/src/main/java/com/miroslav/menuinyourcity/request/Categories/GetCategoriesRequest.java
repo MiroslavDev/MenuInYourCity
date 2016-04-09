@@ -9,17 +9,17 @@ import com.miroslav.menuinyourcity.request.BaseRequest;
 /**
  * Created by apple on 4/6/16.
  */
-public class GetCategoriesRequest extends BaseRequest<BaseCategoriesModel> {
+public class GetCategoriesRequest extends BaseRequest<com.miroslav.menuinyourcity.request.Categories.BaseCategoriesModel> {
 
     protected Long id;
 
     public GetCategoriesRequest(Long id) {
-        super(BaseCategoriesModel.class);
+        super(com.miroslav.menuinyourcity.request.Categories.BaseCategoriesModel.class);
         this.id = id;
     }
 
     public GetCategoriesRequest() {
-        super(BaseCategoriesModel.class);
+        super(com.miroslav.menuinyourcity.request.Categories.BaseCategoriesModel.class);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class GetCategoriesRequest extends BaseRequest<BaseCategoriesModel> {
     }
 
     @Override
-    public BaseCategoriesModel loadDataFromNetwork() throws Exception {
+    public com.miroslav.menuinyourcity.request.Categories.BaseCategoriesModel loadDataFromNetwork() throws Exception {
         HttpRequest request = getHttpRequestFactory().buildGetRequest(new GenericUrl(buildURL()));
         request.setParser(new JacksonFactory().createJsonObjectParser());
 

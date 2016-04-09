@@ -1,18 +1,24 @@
 package com.miroslav.menuinyourcity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.miroslav.menuinyourcity.ImageLoaderWithCache.ImageLoader;
 import com.miroslav.menuinyourcity.adapter.SpinnerAdapter;
 import com.miroslav.menuinyourcity.fragment.SplashFragment;
+import com.miroslav.menuinyourcity.gcm.GCMManager;
 import com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel;
 import com.miroslav.menuinyourcity.request.Cities.CitiesModel;
 import com.miroslav.menuinyourcity.request.Cities.GetCitiesRequest;
@@ -27,19 +33,30 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "MainActivity";
 
-    private SpiceManager spiceManager = new SpiceManager(Jackson2GoogleHttpClientSpiceService.class);
 
+    //381294291923
+
+    private SpiceManager spiceManager = new SpiceManager(Jackson2GoogleHttpClientSpiceService.class);
+    public static ImageLoader imageLoader;
     private View actBar, btnBackActBar, btnMenuActBar;
     private TextView titleActBar;
     private Spinner menuSpinner;
     private SpinnerAdapter adapter;
     private GetCitiesRequest getCitiesRequest;
+    public static MainActivity rootAcvitityInstance = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        rootAcvitityInstance = this;
+        this.registerApp(GCMManager.getInstance().registrationId);
+        imageLoader = new ImageLoader(this);
 
+        if (this.checkPlayServices()) {
+            GCMManager.getInstance().initialize(this);
+        }
         setupUI();
         setupListener();
         addFragment(new SplashFragment());
@@ -59,6 +76,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             spiceManager.shouldStop();
         }
         super.onStop();
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        this.registerApp(GCMManager.getInstance().registrationId);
     }
 
     private void citiesRequest() {
@@ -167,4 +191,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
+    public SharedPreferences sharedPreferences() {
+        return this.getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+    }
+
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i("Error", "This device is not supported.");
+                Toast.makeText(this, "Play Services not supported.", Toast.LENGTH_SHORT).show();
+            }
+            return false;
+        }
+        return true;
+    }
+
+
+    public void registerApp(String token) {
+        if (token == null) return;
+        Log.d("push token: ", token);
+        //todo send push token and type	(android/ios)
+        //get storeUsers  POST http://menu.frameapp.com.ua/api/users/
+    }
+
+
 }

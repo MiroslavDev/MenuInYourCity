@@ -11,7 +11,7 @@ import com.miroslav.menuinyourcity.R;
 /**
  * Created by apple on 4/8/16.
  */
-public class SharesFragment extends BaseFragment {
+public class SharesFragment extends com.miroslav.menuinyourcity.fragment.BaseFragment {
 
     @Nullable
     @Override

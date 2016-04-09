@@ -8,7 +8,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 /**
  * Created by apple on 4/8/16.
  */
-public class GetChildrenCategoriesRequest  extends GetCategoriesRequest {
+public class GetChildrenCategoriesRequest  extends com.miroslav.menuinyourcity.request.Categories.GetCategoriesRequest {
 
     public GetChildrenCategoriesRequest(Long id) {
         super(id);
