@@ -8,4 +8,7 @@
     <string name="liked">Избранное</string>
     <string name="category">Каталог</string>
     <string name="shares">Акции</string>
+    <string name="time_work">Время работы:</string>
+    <string name="rating">Рейтинг:</string>
+    <string name="event_and_news">События и новости</string>
 </resources>

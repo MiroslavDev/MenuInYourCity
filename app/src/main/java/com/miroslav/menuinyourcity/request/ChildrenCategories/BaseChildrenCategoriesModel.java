@@ -1,26 +1,26 @@
-package com.miroslav.menuinyourcity.request.Categories;
+package com.miroslav.menuinyourcity.request.ChildrenCategories;
 
 import com.google.api.client.util.Key;
 
 import java.util.List;
 
 /**
- * Created by apple on 4/6/16.
+ * Created by apple on 4/9/16.
  */
-public class BaseCategoriesModel {
+public class BaseChildrenCategoriesModel {
 
     @Key("response")
-    private List<CategorieModel> categorieList;
+    private List<GetChildrenCategoriesModel> categorieList;
     @Key("error")
     private Boolean error;
     @Key("message")
     private String message;
 
-    public List<CategorieModel> getCategorieList() {
+    public List<GetChildrenCategoriesModel> getCategorieList() {
         return categorieList;
     }
 
-    public void setCategorieList(List<CategorieModel> categorieList) {
+    public void setCategorieList(List<GetChildrenCategoriesModel> categorieList) {
         this.categorieList = categorieList;
     }
 
@@ -46,7 +46,7 @@ public class BaseCategoriesModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BaseCategoriesModel that = (BaseCategoriesModel) o;
+        BaseChildrenCategoriesModel that = (BaseChildrenCategoriesModel) o;
 
         if (categorieList != null ? !categorieList.equals(that.categorieList) : that.categorieList != null)
             return false;
@@ -65,7 +65,7 @@ public class BaseCategoriesModel {
 
     @Override
     public String toString() {
-        return "BaseCategoriesModel{" +
+        return "BaseChildrenCategoriesModel{" +
                 "categorieList=" + categorieList +
                 ", error=" + error +
                 ", message='" + message + '\'' +

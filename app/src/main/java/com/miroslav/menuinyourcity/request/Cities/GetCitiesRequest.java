@@ -9,7 +9,7 @@ import com.miroslav.menuinyourcity.request.BaseRequest;
 /**
  * Created by apple on 4/8/16.
  */
-public class GetCitiesRequest extends BaseRequest<com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel> {
+public class GetCitiesRequest extends BaseRequest<BaseCitiesModel> {
 
     private Long id;
 

@@ -9,7 +9,7 @@
         android:layout_width="@dimen/item_height"
         android:layout_height="@dimen/item_height"
         android:id="@+id/menu_actbar_btn"
-        android:layout_marginLeft="@dimen/padding_small">
+        android:layout_marginLeft="@dimen/padding_xsmall">
 
         <!--<ImageView-->
             <!--android:layout_width="wrap_content"-->
@@ -21,7 +21,7 @@
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_small"
+            android:padding="@dimen/padding_xsmall"
             android:background="@android:color/transparent"
             android:dropDownWidth="220dp"
             android:id="@+id/menu_actbar_btn_icon"
@@ -52,13 +52,13 @@
         android:layout_height="@dimen/item_height"
         android:src="@drawable/ic_button_back"
         android:id="@+id/btn_back_actbar"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:padding="@dimen/padding_small"
+        android:layout_marginLeft="@dimen/padding_xsmall"
+        android:padding="@dimen/padding_xsmall"
         android:visibility="gone" />
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xxpadding_small"
+        android:layout_height="@dimen/padding_xxsmall"
         android:src="@drawable/actionbar_shadow"
         android:layout_alignParentBottom="true" />
 

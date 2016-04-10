@@ -1,35 +1,30 @@
-package com.miroslav.menuinyourcity.request.Categories;
+package com.miroslav.menuinyourcity.request.GetShops;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.miroslav.menuinyourcity.request.BaseRequest;
-import com.miroslav.menuinyourcity.request.ChildrenCategories.BaseChildrenCategoriesModel;
 
 /**
- * Created by apple on 4/6/16.
+ * Created by apple on 4/10/16.
  */
-public class GetCategoriesRequest extends BaseRequest<BaseCategoriesModel> {
+public class GetShopsRequest extends BaseRequest<BaseGetShopsModel> {
 
-    protected Long id;
+    private Long id;
 
-    public GetCategoriesRequest(Long id) {
-        super(BaseCategoriesModel.class);
+    public GetShopsRequest(Long id) {
+        super(BaseGetShopsModel.class);
         this.id = id;
-    }
-
-    public GetCategoriesRequest() {
-        super(BaseCategoriesModel.class);
     }
 
     @Override
     public String getResourceUri() {
-        return "categories" + (id == null ? "" : "/" + id);
+        return "shops/" + id;
     }
 
     @Override
-    public BaseCategoriesModel loadDataFromNetwork() throws Exception {
+    public BaseGetShopsModel loadDataFromNetwork() throws Exception {
         HttpRequest request = getHttpRequestFactory().buildGetRequest(new GenericUrl(buildURL()));
         request.setParser(new JacksonFactory().createJsonObjectParser());
 

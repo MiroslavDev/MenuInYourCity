@@ -11,12 +11,12 @@ import com.miroslav.menuinyourcity.R;
 /**
  * Created by apple on 4/8/16.
  */
-public class SharesFragment extends com.miroslav.menuinyourcity.fragment.BaseFragment {
+public class SharesFragment extends BaseFragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.frg_subcategories, container, false);
+        return inflater.inflate(R.layout.frg_list_view, container, false);
     }
 
     @Override

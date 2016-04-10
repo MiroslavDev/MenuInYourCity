@@ -22,6 +22,8 @@ import com.miroslav.menuinyourcity.gcm.GCMManager;
 import com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel;
 import com.miroslav.menuinyourcity.request.Cities.CitiesModel;
 import com.miroslav.menuinyourcity.request.Cities.GetCitiesRequest;
+import com.miroslav.menuinyourcity.request.StoreUsers.BaseStoreUsersModel;
+import com.miroslav.menuinyourcity.request.StoreUsers.PostStoreUsersRequest;
 import com.octo.android.robospice.Jackson2GoogleHttpClientSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -183,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         setTitleActBar(adapter.getItem(position).getName());
+        Model.getInstance().currentCity = adapter.getItem(position).getName();
         adapter.setCheckedPosition(position);
         adapter.notifyDataSetChanged();
     }
@@ -220,6 +223,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Log.d("push token: ", token);
         //todo send push token and type	(android/ios)
         //get storeUsers  POST http://menu.frameapp.com.ua/api/users/
+
+        PostStoreUsersRequest request = new PostStoreUsersRequest(token);
+        spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseStoreUsersModel>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+
+            }
+
+            @Override
+            public void onRequestSuccess(BaseStoreUsersModel baseCategoriesModel) {
+                if (baseCategoriesModel.getError()) {
+                    Toast.makeText(MainActivity.this, baseCategoriesModel.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 

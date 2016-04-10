@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/padding"
         android:textSize="@dimen/cat_text_size"
         android:textColor="@android:color/black"
-        android:text="Medium Text"
+        tools:text="Medium Text"
         android:id="@+id/catalog_item_name"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/catalog_item_count"
+        android:singleLine="true"
+        android:ellipsize="end" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="@dimen/padding_small"
         android:textSize="@dimen/cat_text_size"
         android:textStyle="bold"
-        android:text="Medium Text"
+        tools:text="12"
         android:id="@+id/catalog_item_count"
         android:layout_centerVertical="true"
+        android:paddingRight="@dimen/padding"
         android:layout_alignParentRight="true" />
 </RelativeLayout>

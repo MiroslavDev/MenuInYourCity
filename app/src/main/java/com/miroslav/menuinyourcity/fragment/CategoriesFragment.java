@@ -15,6 +15,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.miroslav.menuinyourcity.MainActivity;
+import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.MainCategoriesAdapter;
 import com.miroslav.menuinyourcity.request.Categories.BaseCategoriesModel;
@@ -42,8 +43,8 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ((MainActivity)getActivity()).showActBar();
         ((MainActivity)getActivity()).setVisibleSpinnerInActBar();
+        ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity);
 
         setupUI(view);
         createTestData();
@@ -55,10 +56,9 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
         gridLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Long parentId = ((CategorieModel)(gridLayout.getAdapter()).getItem(position)).getId();
-                Log.d("parentId = ",parentId+"");
+                Long parentId = ((CategorieModel) (gridLayout.getAdapter()).getItem(position)).getId();
+                Log.d("parentId = ", parentId + "");
                 ((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId));
-                //((MainActivity) getActivity()).replaceFragment(CatalogFragment.newInstance(parentId));
 
             }
         });
@@ -68,7 +68,7 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
         view.findViewById(R.id.frg_categories_btn_event).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ((MainActivity) getActivity()).replaceFragment(EventListFragment.newInstance());
             }
         });
         view.findViewById(R.id.frg_categories_btn_liked).setOnClickListener(new View.OnClickListener() {
@@ -89,14 +89,12 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
 
         for(String name : file_maps.keySet()){
             TextSliderView textSliderView = new TextSliderView(getContext());
-            // initialize a SliderLayout
             textSliderView
                     .description(name)
                     .image(file_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
 
-            //add your extra information
             textSliderView.bundle(new Bundle());
             textSliderView.getBundle()
                     .putString("extra",name);
@@ -115,6 +113,13 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
     public void onStart() {
         super.onStart();
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         if(categorieModelList == null) {
             categoriesRequest();
         } else {
@@ -132,7 +137,7 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
 
             @Override
             public void onRequestSuccess(BaseCategoriesModel baseCategoriesModel) {
-                if(!baseCategoriesModel.getError()) {
+                if (!baseCategoriesModel.getError()) {
                     updaateAdapterData(baseCategoriesModel.getCategorieList());
                 } else {
                     Toast.makeText(getContext(), baseCategoriesModel.getMessage(), Toast.LENGTH_LONG).show();

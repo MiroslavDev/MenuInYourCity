@@ -3,12 +3,13 @@ package com.miroslav.menuinyourcity.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
 import com.miroslav.menuinyourcity.fragment.CatalogFragment;
 import com.miroslav.menuinyourcity.fragment.SharesFragment;
 
-public class TabsPagerAdapter extends FragmentPagerAdapter {
+public class TabsPagerAdapter extends FragmentStatePagerAdapter {
 	int mNumOfTabs;
 	Long parentId;
 	public TabsPagerAdapter(FragmentManager fm, int NumOfTabs, Long parentId) {

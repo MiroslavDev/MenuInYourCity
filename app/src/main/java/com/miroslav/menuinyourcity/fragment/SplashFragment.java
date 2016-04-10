@@ -3,6 +3,7 @@ package com.miroslav.menuinyourcity.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import com.miroslav.menuinyourcity.R;
 /**
  * Created by apple on 4/5/16.
  */
-public class SplashFragment extends com.miroslav.menuinyourcity.fragment.BaseFragment {
+public class SplashFragment extends Fragment {
     private static final String TAG = "SplashFragment";
     private final int SPLASH_DISPLAY_LENGTH = 3000;
     private Handler handler = new Handler();

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.miroslav.menuinyourcity.MainActivity;
+import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.TabsPagerAdapter;
 
@@ -38,15 +39,15 @@ public class HostSubcategoriesFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        parentId = getArguments().getLong(com.miroslav.menuinyourcity.fragment.CatalogFragment.PARENT_ID);
+        parentId = getArguments().getLong(CatalogFragment.PARENT_ID);
 
-        //setupActionBar();
+        setupActionBar();
         setupUI(view);
     }
 
     private void setupActionBar() {
-        ((MainActivity) getActivity()).showActBar();
         ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
+        ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity);
     }
 
     @Nullable

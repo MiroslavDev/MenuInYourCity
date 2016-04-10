@@ -1,27 +1,26 @@
-package com.miroslav.menuinyourcity.request.Categories;
+package com.miroslav.menuinyourcity.request.GetEvents;
 
 import com.google.api.client.util.Key;
 
 import java.util.List;
 
 /**
- * Created by apple on 4/6/16.
+ * Created by apple on 4/10/16.
  */
-public class BaseCategoriesModel {
-
+public class BaseGetEventsModel {
     @Key("response")
-    private List<CategorieModel> categorieList;
+    private List<GetEventModel> eventsModel;
     @Key("error")
     private Boolean error;
     @Key("message")
     private String message;
 
-    public List<CategorieModel> getCategorieList() {
-        return categorieList;
+    public List<GetEventModel> getEventsModel() {
+        return eventsModel;
     }
 
-    public void setCategorieList(List<CategorieModel> categorieList) {
-        this.categorieList = categorieList;
+    public void setEventsModel(List<GetEventModel> eventsModel) {
+        this.eventsModel = eventsModel;
     }
 
     public Boolean getError() {
@@ -46,9 +45,9 @@ public class BaseCategoriesModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BaseCategoriesModel that = (BaseCategoriesModel) o;
+        BaseGetEventsModel that = (BaseGetEventsModel) o;
 
-        if (categorieList != null ? !categorieList.equals(that.categorieList) : that.categorieList != null)
+        if (eventsModel != null ? !eventsModel.equals(that.eventsModel) : that.eventsModel != null)
             return false;
         if (error != null ? !error.equals(that.error) : that.error != null) return false;
         return !(message != null ? !message.equals(that.message) : that.message != null);
@@ -57,7 +56,7 @@ public class BaseCategoriesModel {
 
     @Override
     public int hashCode() {
-        int result = categorieList != null ? categorieList.hashCode() : 0;
+        int result = eventsModel != null ? eventsModel.hashCode() : 0;
         result = 31 * result + (error != null ? error.hashCode() : 0);
         result = 31 * result + (message != null ? message.hashCode() : 0);
         return result;
@@ -65,8 +64,8 @@ public class BaseCategoriesModel {
 
     @Override
     public String toString() {
-        return "BaseCategoriesModel{" +
-                "categorieList=" + categorieList +
+        return "BaseGetEventsModel{" +
+                "eventsModel=" + eventsModel +
                 ", error=" + error +
                 ", message='" + message + '\'' +
                 '}';

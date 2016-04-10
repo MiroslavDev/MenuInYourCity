@@ -9,16 +9,17 @@ import android.widget.TextView;
 
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.Categories.CategorieModel;
+import com.miroslav.menuinyourcity.request.ChildrenCategories.GetChildrenCategoriesModel;
 
 import java.util.List;
 
 /**
  * Created by apple on 4/8/16.
  */
-public class CatalogAdapter extends ArrayAdapter<CategorieModel> {
+public class CatalogAdapter extends ArrayAdapter<GetChildrenCategoriesModel> {
 
-    public CatalogAdapter(Context context, List<CategorieModel> data) {
-        super(context, R.layout.canalog_item, data);
+    public CatalogAdapter(Context context, List<GetChildrenCategoriesModel> data) {
+        super(context, R.layout.catalog_item, data);
     }
 
     @Override
@@ -26,7 +27,7 @@ public class CatalogAdapter extends ArrayAdapter<CategorieModel> {
         ViewHolder holder;
 
         if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.canalog_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.catalog_item, parent, false);
 
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.catalog_item_name);
@@ -38,7 +39,7 @@ public class CatalogAdapter extends ArrayAdapter<CategorieModel> {
         }
 
         holder.name.setText(getItem(position).getName());
-        holder.count.setText(getItem(position).getParentId());
+        holder.count.setText(getItem(position).getCountShoupsInCategory().toString());
 
         return convertView;
     }
