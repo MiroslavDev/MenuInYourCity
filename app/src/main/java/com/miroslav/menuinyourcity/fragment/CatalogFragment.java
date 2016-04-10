@@ -1,6 +1,5 @@
 package com.miroslav.menuinyourcity.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.MainActivity;
-import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.CatalogAdapter;
 import com.miroslav.menuinyourcity.request.ChildrenCategories.BaseChildrenCategoriesModel;
@@ -56,12 +54,6 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if(categorieModelList == null) {
@@ -70,8 +62,6 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
             updaateAdapterData(categorieModelList);
         }
     }
-
-
 
     @Nullable
     @Override
@@ -85,7 +75,6 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseChildrenCategoriesModel>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-
             }
 
             @Override
@@ -110,8 +99,7 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CatalogAdapter adapter = (CatalogAdapter) listView.getAdapter();
-        //TODO change to getId()
-        BaseFragment fr = ShopListFragment.newInstance(Long.parseLong(adapter.getItem(position).getParentId()), adapter.getItem(position).getName());
+        BaseFragment fr = ShopListFragment.newInstance(adapter.getItem(position).getId(), adapter.getItem(position).getName());
         ((MainActivity) getActivity()).replaceFragment(fr);
     }
 }

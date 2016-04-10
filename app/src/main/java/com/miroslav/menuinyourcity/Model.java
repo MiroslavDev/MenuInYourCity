@@ -7,6 +7,7 @@ public class Model {
     private static Model model;
 
     public String currentCity;
+    public Long currentCityId;
 
     private Model() {}
 

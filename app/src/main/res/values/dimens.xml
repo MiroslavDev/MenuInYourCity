@@ -7,6 +7,7 @@
 
     <dimen name="group_size">56dp</dimen>
     <dimen name="item_height">48dp</dimen>
+    <dimen name="big_item_height">72dp</dimen>
     <dimen name="double_item_height">96dp</dimen>
     <dimen name="card_height">120dp</dimen>
     <dimen name="actionbar_height">56dp</dimen>

@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         setTitleActBar(adapter.getItem(position).getName());
         Model.getInstance().currentCity = adapter.getItem(position).getName();
+        Model.getInstance().currentCityId = adapter.getItem(position).getId();
         adapter.setCheckedPosition(position);
         adapter.notifyDataSetChanged();
     }

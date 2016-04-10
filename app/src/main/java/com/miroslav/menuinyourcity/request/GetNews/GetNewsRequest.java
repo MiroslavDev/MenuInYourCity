@@ -1,4 +1,4 @@
-package com.miroslav.menuinyourcity.request.GetEvents;
+package com.miroslav.menuinyourcity.request.GetNews;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
@@ -10,19 +10,19 @@ import com.miroslav.menuinyourcity.request.BaseRequest;
 /**
  * Created by apple on 4/10/16.
  */
-public class GetEventRequest  extends BaseRequest<BaseGetEventsModel> {
+public class GetNewsRequest   extends BaseRequest<BaseGetNewsModel> {
 
-    public GetEventRequest() {
-        super(BaseGetEventsModel.class);
+    public GetNewsRequest() {
+        super(BaseGetNewsModel.class);
     }
 
     @Override
     public String getResourceUri() {
-        return "events/";
+        return "news/";
     }
 
     @Override
-    public BaseGetEventsModel loadDataFromNetwork() throws Exception {
+    public BaseGetNewsModel loadDataFromNetwork() throws Exception {
         HttpRequest request = getHttpRequestFactory().buildGetRequest(new GenericUrl(buildURL()));
         request.setParser(new JacksonFactory().createJsonObjectParser());
 

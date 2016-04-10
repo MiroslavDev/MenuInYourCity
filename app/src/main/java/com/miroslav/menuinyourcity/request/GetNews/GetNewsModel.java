@@ -1,18 +1,13 @@
-package com.miroslav.menuinyourcity.request.GetEvents;
+package com.miroslav.menuinyourcity.request.GetNews;
 
 import com.google.api.client.util.Key;
 
 /**
  * Created by apple on 4/10/16.
  */
-public class GetEventModel {
-
+public class GetNewsModel {
     @Key("id")
     private Long id;
-    @Key("category_id")
-    private String categoryId;
-    @Key("shop_id")
-    private String shopId;
     @Key("city_id")
     private String cityId;
     @Key("title")
@@ -21,10 +16,10 @@ public class GetEventModel {
     private String description;
     @Key("image")
     private String imageUrl;
-    @Key("date_start")
-    private String dataStart;
-    @Key("date_stop")
-    private String dataStop;
+    @Key("created_at")
+    private String createdAt;
+    @Key("updated_at")
+    private String updateAt;
 
     public Long getId() {
         return id;
@@ -32,22 +27,6 @@ public class GetEventModel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
     }
 
     public String getCityId() {
@@ -82,20 +61,20 @@ public class GetEventModel {
         this.imageUrl = imageUrl;
     }
 
-    public String getDataStart() {
-        return dataStart;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDataStart(String dataStart) {
-        this.dataStart = dataStart;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getDataStop() {
-        return dataStop;
+    public String getUpdateAt() {
+        return updateAt;
     }
 
-    public void setDataStop(String dataStop) {
-        this.dataStop = dataStop;
+    public void setUpdateAt(String updateAt) {
+        this.updateAt = updateAt;
     }
 
     @Override
@@ -104,50 +83,43 @@ public class GetEventModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GetEventModel that = (GetEventModel) o;
+        GetNewsModel that = (GetNewsModel) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (categoryId != null ? !categoryId.equals(that.categoryId) : that.categoryId != null)
-            return false;
-        if (shopId != null ? !shopId.equals(that.shopId) : that.shopId != null) return false;
         if (cityId != null ? !cityId.equals(that.cityId) : that.cityId != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null)
             return false;
         if (imageUrl != null ? !imageUrl.equals(that.imageUrl) : that.imageUrl != null)
             return false;
-        if (dataStart != null ? !dataStart.equals(that.dataStart) : that.dataStart != null)
+        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null)
             return false;
-        return !(dataStop != null ? !dataStop.equals(that.dataStop) : that.dataStop != null);
+        return !(updateAt != null ? !updateAt.equals(that.updateAt) : that.updateAt != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (categoryId != null ? categoryId.hashCode() : 0);
-        result = 31 * result + (shopId != null ? shopId.hashCode() : 0);
         result = 31 * result + (cityId != null ? cityId.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
-        result = 31 * result + (dataStart != null ? dataStart.hashCode() : 0);
-        result = 31 * result + (dataStop != null ? dataStop.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (updateAt != null ? updateAt.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "GetEventModel{" +
+        return "GetNewsModel{" +
                 "id=" + id +
-                ", categoryId='" + categoryId + '\'' +
-                ", shopId='" + shopId + '\'' +
                 ", cityId='" + cityId + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", dataStart='" + dataStart + '\'' +
-                ", dataStop='" + dataStop + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updateAt='" + updateAt + '\'' +
                 '}';
     }
 }

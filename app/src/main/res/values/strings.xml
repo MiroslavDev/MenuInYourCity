@@ -11,4 +11,5 @@
     <string name="time_work">Время работы:</string>
     <string name="rating">Рейтинг:</string>
     <string name="event_and_news">События и новости</string>
+    <string name="subscribe_on_push">Подписаться на уведомления</string>
 </resources>

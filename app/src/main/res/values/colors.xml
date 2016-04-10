@@ -10,6 +10,7 @@
     <color name="text_color_actbar">#FFFFFF</color>
     <color name="main_green">#27AE60</color>
     <color name="end_shadow_color">#33000000</color>
+    <color name="transparent_background">#70000000</color>
 
     <color name="text_color_white">#FFFFFF</color>
     <color name="accent_green">#30986C</color>

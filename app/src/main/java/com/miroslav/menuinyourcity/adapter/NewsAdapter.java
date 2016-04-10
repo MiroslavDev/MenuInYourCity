@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.GetEvents.GetEventModel;
+import com.miroslav.menuinyourcity.request.GetNews.GetNewsModel;
 import com.miroslav.menuinyourcity.request.GetShops.GetShopsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
 
@@ -19,9 +20,9 @@ import java.util.List;
 /**
  * Created by apple on 4/10/16.
  */
-public class EventAdapter extends ArrayAdapter<GetEventModel> {
+public class NewsAdapter extends ArrayAdapter<GetNewsModel> {
 
-    public EventAdapter(Context context, List<GetEventModel> data) {
+    public NewsAdapter(Context context, List<GetNewsModel> data) {
         super(context, R.layout.event_item, data);
     }
 
@@ -36,19 +37,21 @@ public class EventAdapter extends ArrayAdapter<GetEventModel> {
             holder.name = (TextView) convertView.findViewById(R.id.event_item_name);
             holder.data = (TextView) convertView.findViewById(R.id.event_item_data);
             holder.description = (TextView) convertView.findViewById(R.id.event_description);
-            holder.image = (ImageView) convertView.findViewById(R.id.shop_item_image);
+            holder.image = (ImageView) convertView.findViewById(R.id.event_item_image);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        GetEventModel item = getItem(position);
+        GetNewsModel item = getItem(position);
         holder.name.setText(item.getTitle());
-        holder.data.setText(item.getDataStart());
+        //TODO set valid data
+        holder.data.setText(item.getCreatedAt());
         holder.description.setText(item.getDescription());
 
-        //MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getImageUrl(), holder.image);
+        if(!item.getImageUrl().isEmpty())
+            MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getImageUrl(), holder.image);
 
         return convertView;
     }

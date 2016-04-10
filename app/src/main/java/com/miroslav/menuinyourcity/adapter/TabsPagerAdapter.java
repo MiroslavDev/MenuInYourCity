@@ -25,10 +25,10 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
 		case 0:
 			// Top Rated fragment activity
 			Log.d("parentId = ", parentId+"");
-			return new CatalogFragment().newInstance(parentId);
+			return CatalogFragment.newInstance(parentId);
 		case 1:
 			// Games fragment activity
-			return new SharesFragment();
+			return SharesFragment.newInstance(parentId);
 		}
 
 		return null;

@@ -49,7 +49,8 @@ public class ShopsAdapter extends ArrayAdapter<GetShopsModel> {
         holder.timeWork.setText(item.getTime());
         holder.ratting.setText(getContext().getString(R.string.rating) + " 7.9");
 
-        MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getPhotos().get(0).getImage(), holder.image);
+        if(!item.getPhotos().isEmpty())
+            MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getPhotos().get(0).getImage(), holder.image);
 
         return convertView;
     }

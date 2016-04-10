@@ -11,10 +11,10 @@ import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
-import com.miroslav.menuinyourcity.adapter.EventAdapter;
-import com.miroslav.menuinyourcity.request.GetEvents.BaseGetEventsModel;
-import com.miroslav.menuinyourcity.request.GetEvents.GetEventModel;
-import com.miroslav.menuinyourcity.request.GetEvents.GetEventRequest;
+import com.miroslav.menuinyourcity.adapter.NewsAdapter;
+import com.miroslav.menuinyourcity.request.GetNews.BaseGetNewsModel;
+import com.miroslav.menuinyourcity.request.GetNews.GetNewsModel;
+import com.miroslav.menuinyourcity.request.GetNews.GetNewsRequest;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -24,17 +24,17 @@ import java.util.List;
 /**
  * Created by apple on 4/10/16.
  */
-public class EventListFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class NewsListFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
-    public  static final String EVENT_ID = "event_id";
+    //public  static final String NEWS_ID = "news_id";
 
-    private List<GetEventModel> data;
+    private List<GetNewsModel> data;
     private ListView listView;
 
-    public static EventListFragment newInstance() {
-        EventListFragment fr = new EventListFragment();
+    public static NewsListFragment newInstance() {
+        NewsListFragment fr = new NewsListFragment();
         Bundle arg = new Bundle();
-        //arg.putLong(EVENT_ID, id);
+        //arg.putLong(NEWS_ID, newsId);
         fr.setArguments(arg);
         return fr;
     }
@@ -49,15 +49,15 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Long id = getArguments().getLong(EVENT_ID);
+        //Long id = getArguments().getLong(NEWS_ID);
 
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
-        listView.setAdapter(new EventAdapter(getContext(), new ArrayList<GetEventModel>()));
+        listView.setAdapter(new NewsAdapter(getContext(), new ArrayList<GetNewsModel>()));
         listView.setOnItemClickListener(this);
 
 
         setupAB(getContext().getString(R.string.event_and_news));
-        eventsRequest();
+        newRequest();
 
     }
 
@@ -66,18 +66,18 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
         ((MainActivity) getActivity()).setTitleActBar(title);
     }
 
-    private void eventsRequest() {
-        GetEventRequest request = new GetEventRequest();
-        spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseGetEventsModel>() {
+    private void newRequest() {
+        GetNewsRequest request = new GetNewsRequest();
+        spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseGetNewsModel>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
 
             }
 
             @Override
-            public void onRequestSuccess(BaseGetEventsModel data) {
+            public void onRequestSuccess(BaseGetNewsModel data) {
                 if (!data.getError()) {
-                    updaateAdapterData(data.getEventsModel());
+                    updaateAdapterData(data.getNewsModel());
                 } else {
                     Toast.makeText(getContext(), data.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -85,9 +85,9 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
         });
     }
 
-    private void updaateAdapterData(List<GetEventModel> data) {
+    private void updaateAdapterData(List<GetNewsModel> data) {
         this.data = data;
-        EventAdapter adapter = (EventAdapter) listView.getAdapter();
+        NewsAdapter adapter = (NewsAdapter) listView.getAdapter();
         adapter.clear();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
@@ -95,6 +95,9 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        GetNewsModel item = ((NewsAdapter) listView.getAdapter()).getItem(position);
+        //TODO do valid data
+        DetailNewsFragment fr = DetailNewsFragment.newInstance(item.getTitle(), item.getImageUrl(), item.getCreatedAt(), item.getDescription());
+        ((MainActivity) getActivity()).replaceFragment(fr);
     }
 }

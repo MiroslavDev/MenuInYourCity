@@ -57,8 +57,9 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Long parentId = ((CategorieModel) (gridLayout.getAdapter()).getItem(position)).getId();
+                String nameSubcategory = ((CategorieModel) (gridLayout.getAdapter()).getItem(position)).getName();
                 Log.d("parentId = ", parentId + "");
-                ((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId));
+                ((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId, nameSubcategory));
 
             }
         });
@@ -68,7 +69,7 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
         view.findViewById(R.id.frg_categories_btn_event).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(EventListFragment.newInstance());
+                ((MainActivity) getActivity()).replaceFragment(NewsListFragment.newInstance());
             }
         });
         view.findViewById(R.id.frg_categories_btn_liked).setOnClickListener(new View.OnClickListener() {
@@ -107,13 +108,6 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.frg_categories, container, false);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-
     }
 
     @Override

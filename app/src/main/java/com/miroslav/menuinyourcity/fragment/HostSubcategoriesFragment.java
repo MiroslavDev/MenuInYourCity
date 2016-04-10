@@ -20,17 +20,21 @@ import com.miroslav.menuinyourcity.adapter.TabsPagerAdapter;
  */
 public class HostSubcategoriesFragment extends Fragment {
 
+    private static final String NAME_SUBCATEGORY = "name_subcategory";
+
     private Long parentId;
+    private String nameSubcategory;
 
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private TabLayout tabLayout;
 
 
-    public static HostSubcategoriesFragment newInstance(Long id) {
+    public static HostSubcategoriesFragment newInstance(Long id, String nameSubcategory) {
         HostSubcategoriesFragment fr = new HostSubcategoriesFragment();
         Bundle arg = new Bundle();
-        arg.putLong(com.miroslav.menuinyourcity.fragment.CatalogFragment.PARENT_ID, id);
+        arg.putLong(CatalogFragment.PARENT_ID, id);
+        arg.putString(NAME_SUBCATEGORY, nameSubcategory);
         fr.setArguments(arg);
         return fr;
     }
@@ -40,6 +44,7 @@ public class HostSubcategoriesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         parentId = getArguments().getLong(CatalogFragment.PARENT_ID);
+        nameSubcategory = getArguments().getString(NAME_SUBCATEGORY);
 
         setupActionBar();
         setupUI(view);
@@ -47,7 +52,7 @@ public class HostSubcategoriesFragment extends Fragment {
 
     private void setupActionBar() {
         ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
-        ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity);
+        ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity +  ", " + nameSubcategory);
     }
 
     @Nullable
@@ -65,7 +70,7 @@ public class HostSubcategoriesFragment extends Fragment {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         viewPager = (ViewPager) view.findViewById(R.id.pager);
         Log.d("parentId = ", parentId+"");
-        mAdapter = new TabsPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount(), parentId);
+        mAdapter = new TabsPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount(), parentId);
         viewPager.setAdapter(mAdapter);
         tabLayout.setupWithViewPager(viewPager);
         /**
@@ -76,6 +81,12 @@ public class HostSubcategoriesFragment extends Fragment {
             public void onPageSelected(int position) {
                 Log.d("onPageSelected ", position + "");
                 tabLayout.getTabAt(position).select();
+
+                if(position == 0) {
+                    ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity +  ", " + nameSubcategory);
+                } else {
+                    ((MainActivity) getActivity()).setTitleActBar(getString(R.string.shares) +  ", " + nameSubcategory);
+                }
             }
 
             @Override
