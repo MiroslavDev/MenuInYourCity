@@ -1,84 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/frg_background">
-
-    <com.daimajia.slider.library.SliderLayout
-        android:id="@+id/frg_categories_top_slider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_present_images" />
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/frg_categories_btn_liked"
-            android:layout_weight="1"
-            android:background="@color/main_orange" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/liked"
-                    android:layout_weight="1"
-                    android:textColor="@color/text_color_white"
-                    android:paddingLeft="@dimen/padding_xxsmall"
-                    android:layout_gravity="center_vertical" />
-
-            </LinearLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/frg_categories_btn_event"
-            android:layout_weight="1"
-            android:background="@color/main_green" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_event" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/city_events"
-                    android:layout_weight="1"
-                    android:textColor="@color/text_color_white"
-                    android:paddingLeft="@dimen/padding_xxsmall"
-                    android:layout_gravity="center_vertical" />
-
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
-
-    <GridView
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frg_categories_grid_layout"
-        android:layout_gravity="center_horizontal"
-        android:numColumns="3"
-        android:background="@color/devider_color" />
-</LinearLayout>
+        android:background="@color/frg_background">
+
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/frg_categories_top_slider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_present_images" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/frg_categories_btn_liked"
+                android:layout_weight="1"
+                android:background="@color/main_orange" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/liked"
+                        android:layout_weight="1"
+                        android:textColor="@color/text_color_white"
+                        android:paddingLeft="@dimen/padding_xxsmall"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/frg_categories_btn_event"
+                android:layout_weight="1"
+                android:background="@color/main_green" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_event" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/city_events"
+                        android:layout_weight="1"
+                        android:textColor="@color/text_color_white"
+                        android:paddingLeft="@dimen/padding_xxsmall"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <com.miroslav.menuinyourcity.view.GridViewOnFullScreen
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/frg_categories_grid_layout"
+            android:layout_gravity="center_horizontal"
+            android:numColumns="3"
+            android:background="@color/devider_color"
+            />
+    </LinearLayout>
+</ScrollView>

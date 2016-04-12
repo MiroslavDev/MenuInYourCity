@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
-import com.miroslav.menuinyourcity.request.GetEvents.GetEventModel;
 import com.miroslav.menuinyourcity.request.GetNews.GetNewsModel;
-import com.miroslav.menuinyourcity.request.GetShops.GetShopsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
 
 import java.util.List;

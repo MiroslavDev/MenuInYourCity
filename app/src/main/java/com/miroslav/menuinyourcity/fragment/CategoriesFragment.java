@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
@@ -21,6 +20,7 @@ import com.miroslav.menuinyourcity.adapter.MainCategoriesAdapter;
 import com.miroslav.menuinyourcity.request.Categories.BaseCategoriesModel;
 import com.miroslav.menuinyourcity.request.Categories.CategorieModel;
 import com.miroslav.menuinyourcity.request.Categories.GetCategoriesRequest;
+import com.miroslav.menuinyourcity.view.GridViewOnFullScreen;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -34,7 +34,7 @@ import java.util.List;
 public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.BaseFragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
     private static final String TAG = "CategoriesFragment";
 
-    private GridView gridLayout;
+    private GridViewOnFullScreen gridLayout;
     private GetCategoriesRequest request;
     private SliderLayout topSlider;
     private List<CategorieModel> categorieModelList;
@@ -51,7 +51,7 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
     }
 
     private void setupUI(View view) {
-        gridLayout = (GridView) view.findViewById(R.id.frg_categories_grid_layout);
+        gridLayout = (GridViewOnFullScreen) view.findViewById(R.id.frg_categories_grid_layout);
         gridLayout.setAdapter(new MainCategoriesAdapter(getContext(), new ArrayList<CategorieModel>()));
         gridLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

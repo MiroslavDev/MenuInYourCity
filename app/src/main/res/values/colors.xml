@@ -4,9 +4,12 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="feedback_button_background">#57bf4d</color>
     <color name="frg_background">#FFFFFF</color>
     <color name="toolbar_color">@color/main_green</color>
 
+    <color name="text_color_black">#000000</color>
+    <color name="text_color_detail_shop">#0076ff</color>
     <color name="text_color_actbar">#FFFFFF</color>
     <color name="main_green">#27AE60</color>
     <color name="end_shadow_color">#33000000</color>

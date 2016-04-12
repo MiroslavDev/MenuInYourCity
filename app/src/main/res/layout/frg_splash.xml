@@ -32,7 +32,7 @@
                 android:layout_width="@dimen/group_size"
                 android:layout_height="@dimen/group_size"
                 android:id="@+id/imageView"
-                android:src="@drawable/ic_group"
+                android:src="@drawable/ic_phone_logo"
                 android:layout_centerHorizontal="true" />
 
             <TextView

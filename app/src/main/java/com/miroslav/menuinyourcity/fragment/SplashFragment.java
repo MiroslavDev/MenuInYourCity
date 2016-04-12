@@ -40,7 +40,8 @@ public class SplashFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        handler.postDelayed(myRunnable, SPLASH_DISPLAY_LENGTH);
+
+            handler.postDelayed(myRunnable, SPLASH_DISPLAY_LENGTH);
     }
 
     @Override

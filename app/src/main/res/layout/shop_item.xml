@@ -80,13 +80,13 @@
             android:layout_marginRight="@dimen/padding_xsmall" />
 
         <ImageView
-            android:layout_width="@dimen/item_height"
-            android:layout_height="@dimen/item_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/shop_item_favourits"
-            android:src="@drawable/ic_vector_star_enabled"
+            android:src="@drawable/ic_star_enable"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/padding_small"
-            android:layout_marginTop="@dimen/padding_xxsmall" />
+            android:layout_marginRight="@dimen/padding_xsmall"
+            android:layout_marginTop="@dimen/padding_xsmall" />
 
     </RelativeLayout>
 
