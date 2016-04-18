@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frg_shop_review_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Андрей"
+            android:id="@+id/frg_shop_review_name"
+            android:textSize="@dimen/name_text_size"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/frg_shop_review_name"
+            android:layout_marginLeft="@dimen/padding_xsmall">
+
+            <ImageView
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:src="@drawable/ic_star_enable" />
+
+            <ImageView
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:src="@drawable/ic_star_enable" />
+
+            <ImageView
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:src="@drawable/ic_star_enable" />
+
+            <ImageView
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:src="@drawable/ic_star_enable" />
+
+            <ImageView
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:src="@drawable/ic_star_enable" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/padding"
+            android:layout_height="@dimen/padding"
+            android:src="@drawable/ic_3_dots"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/cat_text_size"
+        tools:text="Pots and pans make the most essential part of your cookware. There are lots of various types available for each particular cooking method or a few different methods."
+        android:id="@+id/frg_shop_review_description"
+        android:layout_below="@+id/frg_shop_review_layout"
+        android:paddingTop="@dimen/padding_xxsmall" />
+
+</RelativeLayout>

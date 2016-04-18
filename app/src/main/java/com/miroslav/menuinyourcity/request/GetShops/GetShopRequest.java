@@ -1,4 +1,4 @@
-package com.miroslav.menuinyourcity.request.GetNews;
+package com.miroslav.menuinyourcity.request.GetShops;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
@@ -8,21 +8,24 @@ import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.request.BaseRequest;
 
 /**
- * Created by apple on 4/10/16.
+ * Created by apple on 4/17/16.
  */
-public class GetNewsRequest extends BaseRequest<BaseGetNewsModel> {
+public class GetShopRequest extends BaseRequest<BaseShopModel> {
 
-    public GetNewsRequest() {
-        super(BaseGetNewsModel.class);
+    private Long id;
+
+    public GetShopRequest(Long id) {
+        super(BaseShopModel.class);
+        this.id = id;
     }
 
     @Override
     public String getResourceUri() {
-        return "news/";
+        return "shops/" + id;
     }
 
     @Override
-    public BaseGetNewsModel loadDataFromNetwork() throws Exception {
+    public BaseShopModel loadDataFromNetwork() throws Exception {
         HttpRequest request = getHttpRequestFactory().buildGetRequest(new GenericUrl(buildURL()));
         request.setParser(new JacksonFactory().createJsonObjectParser());
 

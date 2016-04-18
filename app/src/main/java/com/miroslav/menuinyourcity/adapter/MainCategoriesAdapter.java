@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.Categories.CategorieModel;
+import com.miroslav.menuinyourcity.request.ChildrenCategories.GetChildrenCategoriesModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
 
 import java.util.List;
@@ -20,9 +21,9 @@ import java.util.List;
  */
 public class MainCategoriesAdapter extends BaseAdapter{
     private Context context;
-    private List<CategorieModel> data;
+    private List<GetChildrenCategoriesModel> data;
 
-    public MainCategoriesAdapter(Context context, List<CategorieModel> data) {
+    public MainCategoriesAdapter(Context context, List<GetChildrenCategoriesModel> data) {
         this.context = context;
         this.data = data;
 
@@ -60,7 +61,7 @@ public class MainCategoriesAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        CategorieModel item = data.get(position);
+        GetChildrenCategoriesModel item = data.get(position);
 
         MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getImageUrl(),holder.image);
 
@@ -69,7 +70,7 @@ public class MainCategoriesAdapter extends BaseAdapter{
         return convertView;
     }
 
-    public void addAll(List<CategorieModel> data) {
+    public void addAll(List<GetChildrenCategoriesModel> data) {
         this.data.addAll(data);
     }
 

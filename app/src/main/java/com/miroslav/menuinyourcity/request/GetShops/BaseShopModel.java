@@ -2,26 +2,24 @@ package com.miroslav.menuinyourcity.request.GetShops;
 
 import com.google.api.client.util.Key;
 
-import java.util.List;
-
 /**
- * Created by apple on 4/10/16.
+ * Created by apple on 4/17/16.
  */
-public class BaseGetShopsModel {
+public class BaseShopModel {
 
     @Key("response")
-    private List<GetShopsModel> getShopsModel;
+    private GetShopsModel shop;
     @Key("error")
     private Boolean error;
     @Key("message")
     private String message;
 
-    public List<GetShopsModel> getGetShopsModel() {
-        return getShopsModel;
+    public GetShopsModel getShop() {
+        return shop;
     }
 
-    public void setGetShopsModel(List<GetShopsModel> getShopsModel) {
-        this.getShopsModel = getShopsModel;
+    public void setShop(GetShopsModel shop) {
+        this.shop = shop;
     }
 
     public Boolean getError() {
@@ -46,10 +44,9 @@ public class BaseGetShopsModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BaseGetShopsModel that = (BaseGetShopsModel) o;
+        BaseShopModel that = (BaseShopModel) o;
 
-        if (getShopsModel != null ? !getShopsModel.equals(that.getShopsModel) : that.getShopsModel != null)
-            return false;
+        if (shop != null ? !shop.equals(that.shop) : that.shop != null) return false;
         if (error != null ? !error.equals(that.error) : that.error != null) return false;
         return message != null ? message.equals(that.message) : that.message == null;
 
@@ -57,7 +54,7 @@ public class BaseGetShopsModel {
 
     @Override
     public int hashCode() {
-        int result = getShopsModel != null ? getShopsModel.hashCode() : 0;
+        int result = shop != null ? shop.hashCode() : 0;
         result = 31 * result + (error != null ? error.hashCode() : 0);
         result = 31 * result + (message != null ? message.hashCode() : 0);
         return result;
@@ -65,8 +62,8 @@ public class BaseGetShopsModel {
 
     @Override
     public String toString() {
-        return "BaseGetShopsModel{" +
-                "getShopsModel=" + getShopsModel +
+        return "BaseShopModel{" +
+                "shop=" + shop +
                 ", error=" + error +
                 ", message='" + message + '\'' +
                 '}';

@@ -22,6 +22,7 @@ import com.miroslav.menuinyourcity.gcm.GCMManager;
 import com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel;
 import com.miroslav.menuinyourcity.request.Cities.CitiesModel;
 import com.miroslav.menuinyourcity.request.Cities.GetCitiesRequest;
+import com.miroslav.menuinyourcity.request.Proms.PromsModel;
 import com.miroslav.menuinyourcity.request.StoreUsers.BaseStoreUsersModel;
 import com.miroslav.menuinyourcity.request.StoreUsers.PostStoreUsersRequest;
 import com.octo.android.robospice.Jackson2GoogleHttpClientSpiceService;
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private SpinnerAdapter adapter;
     private GetCitiesRequest getCitiesRequest;
     public static MainActivity rootAcvitityInstance = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -46,12 +46,11 @@ public class SpinnerAdapter extends ArrayAdapter<CitiesModel> {
         }
 
         holder.checkedTextView.setText(getItem(position).getName());
-        if(position == checkedPosition)
-            holder.checkedTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    0,
-                    0,
-                    R.drawable.ic_check,
-                    0);
+        holder.checkedTextView.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                position == checkedPosition ? R.drawable.ic_check : 0,
+                0);
 
         return convertView;
     }

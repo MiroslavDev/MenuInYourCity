@@ -10,18 +10,18 @@ import com.miroslav.menuinyourcity.request.BaseRequest;
 /**
  * Created by apple on 4/10/16.
  */
-public class GetShopsRequest extends BaseRequest<BaseGetShopsModel> {
+public class GetShopsByCategoryRequest extends BaseRequest<BaseGetShopsModel> {
 
     private Long id;
 
-    public GetShopsRequest(Long id) {
+    public GetShopsByCategoryRequest(Long id) {
         super(BaseGetShopsModel.class);
         this.id = id;
     }
 
     @Override
     public String getResourceUri() {
-        return "shops/" + id;
+        return "categories/" + id + "/shops";
     }
 
     @Override
