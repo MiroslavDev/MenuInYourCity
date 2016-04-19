@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_green"
+    android:background="@color/accent_green"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8(800) 023-23-43"
-                android:textSize="20sp"
+                android:textSize="@dimen/title_text_size"
                 android:id="@+id/frg_splash_number_tel"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/splash_text"
-                android:textSize="20sp"
+                android:textSize="@dimen/title_text_size"
                 android:id="@+id/frg_splash_text"
                 android:layout_below="@+id/frg_splash_number_tel"
                 android:layout_centerHorizontal="true"
