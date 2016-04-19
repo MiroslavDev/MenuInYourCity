@@ -84,34 +84,11 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
         view.findViewById(R.id.frg_categories_btn_liked).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ((MainActivity) getActivity()).replaceFragment(MapFragment.newInstance());
             }
         });
 
     }
-
-//    private void createTestData() {
-//        HashMap<String,Integer> file_maps = new HashMap<>();
-//        file_maps.put("hannibal",R.drawable.hannibal);
-//        file_maps.put("Big Bang Theory",R.drawable.bigbang);
-//        file_maps.put("House of Cards",R.drawable.house);
-//        file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
-//
-//        for(String name : file_maps.keySet()){
-//            TextSliderView textSliderView = new TextSliderView(getContext());
-//            textSliderView
-//                    .description(name)
-//                    .image(file_maps.get(name))
-//                    .setScaleType(BaseSliderView.ScaleType.Fit)
-//                    .setOnSliderClickListener(this);
-//
-//            textSliderView.bundle(new Bundle());
-//            textSliderView.getBundle()
-//                    .putString("extra",name);
-//
-//            topSlider.addSlider(textSliderView);
-//        }
-//    }
 
     @Nullable
     @Override
