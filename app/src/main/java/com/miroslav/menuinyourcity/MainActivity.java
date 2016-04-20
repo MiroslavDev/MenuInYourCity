@@ -109,12 +109,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void setVisibleSpinnerInActBar() {
         btnMenuActBar.setVisibility(View.VISIBLE);
-        btnBackActBar.setVisibility(View.GONE);
+        btnBackActBar.setVisibility(View.INVISIBLE);
     }
 
     public void setVisibleButtonBackInActBar() {
         btnBackActBar.setVisibility(View.VISIBLE);
-        btnMenuActBar.setVisibility(View.GONE);
+        btnMenuActBar.setVisibility(View.INVISIBLE);
     }
 
     public void setTitleActBar(String title) {

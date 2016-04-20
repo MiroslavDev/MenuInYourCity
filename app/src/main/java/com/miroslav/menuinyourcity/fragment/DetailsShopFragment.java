@@ -51,6 +51,10 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private TextView description;
     private TextView rating;
 
+    private Double latitude = 0.0d;
+    private Double longitude = 0.0d;
+    private String address;
+
 
     public static DetailsShopFragment newInstance(Long id, String categoryName) {
         DetailsShopFragment fr = new DetailsShopFragment();
@@ -129,6 +133,9 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         shopTimeWork.setText(data.getTime());
         description.setText(data.getDescription());
         rating.setText(getContext().getString(R.string.rating) + " " + data.getRating() + "/10");
+        address = data.getStreet();
+        latitude = Double.parseDouble(data.getLatitude());
+        longitude = Double.parseDouble(data.getLongitude());
 
         imageSlaider.removeAllSliders();
         for(final ShopsPhotosModel promsModel : data.getPhotos()){
@@ -175,5 +182,12 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         shopAddress = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_address);
         shopTimeWork = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_open_time);
         description = (TextView) view.findViewById(R.id.frg_details_shop_description);
+
+        shopAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(MapFragment.newInstance(latitude, longitude, address));
+            }
+        });
     }
 }

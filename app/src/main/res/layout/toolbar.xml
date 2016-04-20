@@ -38,7 +38,7 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/title_text_size_actbar"
         android:textStyle="bold"
@@ -47,16 +47,18 @@
         android:id="@+id/title_actbar"
         android:layout_centerInParent="true"
         android:singleLine="true"
-        android:ellipsize="end" />
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="@dimen/item_height"
+        android:layout_toRightOf="@+id/btn_back_actbar" />
 
     <ImageView
         android:layout_width="@dimen/item_height"
         android:layout_height="@dimen/item_height"
         android:src="@drawable/ic_button_back"
         android:id="@+id/btn_back_actbar"
-        android:layout_marginLeft="@dimen/padding_xsmall"
         android:padding="@dimen/padding_xsmall"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
     <!--<ImageView-->
     <!--android:layout_width="match_parent"-->
