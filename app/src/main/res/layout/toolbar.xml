@@ -12,11 +12,11 @@
         android:layout_marginLeft="@dimen/padding_xsmall">
 
         <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@drawable/map_marker"-->
-            <!--android:id="@+id/menu_actbar_btn_icon"-->
-            <!--android:layout_gravity="center_vertical" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/map_marker"-->
+        <!--android:id="@+id/menu_actbar_btn_icon"-->
+        <!--android:layout_gravity="center_vertical" />-->
 
         <Spinner
             android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/title_text_size_actbar"
         android:textStyle="bold"
-        android:textColor="@color/text_color_actbar"
+        android:textColor="@color/text_color_black"
         android:text="@string/default_city"
         android:id="@+id/title_actbar"
         android:layout_centerInParent="true"
@@ -59,9 +59,9 @@
         android:visibility="gone" />
 
     <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/padding_xxsmall"-->
-        <!--android:src="@drawable/actionbar_shadow"-->
-        <!--android:layout_alignParentBottom="true" />-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/padding_xxsmall"-->
+    <!--android:src="@drawable/actionbar_shadow"-->
+    <!--android:layout_alignParentBottom="true" />-->
 
 </RelativeLayout>

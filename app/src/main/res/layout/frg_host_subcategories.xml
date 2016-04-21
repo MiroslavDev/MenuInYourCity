@@ -12,11 +12,12 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/accent_green"
+            android:background="@color/main_green"
             android:elevation="6dp"
-            app:tabIndicatorColor="#03a9f4"
+            app:tabIndicatorColor="@color/text_color_black"
             app:tabIndicatorHeight="2dp"
-            app:tabTextColor="@color/text_color_white"
+            app:tabSelectedTextColor="@color/end_shadow_color"
+            app:tabTextColor="@color/text_color_black"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
