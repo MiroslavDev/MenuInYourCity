@@ -20,7 +20,7 @@ import com.miroslav.menuinyourcity.Utils;
 import com.miroslav.menuinyourcity.adapter.ShopFeedbackAdapter;
 import com.miroslav.menuinyourcity.request.GetShops.BaseShopModel;
 import com.miroslav.menuinyourcity.request.GetShops.GetShopRequest;
-import com.miroslav.menuinyourcity.request.GetShops.GetShopsModel;
+import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsPhotosModel;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsReviewsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
@@ -41,7 +41,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
 
     private Long parentId;
     private ListView listView;
-    private GetShopsModel data;
+    private ShopsModel data;
     private SliderLayout imageSlaider;
     private TextView title;
     private TextView category;
@@ -118,7 +118,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         });
     }
 
-    private void updaateAdapterData(GetShopsModel data) {
+    private void updaateAdapterData(ShopsModel data) {
         this.data = data;
         ShopFeedbackAdapter adapter = (ShopFeedbackAdapter) listView.getAdapter();
         adapter.clear();

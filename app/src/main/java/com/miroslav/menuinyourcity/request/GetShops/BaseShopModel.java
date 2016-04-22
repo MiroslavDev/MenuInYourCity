@@ -8,17 +8,17 @@ import com.google.api.client.util.Key;
 public class BaseShopModel {
 
     @Key("response")
-    private GetShopsModel shop;
+    private ShopsModel shop;
     @Key("error")
     private Boolean error;
     @Key("message")
     private String message;
 
-    public GetShopsModel getShop() {
+    public ShopsModel getShop() {
         return shop;
     }
 
-    public void setShop(GetShopsModel shop) {
+    public void setShop(ShopsModel shop) {
         this.shop = shop;
     }
 

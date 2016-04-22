@@ -12,12 +12,9 @@ import android.widget.Toast;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.SharesAdapter;
-import com.miroslav.menuinyourcity.adapter.ShopsAdapter;
 import com.miroslav.menuinyourcity.request.GetEvents.BaseGetEventsModel;
 import com.miroslav.menuinyourcity.request.GetEvents.GetEventByCategoryRequest;
 import com.miroslav.menuinyourcity.request.GetEvents.GetEventModel;
-import com.miroslav.menuinyourcity.request.GetEvents.GetEventRequest;
-import com.miroslav.menuinyourcity.request.GetShops.GetShopsModel;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 

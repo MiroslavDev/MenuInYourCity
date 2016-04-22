@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
+
 /**
  * Created by apple on 4/12/16.
  */
@@ -29,4 +31,9 @@ public class Utils {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount()));
         listView.setLayoutParams(params);
     }
+
+    public void putLikedItem(ShopsModel shopModel) {
+
+    }
+
 }

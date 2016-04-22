@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by apple on 4/10/16.
  */
-public class GetShopsModel {
+public class ShopsModel {
     @Key("id")
     private Long id;
     @Key("category_id")
@@ -185,7 +185,7 @@ public class GetShopsModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GetShopsModel that = (GetShopsModel) o;
+        ShopsModel that = (ShopsModel) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (categoryId != null ? !categoryId.equals(that.categoryId) : that.categoryId != null)
@@ -239,7 +239,7 @@ public class GetShopsModel {
 
     @Override
     public String toString() {
-        return "GetShopsModel{" +
+        return "ShopsModel{" +
                 "id=" + id +
                 ", categoryId='" + categoryId + '\'' +
                 ", cityId='" + cityId + '\'' +

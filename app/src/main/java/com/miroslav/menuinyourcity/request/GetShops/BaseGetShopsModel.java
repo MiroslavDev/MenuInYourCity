@@ -10,18 +10,18 @@ import java.util.List;
 public class BaseGetShopsModel {
 
     @Key("response")
-    private List<GetShopsModel> getShopsModel;
+    private List<ShopsModel> shopsModel;
     @Key("error")
     private Boolean error;
     @Key("message")
     private String message;
 
-    public List<GetShopsModel> getGetShopsModel() {
-        return getShopsModel;
+    public List<ShopsModel> getShopsModel() {
+        return shopsModel;
     }
 
-    public void setGetShopsModel(List<GetShopsModel> getShopsModel) {
-        this.getShopsModel = getShopsModel;
+    public void setShopsModel(List<ShopsModel> shopsModel) {
+        this.shopsModel = shopsModel;
     }
 
     public Boolean getError() {
@@ -48,7 +48,7 @@ public class BaseGetShopsModel {
 
         BaseGetShopsModel that = (BaseGetShopsModel) o;
 
-        if (getShopsModel != null ? !getShopsModel.equals(that.getShopsModel) : that.getShopsModel != null)
+        if (shopsModel != null ? !shopsModel.equals(that.shopsModel) : that.shopsModel != null)
             return false;
         if (error != null ? !error.equals(that.error) : that.error != null) return false;
         return message != null ? message.equals(that.message) : that.message == null;
@@ -57,7 +57,7 @@ public class BaseGetShopsModel {
 
     @Override
     public int hashCode() {
-        int result = getShopsModel != null ? getShopsModel.hashCode() : 0;
+        int result = shopsModel != null ? shopsModel.hashCode() : 0;
         result = 31 * result + (error != null ? error.hashCode() : 0);
         result = 31 * result + (message != null ? message.hashCode() : 0);
         return result;
@@ -66,7 +66,7 @@ public class BaseGetShopsModel {
     @Override
     public String toString() {
         return "BaseGetShopsModel{" +
-                "getShopsModel=" + getShopsModel +
+                "shopsModel=" + shopsModel +
                 ", error=" + error +
                 ", message='" + message + '\'' +
                 '}';

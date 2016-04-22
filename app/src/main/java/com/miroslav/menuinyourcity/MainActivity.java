@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private SpinnerAdapter adapter;
     private GetCitiesRequest getCitiesRequest;
     public static MainActivity rootAcvitityInstance = null;
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         setupUI();
         setupListener();
+        dbHelper = new DBHelper(this);
         addFragment(new SplashFragment());
     }
 
@@ -142,6 +144,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         menuSpinner.setAdapter(adapter);
 
         menuSpinner.setOnItemSelectedListener(this);
+    }
+
+    public DBHelper getDbHelper() {
+        return dbHelper;
     }
 
     private void setupListener() {

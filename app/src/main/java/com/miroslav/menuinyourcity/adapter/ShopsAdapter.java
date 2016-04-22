@@ -10,22 +10,30 @@ import android.widget.TextView;
 
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
-import com.miroslav.menuinyourcity.request.GetShops.GetShopsModel;
+import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by apple on 4/10/16.
  */
-public class ShopsAdapter extends ArrayAdapter<GetShopsModel> {
+public class ShopsAdapter extends ArrayAdapter<ShopsModel> {
 
-    public ShopsAdapter(Context context, List<GetShopsModel> data) {
+    private ShopsAdapter.OnLikedImageClickListener likedImageListener;
+
+    private Set<Long> likedList = new HashSet<>();
+
+    public ShopsAdapter(Context context, List<ShopsModel> data, ShopsAdapter.OnLikedImageClickListener likedImageListener, Set<Long> likedList) {
         super(context, R.layout.shop_item, data);
+        this.likedImageListener = likedImageListener;
+        this.likedList = likedList;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
         if(convertView == null) {
@@ -37,22 +45,39 @@ public class ShopsAdapter extends ArrayAdapter<GetShopsModel> {
             holder.timeWork = (TextView) convertView.findViewById(R.id.shop_item_work_time);
             holder.ratting = (TextView) convertView.findViewById(R.id.shop_item_rating);
             holder.image = (ImageView) convertView.findViewById(R.id.shop_item_image);
+            holder.likedImage = (ImageView) convertView.findViewById(R.id.shop_item_favourits);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        GetShopsModel item = getItem(position);
+        final ShopsModel item = getItem(position);
         holder.name.setText(item.getTitle());
         holder.address.setText(item.getStreet());
         holder.timeWork.setText(item.getTime());
-        holder.ratting.setText(getContext().getString(R.string.rating) + " 7.9");
+        holder.ratting.setText(getContext().getString(R.string.rating) + item.getRating());
+        holder.likedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(likedImageListener != null)
+                    likedImageListener.onLikedImageClick(position);
+            }
+        });
+        if(likedImageListener == null || likedList.contains(item.getId())) {
+            holder.likedImage.setImageResource(R.drawable.ic_star_enable);
+        } else {
+            holder.likedImage.setImageResource(R.drawable.ic_star_inactive);
+        }
 
-        if(item.getPhotos() != null && !item.getPhotos().isEmpty())
+        if(item.getPhotos() != null && !item.getPhotos().isEmpty()) //TODO image
             MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getPhotos().get(0).getImage(), holder.image);
 
         return convertView;
+    }
+
+    public void setLikedList(Set<Long> likedList) {
+        this.likedList = likedList;
     }
 
     private class ViewHolder {
@@ -61,5 +86,10 @@ public class ShopsAdapter extends ArrayAdapter<GetShopsModel> {
         public TextView timeWork;
         public TextView ratting;
         public ImageView image;
+        public ImageView likedImage;
+    }
+
+    public interface OnLikedImageClickListener {
+        void onLikedImageClick(int position);
     }
 }

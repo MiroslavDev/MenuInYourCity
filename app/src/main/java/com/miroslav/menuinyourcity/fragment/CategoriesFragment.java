@@ -56,7 +56,6 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
         ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity);
 
         setupUI(view);
-        //createTestData();
     }
 
     private void setupUI(View view) {
@@ -84,7 +83,7 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
         view.findViewById(R.id.frg_categories_btn_liked).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ((MainActivity) getActivity()).replaceFragment(LikedListFragment.newInstance());
             }
         });
 
