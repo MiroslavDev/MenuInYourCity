@@ -1,9 +1,13 @@
 package com.miroslav.menuinyourcity.fragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +17,19 @@ import android.widget.ListView;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.ShopsAdapter;
+import com.miroslav.menuinyourcity.dialogs.DeletedFromLikedListDialogFragment;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
+import com.miroslav.menuinyourcity.request.GetShops.ShopsPhotosModel;
 
 import java.util.ArrayList;
 
 /**
  * Created by apple on 4/22/16.
  */
-public class LikedListFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class LikedListFragment extends BaseFragment implements
+        AdapterView.OnItemClickListener,
+        ShopsAdapter.OnLikedImageClickListener,
+        DeletedFromLikedListDialogFragment.DialogCallback {
 
     private ListView listView;
 
@@ -40,11 +49,11 @@ public class LikedListFragment extends BaseFragment implements AdapterView.OnIte
         super.onViewCreated(view, savedInstanceState);
 
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
-        listView.setAdapter(new ShopsAdapter(getContext(), new ArrayList<ShopsModel>(), null, null));
+        listView.setAdapter(new ShopsAdapter(getContext(), new ArrayList<ShopsModel>(), this, null));
         listView.setOnItemClickListener(this);
 
         setupAB();
-        loadFromDB();
+        updateDataFromDB();
 
     }
 
@@ -53,10 +62,11 @@ public class LikedListFragment extends BaseFragment implements AdapterView.OnIte
         ((MainActivity) getActivity()).setTitleActBar(getString(R.string.liked));
     }
 
-    private void loadFromDB() {
+    private void updateDataFromDB() {
         SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
         Cursor c = db.query("likedList", null, null, null, null, null, null);
         ShopsAdapter adapter = (ShopsAdapter) listView.getAdapter();
+        adapter.clear();
 
         if (c.moveToFirst()) {
 
@@ -74,6 +84,7 @@ public class LikedListFragment extends BaseFragment implements AdapterView.OnIte
             int dateStopColIndex = c.getColumnIndex("date_stop");
             int updatedAtColIndex = c.getColumnIndex("updated_at");
             int ratingColIndex = c.getColumnIndex("rating");
+            int imageURLColIndex = c.getColumnIndex("imageURL");
 
             do {
                 ShopsModel shopModel = new ShopsModel();
@@ -92,6 +103,11 @@ public class LikedListFragment extends BaseFragment implements AdapterView.OnIte
                 shopModel.setDataStop(c.getString(dateStopColIndex));
                 shopModel.setUpdatedData(c.getString(updatedAtColIndex));
                 shopModel.setRating(c.getDouble(ratingColIndex));
+                shopModel.setPhotos(new ArrayList<ShopsPhotosModel>());
+
+                ShopsPhotosModel shopsPhotosModel = new ShopsPhotosModel();
+                shopsPhotosModel.setImage(c.getString(imageURLColIndex));
+                shopModel.getPhotos().add(shopsPhotosModel);
 
                 adapter.add(shopModel);
 
@@ -103,10 +119,27 @@ public class LikedListFragment extends BaseFragment implements AdapterView.OnIte
     }
 
     @Override
+    public void onLikedImageClick(int position) {
+        ShopsModel item = ((ShopsAdapter) listView.getAdapter()).getItem(position);
+        DeletedFromLikedListDialogFragment dialog = new DeletedFromLikedListDialogFragment();
+        dialog.setShopId(item.getId());
+        dialog.setListener(this);
+        dialog.show(getChildFragmentManager(), "");
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ShopsAdapter adapter = (ShopsAdapter) listView.getAdapter();
         String title = adapter.getItem(position).getTitle();
         BaseFragment fr = DetailsShopFragment.newInstance(adapter.getItem(position).getId(), title);
         ((MainActivity) getActivity()).replaceFragment(fr);
+    }
+
+    @Override
+    public void onResultFromDLG(Long id) {
+        SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
+        db.execSQL("DELETE FROM likedList WHERE shop_id=" + id + ";");
+        db.close();
+        updateDataFromDB();
     }
 }

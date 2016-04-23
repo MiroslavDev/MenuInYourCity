@@ -31,9 +31,4 @@ public class Utils {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount()));
         listView.setLayoutParams(params);
     }
-
-    public void putLikedItem(ShopsModel shopModel) {
-
-    }
-
 }

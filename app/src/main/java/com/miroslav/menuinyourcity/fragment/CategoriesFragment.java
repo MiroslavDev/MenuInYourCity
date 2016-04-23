@@ -150,9 +150,8 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
                         }
                     });
 
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString(promsModel.getImage(), promsModel.getImage());
+            //textSliderView.bundle(new Bundle());
+            //textSliderView.getBundle().putString(promsModel.getImage(), promsModel.getImage());
 
             topSlider.addSlider(textSliderView);
         }

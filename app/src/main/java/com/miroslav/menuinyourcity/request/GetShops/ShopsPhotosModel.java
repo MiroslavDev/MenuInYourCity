@@ -13,6 +13,7 @@ public class ShopsPhotosModel {
     @Key("image")
     private String image;
 
+
     public Long getId() {
         return id;
     }

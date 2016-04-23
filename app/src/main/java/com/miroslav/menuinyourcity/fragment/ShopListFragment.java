@@ -36,6 +36,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     public  static final String TITLE = "title";
     public  static final String SHOP_ID = "parent_id";
 
+    private Long id;
     private List<ShopsModel> data;
     private ListView listView;
     private String title;
@@ -60,24 +61,31 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Long id = getArguments().getLong(SHOP_ID);
+        id = getArguments().getLong(SHOP_ID);
         title = getArguments().getString(TITLE);
 
-        fillLikedList();
-
-
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
-        listView.setAdapter(new ShopsAdapter(getContext(), new ArrayList<ShopsModel>(), this, likedList));
+        listView.setAdapter(new ShopsAdapter(getContext(), new ArrayList<ShopsModel>(), this, null));
         listView.setOnItemClickListener(this);
 
         setupAB();
-        shopsRequest(id);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(data == null) {
+            shopsRequest(id);
+        } else {
+            updaateAdapterData(data);
+        }
     }
 
     private void fillLikedList() {
         SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
         Cursor c = db.query("likedList", null, null, null, null, null, null);
+        likedList.clear();
 
         if (c.moveToFirst()) {
             int idColIndex = c.getColumnIndex("shop_id");
@@ -88,6 +96,8 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
         }
 
         c.close();
+
+        ((ShopsAdapter)listView.getAdapter()).setLikedList(likedList);
     }
 
     private void setupAB() {
@@ -118,6 +128,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
         this.data = data;
         ShopsAdapter adapter = (ShopsAdapter) listView.getAdapter();
         adapter.clear();
+        fillLikedList();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
     }
@@ -152,6 +163,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
             cv.put("date_stop", item.getDataStop());
             cv.put("updated_at", item.getUpdatedData());
             cv.put("rating", item.getRating());
+            cv.put("imageURL", item.getPhotos().get(0).getImage());
 
             db.insert("likedList", null, cv);
 

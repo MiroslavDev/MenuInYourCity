@@ -1,5 +1,8 @@
 package com.miroslav.menuinyourcity.fragment;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -7,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +21,6 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
-import com.miroslav.menuinyourcity.Utils;
 import com.miroslav.menuinyourcity.adapter.ShopFeedbackAdapter;
 import com.miroslav.menuinyourcity.request.GetShops.BaseShopModel;
 import com.miroslav.menuinyourcity.request.GetShops.GetShopRequest;
@@ -50,6 +54,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private TextView shopTimeWork;
     private TextView description;
     private TextView rating;
+    private ImageView likedImage;
+    private ScrollView rootScrollView;
 
     private Double latitude = 0.0d;
     private Double longitude = 0.0d;
@@ -124,7 +130,13 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         adapter.clear();
         adapter.addAll(data.getReviews());
         adapter.notifyDataSetChanged();
-        Utils.setListViewHeightBasedOnChildren(listView);
+
+        rootScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                rootScrollView.setScrollY(0);
+            }
+        });
 
         title.setText(data.getTitle());
         category.setText(categoryName);
@@ -136,6 +148,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         address = data.getStreet();
         latitude = Double.parseDouble(data.getLatitude());
         longitude = Double.parseDouble(data.getLongitude());
+        likedImage.setImageResource(isInLikedList() ? R.drawable.ic_star_enable : R.drawable.ic_star_inactive);
 
         imageSlaider.removeAllSliders();
         for(final ShopsPhotosModel promsModel : data.getPhotos()){
@@ -154,12 +167,18 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
 //                    })
                     ;
 
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString(promsModel.getImage(), promsModel.getImage());
+            //textSliderView.bundle(new Bundle());
+            //textSliderView.getBundle().putString(promsModel.getImage(), promsModel.getImage());
 
             imageSlaider.addSlider(textSliderView);
         }
+
+        likedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLikedImageClick();
+            }
+        });
     }
 
     @Override
@@ -174,6 +193,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         listView.setAdapter(new ShopFeedbackAdapter(getContext(), new ArrayList<ShopsReviewsModel>()));
         listView.setOnItemClickListener(this);
 
+        rootScrollView = (ScrollView) view.findViewById(R.id.frg_details_shop_root_sroll_view);
         imageSlaider = (SliderLayout) view.findViewById(R.id.frg_details_shop_img);
         rating = (TextView) view.findViewById(R.id.frg_details_shop_review_rating_text);
         title = (TextView) view.findViewById(R.id.frg_details_shop_title);
@@ -182,6 +202,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         shopAddress = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_address);
         shopTimeWork = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_open_time);
         description = (TextView) view.findViewById(R.id.frg_details_shop_description);
+        likedImage = (ImageView) view.findViewById(R.id.frg_details_shop_ic_star);
 
         shopAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,5 +210,54 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 ((MainActivity) getActivity()).replaceFragment(MapFragment.newInstance(latitude, longitude, address));
             }
         });
+    }
+
+    public void onLikedImageClick() {
+        SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
+        if(!isInLikedList()) {
+            likedImage.setImageResource(R.drawable.ic_star_enable);
+            ContentValues cv = new ContentValues();
+
+            cv.put("shop_id", data.getId());
+            cv.put("category_id", data.getCategoryId());
+            cv.put("city_id", data.getCityId());
+            cv.put("title", data.getTitle());
+            cv.put("description", data.getDescription());
+            cv.put("time", data.getTime());
+            cv.put("lat", data.getLatitude());
+            cv.put("lon", data.getLongitude());
+            cv.put("street", data.getStreet());
+            cv.put("phone", data.getPhone());
+            cv.put("date_start", data.getDataStart());
+            cv.put("date_stop", data.getDataStop());
+            cv.put("updated_at", data.getUpdatedData());
+            cv.put("rating", data.getRating());
+            cv.put("imageURL", data.getPhotos().get(0).getImage());
+
+            db.insert("likedList", null, cv);
+        } else {
+            likedImage.setImageResource(R.drawable.ic_star_inactive);
+            db.execSQL("DELETE FROM likedList WHERE shop_id=" + data.getId() + ";");
+        }
+
+        db.close();
+    }
+
+    private boolean isInLikedList() {
+        SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
+        Cursor c = db.query("likedList", null, null, null, null, null, null);
+        if (c.moveToFirst()) {
+            int idColIndex = c.getColumnIndex("shop_id");
+
+            do {
+                if(c.getLong(idColIndex) == data.getId()) {
+                    c.close();
+                    return true;
+                }
+            } while (c.moveToNext());
+        }
+        c.close();
+        return false;
+
     }
 }

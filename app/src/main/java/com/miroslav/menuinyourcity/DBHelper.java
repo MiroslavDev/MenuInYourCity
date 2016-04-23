@@ -30,7 +30,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "date_start text,"
                 + "date_stop text,"
                 + "updated_at text,"
-                + "rating float"
+                + "rating float,"
+                + "imageURL text"
                 + ");");
     }
 

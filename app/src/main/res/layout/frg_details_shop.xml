@@ -7,6 +7,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:id="@+id/frg_details_shop_root_sroll_view"
         android:layout_above="@+id/frg_details_shop_give_feedback">
 
         <RelativeLayout
@@ -65,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/frg_details_shop_ic_star"
-                android:src="@drawable/ic_star_enable"
+                android:src="@drawable/ic_star_inactive"
                 android:layout_alignBottom="@+id/frg_details_shop_category_name"
                 android:paddingRight="@dimen/padding"
                 android:layout_alignParentRight="true" />
@@ -204,6 +207,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusable="false"
                 android:id="@+id/frg_details_shop_list_view"
                 android:layout_below="@+id/frg_details_shop_review">
             </ListView>

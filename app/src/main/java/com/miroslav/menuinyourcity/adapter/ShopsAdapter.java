@@ -64,13 +64,13 @@ public class ShopsAdapter extends ArrayAdapter<ShopsModel> {
                     likedImageListener.onLikedImageClick(position);
             }
         });
-        if(likedImageListener == null || likedList.contains(item.getId())) {
+        if(likedList == null || likedList.contains(item.getId())) {
             holder.likedImage.setImageResource(R.drawable.ic_star_enable);
         } else {
             holder.likedImage.setImageResource(R.drawable.ic_star_inactive);
         }
 
-        if(item.getPhotos() != null && !item.getPhotos().isEmpty()) //TODO image
+        if(item.getPhotos() != null && !item.getPhotos().isEmpty())
             MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getPhotos().get(0).getImage(), holder.image);
 
         return convertView;
