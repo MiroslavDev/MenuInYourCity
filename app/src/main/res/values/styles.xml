@@ -17,4 +17,14 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorSecondary">@color/gray</item>
+    </style>
+
+    <style name="EditTextDescription" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="colorControlActivated">@android:color/transparent</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+    </style>
+
 </resources>

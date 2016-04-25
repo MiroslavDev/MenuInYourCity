@@ -8,6 +8,7 @@ public class Model {
 
     public String currentCity;
     public Long currentCityId;
+    public Long currentUserId;
 
     private Model() {}
 

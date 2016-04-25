@@ -14,7 +14,7 @@ public class BaseStoreUsersModel {
     @Key("error")
     private Boolean error;
     @Key("message")
-    private String message;
+    private Long message;
 
     public Boolean getError() {
         return error;
@@ -24,11 +24,11 @@ public class BaseStoreUsersModel {
         this.error = error;
     }
 
-    public String getMessage() {
+    public Long getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(Long message) {
         this.message = message;
     }
 

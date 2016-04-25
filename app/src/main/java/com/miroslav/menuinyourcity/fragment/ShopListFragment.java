@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.DBHelper;
@@ -41,6 +42,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     private ListView listView;
     private String title;
     private Set<Long> likedList = new HashSet<>();
+    private ProgressBar progressBar;
 
     public static ShopListFragment newInstance(Long id, String title) {
         ShopListFragment fr = new ShopListFragment();
@@ -64,7 +66,10 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
         id = getArguments().getLong(SHOP_ID);
         title = getArguments().getString(TITLE);
 
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
+        listView.setVisibility(View.GONE);
         listView.setAdapter(new ShopsAdapter(getContext(), new ArrayList<ShopsModel>(), this, null));
         listView.setOnItemClickListener(this);
 
@@ -110,6 +115,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseGetShopsModel>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
+                progressBar.setVisibility(View.GONE);
 
             }
 
@@ -119,12 +125,16 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
                     updaateAdapterData(data.getShopsModel());
                 } else {
                     Toast.makeText(getContext(), data.getMessage(), Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                 }
             }
         });
     }
 
     private void updaateAdapterData(List<ShopsModel> data) {
+        progressBar.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
         this.data = data;
         ShopsAdapter adapter = (ShopsAdapter) listView.getAdapter();
         adapter.clear();

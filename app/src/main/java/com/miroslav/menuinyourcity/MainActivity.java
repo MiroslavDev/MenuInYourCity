@@ -239,10 +239,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
 
             @Override
-            public void onRequestSuccess(BaseStoreUsersModel baseCategoriesModel) {
-                if (baseCategoriesModel.getError()) {
-                    Toast.makeText(MainActivity.this, baseCategoriesModel.getMessage(), Toast.LENGTH_LONG).show();
+            public void onRequestSuccess(BaseStoreUsersModel data) {
+                if (data.getError() == false) {
+                   Model.getInstance().currentUserId = data.getMessage();
                 }
+                //else {
+                    //Toast.makeText(MainActivity.this, data.getMessage().toString(), Toast.LENGTH_LONG).show();
+                //}
             }
         });
     }

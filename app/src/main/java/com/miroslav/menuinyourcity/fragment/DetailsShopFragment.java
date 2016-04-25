@@ -21,6 +21,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
+import com.miroslav.menuinyourcity.Utils;
 import com.miroslav.menuinyourcity.adapter.ShopFeedbackAdapter;
 import com.miroslav.menuinyourcity.request.GetShops.BaseShopModel;
 import com.miroslav.menuinyourcity.request.GetShops.GetShopRequest;
@@ -56,10 +57,12 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private TextView rating;
     private ImageView likedImage;
     private ScrollView rootScrollView;
+    private TextView addReviewButton;
 
     private Double latitude = 0.0d;
     private Double longitude = 0.0d;
     private String address;
+    private String shopId;
 
 
     public static DetailsShopFragment newInstance(Long id, String categoryName) {
@@ -87,11 +90,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onResume() {
         super.onResume();
-        if(data == null) {
-            categoriesRequest();
-        } else {
-            updaateAdapterData(data);
-        }
+        categoriesRequest();
     }
 
     private void setupAB() {
@@ -130,6 +129,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         adapter.clear();
         adapter.addAll(data.getReviews());
         adapter.notifyDataSetChanged();
+        Utils.setListViewHeightBasedOnChildren(listView);
 
         rootScrollView.post(new Runnable() {
             @Override
@@ -149,6 +149,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         latitude = Double.parseDouble(data.getLatitude());
         longitude = Double.parseDouble(data.getLongitude());
         likedImage.setImageResource(isInLikedList() ? R.drawable.ic_star_enable : R.drawable.ic_star_inactive);
+        shopId = data.getId().toString();
 
         imageSlaider.removeAllSliders();
         for(final ShopsPhotosModel promsModel : data.getPhotos()){
@@ -179,6 +180,13 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 onLikedImageClick();
             }
         });
+
+        addReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(AddReviewFragment.newInstance(shopId));
+            }
+        });
     }
 
     @Override
@@ -203,6 +211,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         shopTimeWork = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_open_time);
         description = (TextView) view.findViewById(R.id.frg_details_shop_description);
         likedImage = (ImageView) view.findViewById(R.id.frg_details_shop_ic_star);
+        addReviewButton = (TextView) view.findViewById(R.id.frg_details_shop_give_feedback);
 
         shopAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,6 +267,5 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         }
         c.close();
         return false;
-
     }
 }

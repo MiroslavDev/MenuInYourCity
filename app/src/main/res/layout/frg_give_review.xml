@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/gray"
+        android:layout_height="1dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frg_give_review_layout"
+        android:layout_above="@+id/frg_details_shop_give_feedback">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/frg_details_shop_give_feedback">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding">
+
+            <ImageView
+                android:layout_width="@dimen/item_height"
+                android:layout_height="@dimen/item_height"
+                android:src="@drawable/ic_account_box"
+                android:padding="@dimen/padding_xsmall"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:inputType="textPersonName"
+                tools:text="Name"
+                android:hint="Напишите имя"
+                android:ems="10"
+                android:id="@+id/frg_give_review_name"
+                android:textSize="@dimen/cat_text_size"
+                android:backgroundTint="@color/gray" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding">
+
+            <ImageView
+                android:layout_width="@dimen/item_height"
+                android:layout_height="@dimen/item_height"
+                android:src="@drawable/ic_account_box"
+                android:padding="@dimen/padding_xsmall"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:inputType="phone"
+                tools:text="+38(063)641-75-11"
+                android:hint="Напишите телефон"
+                android:ems="10"
+                android:id="@+id/frg_give_review_phone"
+                android:textSize="@dimen/cat_text_size"
+                android:backgroundTint="@color/gray"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/gray"
+            android:layout_height="1dp"
+            android:id="@+id/shadow"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Выберите оценку"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/title_text_size"
+            android:textColor="@color/text_color_black"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/padding_xsmall"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/frg_give_review_rating_bar"
+            android:numStars="10"
+            android:rating="5"
+            android:stepSize="1"
+            android:progressDrawable="@drawable/rating_bar_layer_list"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/padding"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/cat_text_size"
+            android:hint="Напишите Ваш отзыв"
+            android:id="@+id/frg_give_review_description"
+            android:paddingTop="@dimen/padding_xxsmall"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
+            android:paddingBottom="@dimen/padding_small"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="top" />
+
+    </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_button_feedback"
+        android:text="@string/give_feedback"
+        android:id="@+id/frg_details_shop_give_feedback"
+        android:background="@color/feedback_button_background"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textColor="@color/text_color_white"
+        android:textSize="@dimen/smal_standart_text_size" />
+
+</RelativeLayout>

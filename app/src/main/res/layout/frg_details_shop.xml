@@ -224,4 +224,5 @@
         android:gravity="center"
         android:textColor="@color/text_color_white"
         android:textSize="@dimen/smal_standart_text_size" />
+
 </RelativeLayout>
