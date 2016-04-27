@@ -29,6 +29,7 @@ import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsPhotosModel;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsReviewsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
+import com.miroslav.menuinyourcity.view.ListViewOnFullScreen;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -45,7 +46,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private String categoryName;
 
     private Long parentId;
-    private ListView listView;
+    private ListViewOnFullScreen listView;
     private ShopsModel data;
     private SliderLayout imageSlaider;
     private TextView title;
@@ -129,7 +130,6 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         adapter.clear();
         adapter.addAll(data.getReviews());
         adapter.notifyDataSetChanged();
-        Utils.setListViewHeightBasedOnChildren(listView);
 
         rootScrollView.post(new Runnable() {
             @Override
@@ -151,27 +151,16 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         likedImage.setImageResource(isInLikedList() ? R.drawable.ic_star_enable : R.drawable.ic_star_inactive);
         shopId = data.getId().toString();
 
-        imageSlaider.removeAllSliders();
-        for(final ShopsPhotosModel promsModel : data.getPhotos()){
-            TextSliderView textSliderView = new TextSliderView(getContext());
-            textSliderView
-                    .image(URLHelper.imageDomain + promsModel.getImage())
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-//                    .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-//                        @Override
-//                        public void onSliderClick(BaseSliderView slider) {
-//                            if(promsModel.getUrl() != null && !promsModel.getUrl().isEmpty()) {
-//                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(promsModel.getUrl()));
-//                                startActivity(browserIntent);
-//                            }
-//                        }
-//                    })
-                    ;
+        if(imageSlaider.getChildCount() == 1) {
+            //imageSlaider.removeAllSliders();
+            for (final ShopsPhotosModel promsModel : data.getPhotos()) {
+                TextSliderView textSliderView = new TextSliderView(getContext());
+                textSliderView
+                        .image(URLHelper.imageDomain + promsModel.getImage())
+                        .setScaleType(BaseSliderView.ScaleType.Fit);
 
-            //textSliderView.bundle(new Bundle());
-            //textSliderView.getBundle().putString(promsModel.getImage(), promsModel.getImage());
-
-            imageSlaider.addSlider(textSliderView);
+                imageSlaider.addSlider(textSliderView);
+            }
         }
 
         likedImage.setOnClickListener(new View.OnClickListener() {
@@ -191,13 +180,10 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        ShopFeedbackAdapter adapter = (ShopFeedbackAdapter) listView.getAdapter();
-//        BaseFragment fr = ShopListFragment.newInstance(adapter.getItem(position).getId(), adapter.getItem(position).getName());
-//        ((MainActivity) getActivity()).replaceFragment(fr);
     }
 
     private void setupUI(View view) {
-        listView = (ListView) view.findViewById(R.id.frg_details_shop_list_view);
+        listView = (ListViewOnFullScreen) view.findViewById(R.id.frg_details_shop_list_view);
         listView.setAdapter(new ShopFeedbackAdapter(getContext(), new ArrayList<ShopsReviewsModel>()));
         listView.setOnItemClickListener(this);
 
@@ -241,7 +227,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             cv.put("date_stop", data.getDataStop());
             cv.put("updated_at", data.getUpdatedData());
             cv.put("rating", data.getRating());
-            cv.put("imageURL", data.getPhotos().get(0).getImage());
+            cv.put("imageURL", data.getPhotos().size() > 0 ? data.getPhotos().get(0).getImage() : "");
 
             db.insert("likedList", null, cv);
         } else {

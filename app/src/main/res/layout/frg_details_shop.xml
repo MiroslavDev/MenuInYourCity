@@ -19,7 +19,7 @@
             <com.daimajia.slider.library.SliderLayout
                 android:id="@+id/frg_details_shop_img"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_present_images" />
+                android:layout_height="@dimen/height_present_images"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -204,13 +204,14 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/frg_details_shop_description"/>
 
-            <ListView
+            <com.miroslav.menuinyourcity.view.ListViewOnFullScreen
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:focusable="false"
                 android:id="@+id/frg_details_shop_list_view"
                 android:layout_below="@+id/frg_details_shop_review">
-            </ListView>
+            </com.miroslav.menuinyourcity.view.ListViewOnFullScreen>
+
         </RelativeLayout>
     </ScrollView>
 

@@ -74,7 +74,6 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
         listView.setOnItemClickListener(this);
 
         setupAB();
-
     }
 
     @Override
@@ -173,7 +172,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
             cv.put("date_stop", item.getDataStop());
             cv.put("updated_at", item.getUpdatedData());
             cv.put("rating", item.getRating());
-            cv.put("imageURL", item.getPhotos().get(0).getImage());
+            cv.put("imageURL", item.getPhotos().size() > 0 ? item.getPhotos().get(0).getImage() : "");
 
             db.insert("likedList", null, cv);
 
