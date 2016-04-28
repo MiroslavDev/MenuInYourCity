@@ -12,10 +12,12 @@ import com.miroslav.menuinyourcity.fragment.SharesFragment;
 public class TabsPagerAdapter extends FragmentStatePagerAdapter {
 	int mNumOfTabs;
 	Long parentId;
-	public TabsPagerAdapter(FragmentManager fm, int NumOfTabs, Long parentId) {
+	Boolean isFollow;
+	public TabsPagerAdapter(FragmentManager fm, int NumOfTabs, Long parentId, Boolean isFollow) {
 		super(fm);
 		this.mNumOfTabs = NumOfTabs;
 		this.parentId = parentId;
+		this.isFollow = isFollow;
 	}
 
 	@Override
@@ -23,12 +25,10 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
 
 		switch (index) {
 		case 0:
-			// Top Rated fragment activity
 			Log.d("parentId = ", parentId+"");
 			return CatalogFragment.newInstance(parentId);
 		case 1:
-			// Games fragment activity
-			return SharesFragment.newInstance(parentId);
+			return SharesFragment.newInstance(parentId, isFollow);
 		}
 
 		return null;

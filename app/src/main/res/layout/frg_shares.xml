@@ -8,7 +8,7 @@
         android:id="@+id/frg_shares_btn_subscribe"
         android:layout_width="match_parent"
         android:layout_height="@dimen/big_item_height"
-        android:background="@color/main_orange">
+        android:background="@drawable/follow_btn_selector">
 
         <TextView
             android:layout_width="wrap_content"

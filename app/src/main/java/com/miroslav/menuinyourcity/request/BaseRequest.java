@@ -12,6 +12,8 @@ public abstract class BaseRequest<Result> extends GoogleHttpClientSpiceRequest<R
     private static final String DOMAIN = "http://menu.frameapp.com.ua/api";
 
     protected String CITY_ID = "city_id";
+    protected String USER_ID = "user_id";
+
 
     protected BaseRequest(Class<Result> clazz) {
         super(clazz);

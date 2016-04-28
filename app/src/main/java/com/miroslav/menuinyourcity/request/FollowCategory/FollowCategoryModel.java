@@ -1,11 +1,12 @@
-package com.miroslav.menuinyourcity.request.ChildrenCategories;
+package com.miroslav.menuinyourcity.request.FollowCategory;
 
 import com.google.api.client.util.Key;
 
 /**
- * Created by apple on 4/9/16.
+ * Created by apple on 4/28/16.
  */
-public class GetChildrenCategoriesModel {
+public class FollowCategoryModel {
+
     @Key("id")
     private Long id;
     @Key("parent_id")
@@ -18,8 +19,6 @@ public class GetChildrenCategoriesModel {
     private String createdData;
     @Key("updated_at")
     private String updatedData;
-    @Key("user_follow")
-    private Boolean userFollow;
     @Key("count_childrens_category")
     private Long countChildrensCategory;
     @Key("count_shops_in_category")
@@ -73,14 +72,6 @@ public class GetChildrenCategoriesModel {
         this.updatedData = updatedData;
     }
 
-    public Boolean getUserFollow() {
-        return userFollow;
-    }
-
-    public void setUserFollow(Boolean userFollow) {
-        this.userFollow = userFollow;
-    }
-
     public Long getCountChildrensCategory() {
         return countChildrensCategory;
     }
@@ -103,7 +94,7 @@ public class GetChildrenCategoriesModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GetChildrenCategoriesModel that = (GetChildrenCategoriesModel) o;
+        FollowCategoryModel that = (FollowCategoryModel) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null)
@@ -114,8 +105,6 @@ public class GetChildrenCategoriesModel {
         if (createdData != null ? !createdData.equals(that.createdData) : that.createdData != null)
             return false;
         if (updatedData != null ? !updatedData.equals(that.updatedData) : that.updatedData != null)
-            return false;
-        if (userFollow != null ? !userFollow.equals(that.userFollow) : that.userFollow != null)
             return false;
         if (countChildrensCategory != null ? !countChildrensCategory.equals(that.countChildrensCategory) : that.countChildrensCategory != null)
             return false;
@@ -131,7 +120,6 @@ public class GetChildrenCategoriesModel {
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
         result = 31 * result + (createdData != null ? createdData.hashCode() : 0);
         result = 31 * result + (updatedData != null ? updatedData.hashCode() : 0);
-        result = 31 * result + (userFollow != null ? userFollow.hashCode() : 0);
         result = 31 * result + (countChildrensCategory != null ? countChildrensCategory.hashCode() : 0);
         result = 31 * result + (countShoupsInCategory != null ? countShoupsInCategory.hashCode() : 0);
         return result;
@@ -139,14 +127,13 @@ public class GetChildrenCategoriesModel {
 
     @Override
     public String toString() {
-        return "GetChildrenCategoriesModel{" +
+        return "FollowCategoryModel{" +
                 "id=" + id +
                 ", parentId='" + parentId + '\'' +
                 ", name='" + name + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", createdData='" + createdData + '\'' +
                 ", updatedData='" + updatedData + '\'' +
-                ", userFollow=" + userFollow +
                 ", countChildrensCategory=" + countChildrensCategory +
                 ", countShoupsInCategory=" + countShoupsInCategory +
                 '}';

@@ -21,20 +21,23 @@ import com.miroslav.menuinyourcity.adapter.TabsPagerAdapter;
 public class HostSubcategoriesFragment extends Fragment {
 
     private static final String NAME_SUBCATEGORY = "name_subcategory";
+    public  static final String IS_FOLLOW_KEY = "is_follow_key";
 
     private Long parentId;
     private String nameSubcategory;
+    private Boolean isFollow;
 
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private TabLayout tabLayout;
 
 
-    public static HostSubcategoriesFragment newInstance(Long id, String nameSubcategory) {
+    public static HostSubcategoriesFragment newInstance(Long id, String nameSubcategory, Boolean isFollow) {
         HostSubcategoriesFragment fr = new HostSubcategoriesFragment();
         Bundle arg = new Bundle();
         arg.putLong(CatalogFragment.PARENT_ID, id);
         arg.putString(NAME_SUBCATEGORY, nameSubcategory);
+        arg.putBoolean(IS_FOLLOW_KEY, isFollow);
         fr.setArguments(arg);
         return fr;
     }
@@ -45,6 +48,8 @@ public class HostSubcategoriesFragment extends Fragment {
 
         parentId = getArguments().getLong(CatalogFragment.PARENT_ID);
         nameSubcategory = getArguments().getString(NAME_SUBCATEGORY);
+        isFollow = getArguments().getBoolean(IS_FOLLOW_KEY);
+
 
         setupActionBar();
         setupUI(view);
@@ -70,7 +75,7 @@ public class HostSubcategoriesFragment extends Fragment {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         viewPager = (ViewPager) view.findViewById(R.id.pager);
         Log.d("parentId = ", parentId+"");
-        mAdapter = new TabsPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount(), parentId);
+        mAdapter = new TabsPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount(), parentId, isFollow);
         viewPager.setAdapter(mAdapter);
         tabLayout.setupWithViewPager(viewPager);
         /**

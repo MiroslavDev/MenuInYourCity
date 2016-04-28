@@ -66,8 +66,9 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Long parentId = ((GetChildrenCategoriesModel) (gridLayout.getAdapter()).getItem(position)).getId();
                 String nameSubcategory = ((GetChildrenCategoriesModel) (gridLayout.getAdapter()).getItem(position)).getName();
+                Boolean isFollow = ((GetChildrenCategoriesModel) (gridLayout.getAdapter()).getItem(position)).getUserFollow();
                 Log.d("parentId = ", parentId + "");
-                ((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId, nameSubcategory));
+                ((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId, nameSubcategory, isFollow));
 
             }
         });
@@ -110,6 +111,12 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
         } else {
             updatePromos(promsModelList);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        categoriesRequest();
     }
 
     private void promsRequest() {

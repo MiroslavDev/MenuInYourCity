@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.SharesAdapter;
+import com.miroslav.menuinyourcity.dialogs.AttentionDialog;
+import com.miroslav.menuinyourcity.request.FollowCategory.BaseFollowCategoryModel;
+import com.miroslav.menuinyourcity.request.FollowCategory.FollowCategoryRequest;
 import com.miroslav.menuinyourcity.request.GetEvents.BaseGetEventsModel;
 import com.miroslav.menuinyourcity.request.GetEvents.GetEventByCategoryRequest;
 import com.miroslav.menuinyourcity.request.GetEvents.GetEventModel;
@@ -27,16 +30,18 @@ import java.util.List;
 public class SharesFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
     public  static final String TITLE = "title";
-    public  static final String SHOP_ID = "shop_id";
+    public  static final String IS_FOLLOW_KEY = "is_follow_key";
     public  static final String CATEGORY_ID = "category_id";
 
-    private List<GetEventModel> data;
+    private View followBtn;
     private ListView listView;
+    private Long categoryId;
 
-    public static SharesFragment newInstance(Long id) {
+    public static SharesFragment newInstance(Long id, Boolean isFollow) {
         SharesFragment fr = new SharesFragment();
         Bundle arg = new Bundle();
         arg.putLong(CATEGORY_ID, id);
+        arg.putBoolean(IS_FOLLOW_KEY, isFollow);
         //arg.putString(TITLE, title);
         fr.setArguments(arg);
         return fr;
@@ -52,13 +57,18 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Long id = getArguments().getLong(CATEGORY_ID);
+        Bundle arg = getArguments();
+        categoryId = arg.getLong(CATEGORY_ID);
+        Boolean isFollow = arg.getBoolean(IS_FOLLOW_KEY);
         //String title = getArguments().getString(TITLE);
 
-        view.findViewById(R.id.frg_shares_btn_subscribe).setOnClickListener(new View.OnClickListener() {
+        followBtn = view.findViewById(R.id.frg_shares_btn_subscribe);
+        followBtn.setEnabled(!isFollow);
+        followBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO subscribe on push
+                followBtn.setEnabled(false);
+                followShares(categoryId);
             }
         });
 
@@ -66,15 +76,8 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         listView.setAdapter(new SharesAdapter(getContext(), new ArrayList<GetEventModel>()));
         listView.setOnItemClickListener(this);
 
+        sharesRequest(categoryId);
 
-        //setupAB();
-        sharesRequest(id);
-
-    }
-
-    private void setupAB() {
-        ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
-        ((MainActivity) getActivity()).setTitleActBar(getString(R.string.shares));
     }
 
     private void sharesRequest(Long id) {
@@ -96,8 +99,28 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         });
     }
 
+    private void followShares(Long id) {
+        FollowCategoryRequest request = new FollowCategoryRequest(id);
+        spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseFollowCategoryModel>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+
+            }
+
+            @Override
+            public void onRequestSuccess(BaseFollowCategoryModel data) {
+                if (!data.getError()) {
+                    AttentionDialog dl = new AttentionDialog();
+                    dl.setMessage(getContext().getString(R.string.you_follow_the_shares));
+                    dl.show(getFragmentManager(), null);
+                } else {
+                    //Toast.makeText(getContext(), data.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
     private void updaateAdapterData(List<GetEventModel> data) {
-        this.data = data;
         SharesAdapter adapter = (SharesAdapter) listView.getAdapter();
         adapter.clear();
         adapter.addAll(data);
