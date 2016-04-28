@@ -39,8 +39,9 @@ public class GCMManager {
     // sent_at, receiver,  sender, community;
     public void onRecieveMessage(Bundle extras) {
         String message = extras.getString("message");
-         Log.d("receive push", message);
-          MessageIntentService.activeIntentService.sendNotification("Win Predict", "Win Predict", message);
+        String image = extras.getString("image");
+         Log.d("receive push", message+" "+image);
+          MessageIntentService.activeIntentService.sendNotification(image, "MENU города", message);
     }
 
 
