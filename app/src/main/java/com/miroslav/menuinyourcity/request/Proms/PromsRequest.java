@@ -21,7 +21,7 @@ public class PromsRequest  extends BaseRequest<BasePromsModel> {
 
     @Override
     public String getResourceUri() {
-        return "promos/" + (id == null ? "" : id);
+        return "promos/"; //+ (id == null ? "" : id);
     }
 
     @Override
