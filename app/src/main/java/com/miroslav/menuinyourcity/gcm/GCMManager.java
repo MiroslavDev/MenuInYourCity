@@ -40,8 +40,10 @@ public class GCMManager {
     public void onRecieveMessage(Bundle extras) {
         String message = extras.getString("message");
         String image = extras.getString("image");
+        String shop_id = extras.getString("shop_id");
+        String desc = extras.getString("description");
          Log.d("receive push", message+" "+image);
-          MessageIntentService.activeIntentService.sendNotification(image, "MENU города", message);
+          MessageIntentService.activeIntentService.sendNotification(image, "MENU города", message, shop_id, desc);
     }
 
 

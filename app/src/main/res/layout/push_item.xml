@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_present_images"
+        android:id="@+id/frg_shares_item_img"
+        android:src="@drawable/ic_mask_category_item"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@color/transparent_background"
+        android:layout_alignTop="@+id/frg_shares_item_img"
+        android:layout_alignLeft="@+id/frg_shares_item_img"
+        android:layout_alignBottom="@+id/frg_shares_item_img"
+        android:layout_alignRight="@+id/frg_shares_item_img" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Large Text"
+        android:id="@+id/frg_shares_item_title"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="false"
+        android:textSize="@dimen/cat_text_size"
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/frg_shares_item_img"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginRight="@dimen/padding"
+        android:layout_marginBottom="@dimen/padding"
+        android:gravity="center"
+        android:textColor="@color/text_color_white" />
+
+    <RelativeLayout
+        android:layout_below="@+id/frg_shares_item_img"
+        android:id="@+id/frg_shares_btn_subscribe"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/big_item_height"
+        android:background="@drawable/follow_btn_selector">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/title_text_size"
+            android:text="@string/go_to_market"
+            android:textColor="@color/text_color_white"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/cat_text_size"
+        tools:text="Пиццерия Новая"
+        android:id="@+id/frg_shares_item_description"
+        android:layout_below="@+id/frg_shares_btn_subscribe"
+        android:padding="@dimen/padding" />
+
+</RelativeLayout>

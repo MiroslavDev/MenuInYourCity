@@ -10,17 +10,17 @@ import java.util.List;
 public class BaseCitiesModel {
 
     @Key("response")
-    private List<com.miroslav.menuinyourcity.request.Cities.CitiesModel> citiesModel;
+    private List<CitiesModel> citiesModel;
     @Key("error")
     private Boolean error;
     @Key("message")
     private String message;
 
-    public List<com.miroslav.menuinyourcity.request.Cities.CitiesModel> getCitiesModel() {
+    public List<CitiesModel> getCitiesModel() {
         return citiesModel;
     }
 
-    public void setCitiesModel(List<com.miroslav.menuinyourcity.request.Cities.CitiesModel> citiesModel) {
+    public void setCitiesModel(List<CitiesModel> citiesModel) {
         this.citiesModel = citiesModel;
     }
 

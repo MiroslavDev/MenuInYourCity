@@ -14,12 +14,12 @@ public class GetCitiesRequest extends BaseRequest<BaseCitiesModel> {
     private Long id;
 
     public GetCitiesRequest(Long id) {
-        super(com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel.class);
+        super(BaseCitiesModel.class);
         this.id = id;
     }
 
     public GetCitiesRequest() {
-        super(com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel.class);
+        super(BaseCitiesModel.class);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class GetCitiesRequest extends BaseRequest<BaseCitiesModel> {
     }
 
     @Override
-    public com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel loadDataFromNetwork() throws Exception {
+    public BaseCitiesModel loadDataFromNetwork() throws Exception {
         HttpRequest request = getHttpRequestFactory().buildGetRequest(new GenericUrl(buildURL()));
         request.setParser(new JacksonFactory().createJsonObjectParser());
 

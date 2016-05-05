@@ -17,12 +17,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.miroslav.menuinyourcity.ImageLoaderWithCache.ImageLoader;
 import com.miroslav.menuinyourcity.adapter.SpinnerAdapter;
+import com.miroslav.menuinyourcity.fragment.DetailPushFragment;
 import com.miroslav.menuinyourcity.fragment.SplashFragment;
 import com.miroslav.menuinyourcity.gcm.GCMManager;
 import com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel;
 import com.miroslav.menuinyourcity.request.Cities.CitiesModel;
 import com.miroslav.menuinyourcity.request.Cities.GetCitiesRequest;
-import com.miroslav.menuinyourcity.request.Proms.PromsModel;
 import com.miroslav.menuinyourcity.request.StoreUsers.BaseStoreUsersModel;
 import com.miroslav.menuinyourcity.request.StoreUsers.PostStoreUsersRequest;
 import com.octo.android.robospice.Jackson2GoogleHttpClientSpiceService;
@@ -63,7 +63,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setupUI();
         setupListener();
         dbHelper = new DBHelper(this);
-        addFragment(new SplashFragment());
+        if(getIntent().getBooleanExtra("isPush", false)){
+            DetailPushFragment fr =
+                    DetailPushFragment.newInstance(getIntent().getStringExtra("message"),
+                            getIntent().getStringExtra("image"), getIntent().getStringExtra("message"),
+                            getIntent().getStringExtra("desc"), getIntent().getStringExtra("shop_id"));
+            addFragment(fr);
+        }else {
+            addFragment(new SplashFragment());
+        }
+
     }
 
     @Override
@@ -117,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void setVisibleButtonBackInActBar() {
         btnBackActBar.setVisibility(View.VISIBLE);
         btnMenuActBar.setVisibility(View.INVISIBLE);
+    }
+
+    public int getActBarHeight() {
+        return actBar.getHeight();
     }
 
     public void setTitleActBar(String title) {
@@ -230,8 +243,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Log.d("push token: ", token);
         //todo send push token and type	(android/ios)
         //get storeUsers  POST http://menu.frameapp.com.ua/api/users/
-
-        PostStoreUsersRequest request = new PostStoreUsersRequest(token);
+        String deviceid = android.provider.Settings.Secure.getString(this.getContentResolver(),
+                android.provider.Settings.Secure.ANDROID_ID);
+        String imei = MD5(deviceid);
+        PostStoreUsersRequest request = new PostStoreUsersRequest(token, imei);
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseStoreUsersModel>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
@@ -250,5 +265,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
+
+
+    public String MD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString().toUpperCase();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
+    }
 
 }

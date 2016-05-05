@@ -28,7 +28,7 @@ public abstract class BaseRequest<Result> extends GoogleHttpClientSpiceRequest<R
     }
 
     public long getCacheExpiryDuration() {
-        return DurationInMillis.ONE_HOUR;
+        return DurationInMillis.ALWAYS_EXPIRED;
     }
 
     @Override

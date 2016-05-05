@@ -1,5 +1,6 @@
 package com.miroslav.menuinyourcity.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.TextViewCompat;
@@ -14,6 +15,9 @@ import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.Utils;
+import com.miroslav.menuinyourcity.dialogs.AttentionDialog;
+import com.miroslav.menuinyourcity.dialogs.AttentionResultableDialog;
+import com.miroslav.menuinyourcity.dialogs.LoadingDialog;
 import com.miroslav.menuinyourcity.request.Reviews.StoreReviewModel;
 import com.miroslav.menuinyourcity.request.Reviews.StoreReviewRequest;
 import com.miroslav.menuinyourcity.request.StoreUsers.BaseStoreUsersModel;
@@ -24,7 +28,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
 /**
  * Created by apple on 4/25/16.
  */
-public class AddReviewFragment extends BaseFragment {
+public class AddReviewFragment extends BaseFragment implements DialogInterface.OnClickListener{
 
     public  static final String SHOP_ID_KEY = "shop_id";
 
@@ -33,7 +37,7 @@ public class AddReviewFragment extends BaseFragment {
     private EditText desctiption;
     private RatingBar ratingBar;
     private String shopId;
-
+    private LoadingDialog loadingDialog;
 
     public static AddReviewFragment newInstance(String shopId) {
         AddReviewFragment fr = new AddReviewFragment();
@@ -70,7 +74,11 @@ public class AddReviewFragment extends BaseFragment {
     }
 
     private void addReviewRequest() {
+        loadingDialog = new LoadingDialog();
+        loadingDialog.setCancelable(false);
+        loadingDialog.show(getFragmentManager(), null);
         Utils.hideKeyboard(getContext(), getActivity().getCurrentFocus());
+
         StoreReviewRequest request = new StoreReviewRequest(
                 name.getText().toString(),
                 phone.getText().toString(),
@@ -80,16 +88,25 @@ public class AddReviewFragment extends BaseFragment {
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<StoreReviewModel>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onRequestSuccess(StoreReviewModel data) {
+                loadingDialog.dismiss();
                 if (data.getError()) {
-                    Toast.makeText(getContext(), data.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    AttentionDialog resultableDialog = new AttentionDialog();
+                    resultableDialog.setCancelable(false);
+                    resultableDialog.setMessage(getContext().getString(R.string.review_is_not_left));
+                    resultableDialog.show(getFragmentManager(), null);
                 } else {
-                    getActivity().onBackPressed();
+                    AttentionResultableDialog resultableDialog = new AttentionResultableDialog();
+                    resultableDialog.setCancelable(false);
+                    resultableDialog.setMessage(getContext().getString(R.string.review_is_left));
+                    resultableDialog.setCallback(AddReviewFragment.this);
+                    resultableDialog.show(getFragmentManager(), null);
                 }
+
             }
         });
     }
@@ -100,4 +117,9 @@ public class AddReviewFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+        getActivity().onBackPressed();
+    }
 }

@@ -11,17 +11,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.MainCategoriesAdapter;
-import com.miroslav.menuinyourcity.request.Categories.BaseCategoriesModel;
-import com.miroslav.menuinyourcity.request.Categories.CategorieModel;
-import com.miroslav.menuinyourcity.request.Categories.GetCategoriesRequest;
 import com.miroslav.menuinyourcity.request.ChildrenCategories.BaseChildrenCategoriesModel;
 import com.miroslav.menuinyourcity.request.ChildrenCategories.GetChildrenCategoriesModel;
 import com.miroslav.menuinyourcity.request.ChildrenCategories.GetChildrenCategoriesRequest;
@@ -30,17 +23,20 @@ import com.miroslav.menuinyourcity.request.Proms.PromsModel;
 import com.miroslav.menuinyourcity.request.Proms.PromsRequest;
 import com.miroslav.menuinyourcity.request.URLHelper;
 import com.miroslav.menuinyourcity.view.GridViewOnFullScreen;
+import com.miroslav.menuinyourcity.view.MySlider.SliderLayout;
+import com.miroslav.menuinyourcity.view.MySlider.SliderTypes.BaseSliderView;
+import com.miroslav.menuinyourcity.view.MySlider.SliderTypes.TextSliderView;
+import com.miroslav.menuinyourcity.view.MySlider.Tricks.ViewPagerEx;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by apple on 4/5/16.
  */
-public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.BaseFragment implements ViewPagerEx.OnPageChangeListener{
+public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPageChangeListener{
     private static final String TAG = "CategoriesFragment";
 
     private GridViewOnFullScreen gridLayout;
@@ -132,7 +128,7 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
                 if (!basePromsModel.getError()) {
                     updatePromos(basePromsModel.getPromList());
                 } else {
-                    Toast.makeText(getContext(), basePromsModel.getMessage(), Toast.LENGTH_LONG).show();
+                    //TODO Toast.makeText(getContext(), basePromsModel.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -152,7 +148,9 @@ public class CategoriesFragment extends com.miroslav.menuinyourcity.fragment.Bas
                         public void onSliderClick(BaseSliderView slider) {
                             if(promsModel.getUrl() != null && !promsModel.getUrl().isEmpty()) {
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(promsModel.getUrl()));
-                                startActivity(browserIntent);
+                                try {
+                                    startActivity(browserIntent);
+                                } catch (Exception e) {}
                             }
                         }
                     });

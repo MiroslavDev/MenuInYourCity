@@ -14,7 +14,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.daimajia.slider.library.SliderLayout
+            <com.miroslav.menuinyourcity.view.MySlider.SliderLayout
                 android:id="@+id/frg_categories_top_slider"
                 android:layout_width="match_parent"
                 custom:indicator_visibility="visible"

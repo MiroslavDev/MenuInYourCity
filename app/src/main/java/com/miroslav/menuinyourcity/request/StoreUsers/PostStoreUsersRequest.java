@@ -18,13 +18,14 @@ public class PostStoreUsersRequest extends BaseRequest<BaseStoreUsersModel> {
     private String type = "android";
     private JSONObject jsonObject;
 
-    public PostStoreUsersRequest(String token) {
+    public PostStoreUsersRequest(String token, String imei) {
         super(BaseStoreUsersModel.class);
 
         jsonObject = new JSONObject();
         try {
             jsonObject.put("type", type);
             jsonObject.put("token", token);
+            jsonObject.put("imei", imei);
         } catch (JSONException e) {
             e.printStackTrace();
         }

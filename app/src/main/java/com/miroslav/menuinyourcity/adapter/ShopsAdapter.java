@@ -15,6 +15,7 @@ import com.miroslav.menuinyourcity.request.URLHelper;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -22,11 +23,11 @@ import java.util.Set;
  */
 public class ShopsAdapter extends ArrayAdapter<ShopsModel> {
 
-    private ShopsAdapter.OnLikedImageClickListener likedImageListener;
+    private OnLikedImageClickListener likedImageListener;
 
     private Set<Long> likedList = new HashSet<>();
 
-    public ShopsAdapter(Context context, List<ShopsModel> data, ShopsAdapter.OnLikedImageClickListener likedImageListener, Set<Long> likedList) {
+    public ShopsAdapter(Context context, List<ShopsModel> data, OnLikedImageClickListener likedImageListener, Set<Long> likedList) {
         super(context, R.layout.shop_item, data);
         this.likedImageListener = likedImageListener;
         this.likedList = likedList;
@@ -56,7 +57,8 @@ public class ShopsAdapter extends ArrayAdapter<ShopsModel> {
         holder.name.setText(item.getTitle());
         holder.address.setText(item.getStreet());
         holder.timeWork.setText(item.getTime());
-        holder.ratting.setText(getContext().getString(R.string.rating) + item.getRating());
+        String ratingS = String.format( Locale.US, "%.2f", item.getRating());
+        holder.ratting.setText(getContext().getString(R.string.rating) + ratingS);
         holder.likedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

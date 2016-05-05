@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,9 +16,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.ShopFeedbackAdapter;
@@ -28,10 +26,15 @@ import com.miroslav.menuinyourcity.request.GetShops.ShopsPhotosModel;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsReviewsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
 import com.miroslav.menuinyourcity.view.ListViewOnFullScreen;
+import com.miroslav.menuinyourcity.view.MySlider.SliderLayout;
+import com.miroslav.menuinyourcity.view.MySlider.SliderTypes.BaseSliderView;
+import com.miroslav.menuinyourcity.view.MySlider.SliderTypes.TextSliderView;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by apple on 4/12/16.
@@ -62,6 +65,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private Double longitude = 0.0d;
     private String address;
     private String shopId;
+    private Boolean isBlockedScrollView = false;
+    private List<ShopsPhotosModel> photos;
 
 
     public static DetailsShopFragment newInstance(Long id, String categoryName) {
@@ -136,26 +141,61 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             }
         });
 
+        rootScrollView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return isBlockedScrollView;
+            }
+        });
+
         title.setText(data.getTitle());
         category.setText(categoryName);
         shopURL.setText(data.getPhone());
         shopAddress.setText(data.getStreet());
         shopTimeWork.setText(data.getTime());
         description.setText(data.getDescription());
-        rating.setText(getContext().getString(R.string.rating) + " " + data.getRating() + "/10");
+        String ratingS = String.format( Locale.US, "%.2f", data.getRating());
+        rating.setText(getContext().getString(R.string.rating) + " " + ratingS + "/10");
         address = data.getStreet();
-        latitude = Double.parseDouble(data.getLatitude());
-        longitude = Double.parseDouble(data.getLongitude());
+        try {
+            latitude = Double.parseDouble(data.getLatitude());
+        } catch (NumberFormatException e) {
+            latitude = 0.0d;
+        }
+        try {
+            longitude = Double.parseDouble(data.getLongitude());
+        } catch (NumberFormatException e) {
+            longitude = 0.0d;
+    }
         likedImage.setImageResource(isInLikedList() ? R.drawable.ic_star_enable : R.drawable.ic_star_inactive);
         shopId = data.getId().toString();
 
         if(imageSlaider.getChildCount() == 1) {
-            //imageSlaider.removeAllSliders();
-            for (final ShopsPhotosModel promsModel : data.getPhotos()) {
+            photos = data.getPhotos();
+            for (final ShopsPhotosModel promsModel : photos) {
                 TextSliderView textSliderView = new TextSliderView(getContext());
                 textSliderView
                         .image(URLHelper.imageDomain + promsModel.getImage())
-                        .setScaleType(BaseSliderView.ScaleType.Fit);
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                        .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                    @Override
+                    public void onSliderClick(BaseSliderView slider) {
+                        if(!isBlockedScrollView) {
+                            isBlockedScrollView = true;
+                            imageSlaider.getLayoutParams().height = getView().getHeight() + ((MainActivity) getActivity()).getActBarHeight();
+                            addReviewButton.setVisibility(View.GONE);
+                            ((MainActivity) getActivity()).hideActBar();
+                        } else {
+                            addReviewButton.setVisibility(View.VISIBLE);
+                            ((MainActivity) getActivity()).showActBar();
+                            isBlockedScrollView = false;
+                            imageSlaider.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
+                        }
+                        imageSlaider.requestLayout();
+                        imageSlaider.updateData();
+                    }
+                });
 
                 imageSlaider.addSlider(textSliderView);
             }

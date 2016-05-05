@@ -19,10 +19,6 @@ public class PromsRequest  extends BaseRequest<BasePromsModel> {
         this.id = id;
     }
 
-    public PromsRequest() {
-        super(BasePromsModel.class);
-    }
-
     @Override
     public String getResourceUri() {
         return "promos/" + (id == null ? "" : id);
@@ -33,7 +29,7 @@ public class PromsRequest  extends BaseRequest<BasePromsModel> {
         HttpRequest request = getHttpRequestFactory().buildGetRequest(new GenericUrl(buildURL()));
         request.setParser(new JacksonFactory().createJsonObjectParser());
 
-        request.getHeaders().set(CITY_ID, Model.getInstance().currentCityId);
+        //request.getHeaders().set(CITY_ID, Model.getInstance().currentCityId);
 
         HttpResponse response = request.execute();
         return response.parseAs(getResultType());

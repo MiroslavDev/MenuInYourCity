@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.daimajia.slider.library.SliderLayout
+            <com.miroslav.menuinyourcity.view.MySlider.SliderLayout
                 android:id="@+id/frg_details_shop_img"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_present_images"/>

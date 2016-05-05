@@ -52,7 +52,7 @@ public class MessageIntentService extends IntentService {
 
 
 
-    public void sendNotification(String image, String title, String text) {
+    public void sendNotification(String image, String title, String text, String shop_id, String desc) {
 //        NotificationCompat.Builder builder = new
 //                NotificationCompat.Builder(this).setSmallIcon(R.mipmap.ic_launcher)
 //                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
@@ -70,12 +70,12 @@ public class MessageIntentService extends IntentService {
 //        //  builder.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
 //        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 //        nManager.notify(NOTIFICATION_ID, builder.build());
-        handleMessage(text, image);
+        handleMessage(text, image, shop_id, desc);
     }
 //URLHelper.imageDomain +image
 //
     @SuppressWarnings("deprecation")
-    private void handleMessage(String message, String image) {
+    private void handleMessage(String message, String image, String shop_id, String desc) {
         Bitmap remote_picture = null;
         NotificationManager notificationManager = null;
         long when = System.currentTimeMillis();
@@ -87,6 +87,7 @@ public class MessageIntentService extends IntentService {
             try {
                 Log.v("TAG_IMAGE", "" + message);
                 Log.v("TAG_IMAGE", "" + image);
+                Log.v("TAG_IMAGE", "" + shop_id);
                 NotificationCompat.BigPictureStyle notiStyle = new NotificationCompat.BigPictureStyle();
                 notiStyle.setSummaryText(message);
                 try {
@@ -102,6 +103,11 @@ public class MessageIntentService extends IntentService {
                 Intent gotoIntent = new Intent();
                 gotoIntent.setClassName(getApplicationContext(), "com.miroslav.menuinyourcity.MainActivity");
                 //Start activity when user taps on notification.
+                gotoIntent.putExtra("isPush", true);
+                gotoIntent.putExtra("message", message);
+                gotoIntent.putExtra("image", image);
+                gotoIntent.putExtra("shop_id", shop_id);
+                gotoIntent.putExtra("desc", desc);
                 contentIntent = PendingIntent.getActivity(getApplicationContext(),
                         (int) (Math.random() * 100), gotoIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
