@@ -9,8 +9,7 @@
         android:layout_height="match_parent"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        android:id="@+id/frg_details_shop_root_sroll_view"
-        android:layout_above="@+id/frg_details_shop_give_feedback">
+        android:id="@+id/frg_details_shop_root_sroll_view">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,7 +61,7 @@
                 android:id="@+id/frg_details_shop_ic_phone"
                 android:src="@drawable/ic_small_phone"
                 android:layout_alignBottom="@+id/frg_details_shop_category_name"
-                android:paddingLeft="@dimen/padding" />
+                android:layout_marginLeft="@dimen/padding" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -70,7 +69,7 @@
                 android:id="@+id/frg_details_shop_ic_star"
                 android:src="@drawable/ic_star_inactive"
                 android:layout_alignBottom="@+id/frg_details_shop_category_name"
-                android:paddingRight="@dimen/padding"
+                android:layout_marginRight="@dimen/padding"
                 android:layout_alignParentRight="true" />
 
             <LinearLayout
@@ -212,18 +211,20 @@
                 android:layout_below="@+id/frg_details_shop_review">
             </com.miroslav.menuinyourcity.view.ListViewOnFullScreen>
 
-        </RelativeLayout>
-    </ScrollView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_button_feedback"
+                android:text="@string/give_feedback"
+                android:id="@+id/frg_details_shop_give_feedback"
+                android:background="@color/feedback_button_background"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:textColor="@color/text_color_white"
+                android:textSize="@dimen/smal_standart_text_size"
+                android:layout_below="@+id/frg_details_shop_list_view" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_button_feedback"
-        android:text="@string/give_feedback"
-        android:id="@+id/frg_details_shop_give_feedback"
-        android:background="@color/feedback_button_background"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:textColor="@color/text_color_white"
-        android:textSize="@dimen/smal_standart_text_size" />
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

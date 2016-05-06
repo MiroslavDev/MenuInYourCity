@@ -73,6 +73,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/standart_text_size"
             android:textColor="@android:color/black"
+            android:textStyle="bold"
             tools:text="Рейтинг: 0.0"
             android:id="@+id/shop_item_rating"
             android:singleLine="true"

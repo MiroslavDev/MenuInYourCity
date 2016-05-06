@@ -30,6 +30,7 @@ public class GetChildrenCategoriesRequest extends BaseRequest<BaseChildrenCatego
     public BaseChildrenCategoriesModel loadDataFromNetwork() throws Exception {
         HttpRequest request = getHttpRequestFactory().buildGetRequest(new GenericUrl(buildURL()));
         request.setParser(new JacksonFactory().createJsonObjectParser());
+
         request.getHeaders().set(CITY_ID, Model.getInstance().currentCityId);
         request.getHeaders().set(USER_ID, Model.getInstance().currentUserId);
 

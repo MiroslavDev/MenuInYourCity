@@ -16,6 +16,8 @@
             android:layout_height="wrap_content"
             tools:text="Андрей"
             android:id="@+id/frg_shop_review_name"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
             android:textSize="@dimen/name_text_size"
             android:gravity="center" />
 
@@ -27,28 +29,73 @@
             android:layout_marginLeft="@dimen/padding_xsmall">
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="@dimen/padding"
                 android:layout_height="@dimen/padding"
+                android:id="@+id/star1"
                 android:src="@drawable/ic_star_enable" />
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="@dimen/padding"
                 android:layout_height="@dimen/padding"
+                android:id="@+id/star2"
                 android:src="@drawable/ic_star_enable" />
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="@dimen/padding"
                 android:layout_height="@dimen/padding"
+                android:id="@+id/star3"
                 android:src="@drawable/ic_star_enable" />
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="@dimen/padding"
                 android:layout_height="@dimen/padding"
+                android:id="@+id/star4"
                 android:src="@drawable/ic_star_enable" />
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="@dimen/padding"
                 android:layout_height="@dimen/padding"
+                android:id="@+id/star5"
+                android:src="@drawable/ic_star_enable" />
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:id="@+id/star6"
+                android:src="@drawable/ic_star_enable" />
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:id="@+id/star7"
+                android:src="@drawable/ic_star_enable" />
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:id="@+id/star8"
+                android:src="@drawable/ic_star_enable" />
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:id="@+id/star9"
+                android:src="@drawable/ic_star_enable" />
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_width="@dimen/padding"
+                android:layout_height="@dimen/padding"
+                android:id="@+id/star10"
                 android:src="@drawable/ic_star_enable" />
         </LinearLayout>
 

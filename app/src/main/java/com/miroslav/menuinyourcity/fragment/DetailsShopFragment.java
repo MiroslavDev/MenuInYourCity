@@ -1,8 +1,10 @@
 package com.miroslav.menuinyourcity.fragment;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -14,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
@@ -41,8 +42,8 @@ import java.util.Locale;
  */
 public class DetailsShopFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
-    public  static final String PARENT_ID = "parent_id";
-    public  static final String CATEGORY_NAME_KEY = "category_name_key";
+    public static final String PARENT_ID = "parent_id";
+    public static final String CATEGORY_NAME_KEY = "category_name_key";
 
     private String categoryName;
 
@@ -60,6 +61,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private ImageView likedImage;
     private ScrollView rootScrollView;
     private TextView addReviewButton;
+    private ImageView phoneCallBtn;
 
     private Double latitude = 0.0d;
     private Double longitude = 0.0d;
@@ -120,8 +122,6 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             public void onRequestSuccess(BaseShopModel data) {
                 if (!data.getError()) {
                     updaateAdapterData(data.getShop());
-                } else {
-                    Toast.makeText(getContext(), data.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -177,23 +177,11 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 TextSliderView textSliderView = new TextSliderView(getContext());
                 textSliderView
                         .image(URLHelper.imageDomain + promsModel.getImage())
-                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                         .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                     @Override
                     public void onSliderClick(BaseSliderView slider) {
-                        if(!isBlockedScrollView) {
-                            isBlockedScrollView = true;
-                            imageSlaider.getLayoutParams().height = getView().getHeight() + ((MainActivity) getActivity()).getActBarHeight();
-                            addReviewButton.setVisibility(View.GONE);
-                            ((MainActivity) getActivity()).hideActBar();
-                        } else {
-                            addReviewButton.setVisibility(View.VISIBLE);
-                            ((MainActivity) getActivity()).showActBar();
-                            isBlockedScrollView = false;
-                            imageSlaider.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
-                        }
-                        imageSlaider.requestLayout();
-                        imageSlaider.updateData();
+                        onImageClick();
                     }
                 });
 
@@ -201,6 +189,26 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             }
         }
 
+        setupListeners();
+    }
+
+    private void onImageClick() {
+        if(!isBlockedScrollView) {
+            isBlockedScrollView = true;
+            imageSlaider.getLayoutParams().height = getView().getHeight() + ((MainActivity) getActivity()).getActBarHeight();
+            addReviewButton.setVisibility(View.GONE);
+            ((MainActivity) getActivity()).hideActBar();
+        } else {
+            addReviewButton.setVisibility(View.VISIBLE);
+            ((MainActivity) getActivity()).showActBar();
+            isBlockedScrollView = false;
+            imageSlaider.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
+        }
+        imageSlaider.requestLayout();
+        imageSlaider.updateData();
+    }
+
+    private void setupListeners() {
         likedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,6 +220,14 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).replaceFragment(AddReviewFragment.newInstance(shopId));
+            }
+        });
+
+        phoneCallBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + shopURL.getText()));
+                startActivity(intent);
             }
         });
     }
@@ -236,6 +252,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         description = (TextView) view.findViewById(R.id.frg_details_shop_description);
         likedImage = (ImageView) view.findViewById(R.id.frg_details_shop_ic_star);
         addReviewButton = (TextView) view.findViewById(R.id.frg_details_shop_give_feedback);
+        phoneCallBtn = (ImageView) view.findViewById(R.id.frg_details_shop_ic_phone);
 
         shopAddress.setOnClickListener(new View.OnClickListener() {
             @Override

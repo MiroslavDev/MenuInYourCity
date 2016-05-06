@@ -1,5 +1,7 @@
 package com.miroslav.menuinyourcity.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -7,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
@@ -17,6 +20,7 @@ import com.miroslav.menuinyourcity.R;
 public class SplashFragment extends Fragment {
     private static final String TAG = "SplashFragment";
     private final int SPLASH_DISPLAY_LENGTH = 3000;
+    private TextView numberTV;
     private Handler handler = new Handler();
     private Runnable myRunnable = new Runnable() {
         @Override
@@ -29,6 +33,15 @@ public class SplashFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity)getActivity()).hideActBar();
+
+        numberTV = (TextView) view.findViewById(R.id.frg_splash_phone_number);
+        view.findViewById(R.id.frg_splash_call_ic).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + numberTV.getText()));
+                startActivity(intent);
+            }
+        });
     }
 
     @Nullable

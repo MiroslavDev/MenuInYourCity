@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by apple on 4/5/16.
  */
-public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPageChangeListener{
+public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPageChangeListener, MainActivity.Callbacks{
     private static final String TAG = "CategoriesFragment";
 
     private GridViewOnFullScreen gridLayout;
@@ -96,6 +96,8 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
     public void onStart() {
         super.onStart();
 
+        ((MainActivity) getActivity()).setCallback(this);
+
         if(categorieModelList == null) {
             categoriesRequest();
         } else {
@@ -110,13 +112,24 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        ((MainActivity) getActivity()).setCallback(null);
+    }
+
+    @Override
+    public void changeCity() {
+        promsRequest();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         categoriesRequest();
     }
 
     private void promsRequest() {
-        PromsRequest request = new PromsRequest(Model.getInstance().currentCityId);
+        PromsRequest request = new PromsRequest();
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BasePromsModel>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
@@ -160,6 +173,7 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
 
             topSlider.addSlider(textSliderView);
         }
+        topSlider.updateData();
 
     }
 

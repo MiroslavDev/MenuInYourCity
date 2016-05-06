@@ -31,7 +31,7 @@
             <ImageView
                 android:layout_width="@dimen/item_height"
                 android:layout_height="@dimen/item_height"
-                android:src="@drawable/ic_phone_icon"
+                android:src="@drawable/ic_user_icon"
                 android:padding="@dimen/padding_xsmall"/>
 
             <EditText
@@ -57,7 +57,7 @@
             <ImageView
                 android:layout_width="@dimen/item_height"
                 android:layout_height="@dimen/item_height"
-                android:src="@drawable/ic_user_icon"
+                android:src="@drawable/ic_phone_icon"
                 android:padding="@dimen/padding_xsmall"/>
 
             <EditText

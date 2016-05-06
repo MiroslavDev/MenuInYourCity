@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private GetCitiesRequest getCitiesRequest;
     public static MainActivity rootAcvitityInstance = null;
     private DBHelper dbHelper;
+    private Callbacks callback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +209,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Model.getInstance().currentCityId = adapter.getItem(position).getId();
         adapter.setCheckedPosition(position);
         adapter.notifyDataSetChanged();
+
+        if(callback != null)
+            callback.changeCity();
     }
 
     @Override
@@ -265,8 +269,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
-
-
     public String MD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -280,5 +282,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         return null;
     }
+
+    public interface Callbacks {
+        void changeCity();
+    }
+
+    public void setCallback(Callbacks callback) {
+        this.callback = callback;
+    }
+
 
 }

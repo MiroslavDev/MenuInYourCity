@@ -97,7 +97,7 @@ public class AddReviewFragment extends BaseFragment implements DialogInterface.O
                 if (data.getError()) {
                     AttentionDialog resultableDialog = new AttentionDialog();
                     resultableDialog.setCancelable(false);
-                    resultableDialog.setMessage(getContext().getString(R.string.review_is_not_left));
+                    resultableDialog.setMessage(data.getMessage().equals("valid") ? getContext().getString(R.string.review_is_not_left_fill_all_field): getErrorMessage(data.getMessage()));
                     resultableDialog.show(getFragmentManager(), null);
                 } else {
                     AttentionResultableDialog resultableDialog = new AttentionResultableDialog();
@@ -109,6 +109,13 @@ public class AddReviewFragment extends BaseFragment implements DialogInterface.O
 
             }
         });
+    }
+
+    private String getErrorMessage(String error) {
+        if(error.equals("denied access for repeat store review"))
+            return getString(R.string.error_there_is_review);
+
+        return getString(R.string.review_is_not_left);
     }
 
     private void setupAB() {

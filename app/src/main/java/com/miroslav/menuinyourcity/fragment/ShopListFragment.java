@@ -123,7 +123,6 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
                 if (!data.getError()) {
                     updaateAdapterData(data.getShopsModel());
                 } else {
-                    Toast.makeText(getContext(), data.getMessage(), Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                     listView.setVisibility(View.VISIBLE);
                 }
@@ -145,7 +144,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ShopsAdapter adapter = (ShopsAdapter) listView.getAdapter();
-        BaseFragment fr = DetailsShopFragment.newInstance(adapter.getItem(position).getId(), title);
+        BaseFragment fr = DetailsShopFragment.newInstance(adapter.getItem(position).getId(), adapter.getItem(position).getTitle());
         ((MainActivity) getActivity()).replaceFragment(fr);
     }
 
