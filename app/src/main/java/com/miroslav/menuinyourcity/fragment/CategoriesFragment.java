@@ -167,10 +167,6 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
                             }
                         }
                     });
-
-            //textSliderView.bundle(new Bundle());
-            //textSliderView.getBundle().putString(promsModel.getImage(), promsModel.getImage());
-
             topSlider.addSlider(textSliderView);
         }
         topSlider.updateData();

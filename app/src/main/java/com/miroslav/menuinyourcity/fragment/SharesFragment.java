@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,11 +38,10 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     public  static final String CATEGORY_ID = "category_id";
 
     private View followBtn;
-    private ListViewOnFullScreen listView;
+    private SharesAdapter adapter;
     private Long categoryId;
     private Boolean isFollow = false;
     private TextView labelFollow;
-    private ScrollView rootScrollView;
 
     public static SharesFragment newInstance(Long id, Boolean isFollow) {
         SharesFragment fr = new SharesFragment();
@@ -66,8 +66,8 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         categoryId = arg.getLong(CATEGORY_ID);
         isFollow = arg.getBoolean(IS_FOLLOW_KEY);
 
-        labelFollow = (TextView) view.findViewById(R.id.frg_shares_btn_subscribe_label);
-        followBtn = view.findViewById(R.id.frg_shares_btn_subscribe);
+        followBtn = LayoutInflater.from(getContext()).inflate(R.layout.follow_button, null);
+        labelFollow = (TextView) followBtn.findViewById(R.id.frg_shares_btn_subscribe_label);
         if(isFollow)
             labelFollow.setText(getString(R.string.unfollow_on_push));
         followBtn.setOnClickListener(new View.OnClickListener() {
@@ -80,10 +80,11 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             }
         });
 
-        rootScrollView = (ScrollView) view.findViewById(R.id.frg_shares_scroll_view);
-        listView = (ListViewOnFullScreen) view.findViewById(R.id.frg_shares_list_view);
-        listView.setAdapter(new SharesAdapter(getContext(), new ArrayList<GetEventModel>()));
+        ListView listView = (ListView) view.findViewById(R.id.frg_shares_list_view);
+        adapter = new SharesAdapter(getContext(), new ArrayList<GetEventModel>());
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+        listView.addHeaderView(followBtn);
 
         sharesRequest(categoryId);
 
@@ -150,35 +151,14 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         });
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-//        if(isVisibleToUser && rootScrollView != null)
-//            rootScrollView.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    rootScrollView.setScrollY(0);
-//                }
-//            });
-    }
-
     private void updaateAdapterData(List<GetEventModel> data) {
-        SharesAdapter adapter = (SharesAdapter) listView.getAdapter();
         adapter.clear();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
-
-        rootScrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                rootScrollView.setScrollY(0);
-            }
-        });
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        SharesAdapter adapter = (SharesAdapter) listView.getAdapter();
         BaseFragment fr = DetailsShopFragment.newInstance(Long.parseLong(adapter.getItem(position).getShopId()), adapter.getItem(position).getTitle());
         ((MainActivity) getActivity()).replaceFragment(fr);
     }

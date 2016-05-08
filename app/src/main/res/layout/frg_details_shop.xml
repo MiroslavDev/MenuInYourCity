@@ -4,6 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.miroslav.menuinyourcity.view.MySlider.SliderLayout
+            <com.miroslav.menuinyourcity.view.HackyViewPager
                 android:id="@+id/frg_details_shop_img"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_present_images"/>
@@ -176,6 +184,20 @@
                 android:paddingLeft="@dimen/padding_small"
                 android:paddingRight="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/frg_background"
+                android:textSize="@dimen/cat_text_size"
+                android:text="Читать полностью..."
+                android:id="@+id/frg_details_shop_description_more"
+                android:paddingRight="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_small"
+                android:layout_alignBottom="@+id/frg_details_shop_description"
+                android:layout_alignRight="@+id/frg_details_shop_description"
+                android:textStyle="bold"
+                android:textColor="@color/text_color_black"/>
 
             <TextView
                 android:layout_width="wrap_content"
