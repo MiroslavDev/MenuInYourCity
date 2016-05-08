@@ -168,13 +168,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnBackActBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().popBackStack();
+                popBackStackSupportFragmentManager();
             }
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        btnBackActBar.callOnClick();
+    }
+
     public void setOnButtonBackListener(View.OnClickListener listener) {
-        btnBackActBar.setOnClickListener(listener);
+        if(listener != null)
+            btnBackActBar.setOnClickListener(listener);
+        else
+            setupListener();
+    }
+
+    public void popBackStackSupportFragmentManager() {
+        getSupportFragmentManager().popBackStack();
     }
 
     public void replaceFragment(FragmentManager fragmentManager, Fragment fragment) {

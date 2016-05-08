@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,8 +32,11 @@ import com.miroslav.menuinyourcity.request.GetShops.ShopsReviewsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
 import com.miroslav.menuinyourcity.view.HackyViewPager;
 import com.miroslav.menuinyourcity.view.ListViewOnFullScreen;
+import com.miroslav.menuinyourcity.view.MySlider.Indicators.PagerIndicator;
 import com.miroslav.menuinyourcity.view.MySlider.SliderTypes.BaseSliderView;
 import com.miroslav.menuinyourcity.view.MySlider.SliderTypes.TextSliderView;
+import com.miroslav.menuinyourcity.view.MySlider.Tricks.InfinitePagerAdapter;
+import com.miroslav.menuinyourcity.view.MySlider.Tricks.ViewPagerEx;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -69,13 +73,14 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private ImageView phoneCallBtn;
     private View moreInformationBtn;
     private ProgressBar progressBar;
+    private View.OnClickListener listener;
 
     private Double latitude = 0.0d;
     private Double longitude = 0.0d;
     private String address;
     private String shopId;
     private Boolean isBlockedScrollView = false;
-    private List<ShopsPhotosModel> photos;
+    private DetailImagePagerAdapter adapterPhotos;
     private Boolean isFullInformation = false;
 
     public static DetailsShopFragment newInstance(Long id, String categoryName) {
@@ -104,6 +109,13 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     public void onResume() {
         super.onResume();
         categoriesRequest();
+        ((MainActivity)getActivity()).setOnButtonBackListener(listener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).setOnButtonBackListener(null);
     }
 
     private void setupAB() {
@@ -194,27 +206,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             }
         });
 
-        DetailImagePagerAdapter adapterPhotos = (DetailImagePagerAdapter)hackyViewPager.getAdapter();
         adapterPhotos.addAll(data.getPhotos());
         adapterPhotos.notifyDataSetChanged();
-
-//        if(hackyViewPager.getChildCount() == 1) {
-//            photos = data.getPhotos();
-//            for (final ShopsPhotosModel promsModel : photos) {
-//                TextSliderView textSliderView = new TextSliderView(getContext());
-//                textSliderView
-//                        .image(URLHelper.imageDomain + promsModel.getImage())
-//                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-//                        .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-//                    @Override
-//                    public void onSliderClick(BaseSliderView slider) {
-//                        onImageClick();
-//                    }
-//                });
-//
-//                hackyViewPager.addSlider(textSliderView);
-//            }
-//        }
 
         setupListeners();
     }
@@ -231,8 +224,6 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             isBlockedScrollView = false;
             hackyViewPager.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
         }
-//        hackyViewPager.requestLayout();
-//        hackyViewPager.updateData();
     }
 
     private void setupListeners() {
@@ -257,38 +248,6 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    }
-
-    private void setupUI(View view) {
-        rootScrollView = (ScrollView) view.findViewById(R.id.frg_details_shop_root_sroll_view);
-        rootScrollView.setVisibility(View.GONE);
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.VISIBLE);
-
-        listView = (ListViewOnFullScreen) view.findViewById(R.id.frg_details_shop_list_view);
-        listView.setAdapter(new ShopFeedbackAdapter(getContext(), new ArrayList<ShopsReviewsModel>()));
-        listView.setOnItemClickListener(this);
-
-        hackyViewPager = (HackyViewPager) view.findViewById(R.id.frg_details_shop_img);
-        DetailImagePagerAdapter adapter = new DetailImagePagerAdapter(getContext(), new ArrayList<ShopsPhotosModel>(), this);
-        hackyViewPager.setAdapter(adapter);
-
-        moreInformationBtn = view.findViewById(R.id.frg_details_shop_description_more);
-        rating = (TextView) view.findViewById(R.id.frg_details_shop_review_rating_text);
-        title = (TextView) view.findViewById(R.id.frg_details_shop_title);
-        category = (TextView) view.findViewById(R.id.frg_details_shop_category_name);
-        shopURL = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_url);
-        shopAddress = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_address);
-        shopTimeWork = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_open_time);
-        description = (TextView) view.findViewById(R.id.frg_details_shop_description);
-        likedImage = (ImageView) view.findViewById(R.id.frg_details_shop_ic_star);
-        addReviewButton = (TextView) view.findViewById(R.id.frg_details_shop_give_feedback);
-        phoneCallBtn = (ImageView) view.findViewById(R.id.frg_details_shop_ic_phone);
 
         shopAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,14 +275,56 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 }
             }
         });
+    }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    }
 
-        hackyViewPager.setOnClickListener(new View.OnClickListener() {
+    private void setupUI(View view) {
+        rootScrollView = (ScrollView) view.findViewById(R.id.frg_details_shop_root_sroll_view);
+        rootScrollView.setVisibility(View.GONE);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        listView = (ListViewOnFullScreen) view.findViewById(R.id.frg_details_shop_list_view);
+        listView.setAdapter(new ShopFeedbackAdapter(getContext(), new ArrayList<ShopsReviewsModel>()));
+        listView.setOnItemClickListener(this);
+
+        hackyViewPager = (HackyViewPager) view.findViewById(R.id.frg_details_shop_img);
+        adapterPhotos = new DetailImagePagerAdapter(getContext(), new ArrayList<ShopsPhotosModel>(), this);
+        PagerAdapter wrappedAdapter = new InfinitePagerAdapter(adapterPhotos);
+        hackyViewPager.setAdapter(wrappedAdapter);
+
+        PagerIndicator pagerIndicator = (PagerIndicator) view.findViewById(R.id.default_center_bottom_indicator);
+        pagerIndicator.setViewPager(hackyViewPager);
+
+        moreInformationBtn = view.findViewById(R.id.frg_details_shop_description_more);
+        rating = (TextView) view.findViewById(R.id.frg_details_shop_review_rating_text);
+        title = (TextView) view.findViewById(R.id.frg_details_shop_title);
+        category = (TextView) view.findViewById(R.id.frg_details_shop_category_name);
+        shopURL = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_url);
+        shopAddress = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_address);
+        shopTimeWork = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_open_time);
+        description = (TextView) view.findViewById(R.id.frg_details_shop_description);
+        likedImage = (ImageView) view.findViewById(R.id.frg_details_shop_ic_star);
+        addReviewButton = (TextView) view.findViewById(R.id.frg_details_shop_give_feedback);
+        phoneCallBtn = (ImageView) view.findViewById(R.id.frg_details_shop_ic_phone);
+
+        listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onImageClick();
+                if(isBlockedScrollView) {
+                    addReviewButton.setVisibility(View.VISIBLE);
+                    ((MainActivity) getActivity()).showActBar();
+                    isBlockedScrollView = false;
+                    hackyViewPager.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
+                } else {
+                    ((MainActivity)getActivity()).popBackStackSupportFragmentManager();
+                }
             }
-        });
+        };
     }
 
     public void onLikedImageClick() {
@@ -376,10 +377,6 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
 
     @Override
     public void onViewTap(View view, float v, float v1) {
-//        if (isVisible()) {
-//            hideSystemUi();
-//        } else {
-//            showSystemUi();
-//        }
+        onImageClick();
     }
 }

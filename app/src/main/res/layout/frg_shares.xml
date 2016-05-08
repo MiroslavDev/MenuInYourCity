@@ -6,6 +6,8 @@
         android:id="@+id/frg_shares_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
         android:layout_below="@+id/frg_shares_btn_subscribe" />
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.miroslav.menuinyourcity.request.GetShops.ShopsPhotosModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
+import com.miroslav.menuinyourcity.view.MySlider.SliderAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,13 +20,14 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 /**
  * Created by apple on 5/8/16.
  */
-public class DetailImagePagerAdapter extends PagerAdapter {
+public class DetailImagePagerAdapter extends SliderAdapter {
 
     private Context context;
     private List<ShopsPhotosModel> list;
     private PhotoViewAttacher.OnViewTapListener listener;
 
     public DetailImagePagerAdapter(Context context, List<ShopsPhotosModel> list, PhotoViewAttacher.OnViewTapListener listener) {
+        super(context);
         this.context = context;
         this.list = list;
         this.listener = listener;
@@ -44,7 +46,7 @@ public class DetailImagePagerAdapter extends PagerAdapter {
     @Override
     public View instantiateItem(ViewGroup container, int position) {
         PhotoView photoView = new PhotoView(container.getContext());
-        photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        //photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ShopsPhotosModel item = list.get(position);
         Picasso.with(context).load(URLHelper.imageDomain + item.getImage()).into(photoView);
         container.addView(photoView, ViewPager.LayoutParams.MATCH_PARENT,

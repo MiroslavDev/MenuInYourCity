@@ -22,6 +22,17 @@
         android:layout_alignRight="@+id/frg_shares_item_img" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frg_shares_item_three_dots"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:text="..."
+        android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/padding"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Large Text"
@@ -46,5 +57,19 @@
         android:id="@+id/frg_shares_item_description"
         android:layout_below="@+id/frg_shares_item_img"
         android:padding="@dimen/padding" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/frg_background"
+        android:textSize="@dimen/cat_text_size"
+        android:text="Читать полностью..."
+        android:id="@+id/frg_details_shop_description_more"
+        android:paddingRight="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
+        android:layout_alignBottom="@+id/frg_shares_item_description"
+        android:layout_alignRight="@+id/frg_shares_item_description"
+        android:textStyle="bold"
+        android:textColor="@color/text_color_black"/>
 
 </RelativeLayout>

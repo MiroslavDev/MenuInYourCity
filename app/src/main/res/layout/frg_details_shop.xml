@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -27,6 +28,16 @@
                 android:id="@+id/frg_details_shop_img"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_present_images"/>
+
+            <com.miroslav.menuinyourcity.view.MySlider.Indicators.PagerIndicator
+                android:id="@+id/default_center_bottom_indicator"
+                android:layout_alignBottom="@+id/frg_details_shop_img"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="10dp"
+                android:gravity="center"
+                custom:shape="oval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <ImageView
                 android:layout_width="match_parent"

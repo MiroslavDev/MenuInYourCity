@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by apple on 4/8/16.
  */
-public class SharesFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class SharesFragment extends BaseFragment implements AdapterView.OnItemClickListener, SharesAdapter.SharesCallback {
 
     public  static final String TITLE = "title";
     public  static final String IS_FOLLOW_KEY = "is_follow_key";
@@ -81,7 +81,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         });
 
         ListView listView = (ListView) view.findViewById(R.id.frg_shares_list_view);
-        adapter = new SharesAdapter(getContext(), new ArrayList<GetEventModel>());
+        adapter = new SharesAdapter(getContext(), new ArrayList<GetEventModel>(), this);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.addHeaderView(followBtn);
@@ -159,6 +159,12 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //BaseFragment fr = DetailsShopFragment.newInstance(Long.parseLong(adapter.getItem(position).getShopId()), adapter.getItem(position).getTitle());
+        //((MainActivity) getActivity()).replaceFragment(fr);
+    }
+
+    @Override
+    public void onItemThreeDotsClick(int position) {
         BaseFragment fr = DetailsShopFragment.newInstance(Long.parseLong(adapter.getItem(position).getShopId()), adapter.getItem(position).getTitle());
         ((MainActivity) getActivity()).replaceFragment(fr);
     }

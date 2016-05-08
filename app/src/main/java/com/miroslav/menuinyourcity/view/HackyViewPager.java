@@ -6,10 +6,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.miroslav.menuinyourcity.view.MySlider.Tricks.ViewPagerEx;
+
 /**
  * Created by apple on 5/8/16.
  */
-public class HackyViewPager extends ViewPager {
+public class HackyViewPager extends ViewPagerEx {
 
     private static final String TAG = "HackyViewPager";
 
