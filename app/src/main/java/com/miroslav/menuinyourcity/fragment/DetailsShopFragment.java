@@ -115,7 +115,9 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setOnButtonBackListener(null);
+        try {
+            ((MainActivity) getActivity()).setOnButtonBackListener(null);
+        } catch (Exception e) {}
     }
 
     private void setupAB() {
@@ -212,17 +214,28 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         setupListeners();
     }
 
+    public void setAllCenterCrop(boolean isCenterCrop) {
+//        for(int i = 0; i < adapterPhotos.getCount(); ++i)
+//            if(isCenterCrop)
+//                ((ImageView)hackyViewPager.findViewWithTag(i)).setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            else
+//                ((ImageView)hackyViewPager.findViewWithTag(i)).setScaleType(ImageView.ScaleType.FIT_CENTER);
+//        hackyViewPager.invalidate();
+    }
+
     private void onImageClick() {
         if(!isBlockedScrollView) {
             isBlockedScrollView = true;
             hackyViewPager.getLayoutParams().height = getView().getHeight() + ((MainActivity) getActivity()).getActBarHeight();
             addReviewButton.setVisibility(View.GONE);
             ((MainActivity) getActivity()).hideActBar();
+            setAllCenterCrop(true);
         } else {
             addReviewButton.setVisibility(View.VISIBLE);
             ((MainActivity) getActivity()).showActBar();
             isBlockedScrollView = false;
             hackyViewPager.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
+            setAllCenterCrop(false);
         }
     }
 
@@ -320,6 +333,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                     ((MainActivity) getActivity()).showActBar();
                     isBlockedScrollView = false;
                     hackyViewPager.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
+                    setAllCenterCrop(false);
                 } else {
                     ((MainActivity)getActivity()).popBackStackSupportFragmentManager();
                 }
