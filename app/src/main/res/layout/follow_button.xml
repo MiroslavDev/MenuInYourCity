@@ -3,7 +3,7 @@
     android:id="@+id/frg_shares_btn_subscribe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/follow_btn_selector">
+    android:background="@color/main_orange">
 
     <TextView
         android:id="@+id/frg_shares_btn_subscribe_label"

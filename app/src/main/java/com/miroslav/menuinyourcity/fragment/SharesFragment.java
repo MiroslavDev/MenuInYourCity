@@ -1,5 +1,6 @@
 package com.miroslav.menuinyourcity.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,21 +29,25 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by apple on 4/8/16.
  */
 public class SharesFragment extends BaseFragment implements AdapterView.OnItemClickListener, SharesAdapter.SharesCallback {
 
-    public  static final String TITLE = "title";
-    public  static final String IS_FOLLOW_KEY = "is_follow_key";
-    public  static final String CATEGORY_ID = "category_id";
+    public static final String TITLE = "title";
+    public static final String IS_FOLLOW_KEY = "is_follow_key";
+    public static final String CATEGORY_ID = "category_id";
 
     private View followBtn;
     private SharesAdapter adapter;
     private Long categoryId;
     private Boolean isFollow = false;
     private TextView labelFollow;
+    private ProgressBar progressBar;
+    private ListView listView;
 
     public static SharesFragment newInstance(Long id, Boolean isFollow) {
         SharesFragment fr = new SharesFragment();
@@ -55,7 +61,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.frg_shares, container, false);
+        return inflater.inflate(R.layout.frg_list_view, container, false);
     }
 
     @Override
@@ -68,25 +74,36 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
 
         followBtn = LayoutInflater.from(getContext()).inflate(R.layout.follow_button, null);
         labelFollow = (TextView) followBtn.findViewById(R.id.frg_shares_btn_subscribe_label);
-        if(isFollow)
+        if (isFollow) {
+            followBtn.setBackgroundColor(getResources().getColor(R.color.disable_gray));
             labelFollow.setText(getString(R.string.unfollow_on_push));
+        } else {
+            followBtn.setBackgroundColor(getResources().getColor(R.color.main_orange));
+            labelFollow.setText(getString(R.string.subscribe_on_push));
+        }
         followBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isFollow)
+                if (isFollow)
                     unfollowShares(categoryId);
                 else
                     followShares(categoryId);
             }
         });
 
-        ListView listView = (ListView) view.findViewById(R.id.frg_shares_list_view);
-        adapter = new SharesAdapter(getContext(), new ArrayList<GetEventModel>(), this);
+        listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
+        if (adapter == null)
+            adapter = new SharesAdapter(getContext(), new ArrayList<GetEventModel>(), this, getView().getHandler());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.addHeaderView(followBtn);
+        listView.setVisibility(View.GONE);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
 
         sharesRequest(categoryId);
+
 
     }
 
@@ -95,11 +112,13 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseGetEventsModel>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onRequestSuccess(BaseGetEventsModel data) {
+                progressBar.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
                 if (!data.getError()) {
                     updaateAdapterData(data.getEventsModel());
                 } else {
@@ -120,6 +139,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             @Override
             public void onRequestSuccess(BaseFollowCategoryModel data) {
                 if (!data.getError()) {
+                    followBtn.setBackgroundColor(getResources().getColor(R.color.disable_gray));
                     isFollow = true;
                     labelFollow.setText(getString(R.string.unfollow_on_push));
                     AttentionDialog dl = new AttentionDialog();
@@ -141,6 +161,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             @Override
             public void onRequestSuccess(BaseFollowCategoryModel data) {
                 if (!data.getError()) {
+                    followBtn.setBackgroundColor(getResources().getColor(R.color.main_orange));
                     isFollow = false;
                     labelFollow.setText(getString(R.string.subscribe_on_push));
                     AttentionDialog dl = new AttentionDialog();

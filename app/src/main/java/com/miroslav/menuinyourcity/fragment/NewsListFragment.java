@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.MainActivity;
@@ -26,15 +27,12 @@ import java.util.List;
  */
 public class NewsListFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
-    //public  static final String NEWS_ID = "news_id";
-
-    private List<GetNewsModel> data;
     private ListView listView;
+    private ProgressBar progressBar;
 
     public static NewsListFragment newInstance() {
         NewsListFragment fr = new NewsListFragment();
         Bundle arg = new Bundle();
-        //arg.putLong(NEWS_ID, newsId);
         fr.setArguments(arg);
         return fr;
     }
@@ -49,11 +47,13 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Long id = getArguments().getLong(NEWS_ID);
-
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
         listView.setAdapter(new NewsAdapter(getContext(), new ArrayList<GetNewsModel>()));
         listView.setOnItemClickListener(this);
+        listView.setVisibility(View.GONE);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
 
 
         setupAB(getContext().getString(R.string.event_and_news));
@@ -71,11 +71,13 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseGetNewsModel>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onRequestSuccess(BaseGetNewsModel data) {
+                progressBar.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
                 if (!data.getError()) {
                     updaateAdapterData(data.getNewsModel());
                 } else {
@@ -86,7 +88,6 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
     }
 
     private void updaateAdapterData(List<GetNewsModel> data) {
-        this.data = data;
         NewsAdapter adapter = (NewsAdapter) listView.getAdapter();
         adapter.clear();
         adapter.addAll(data);
@@ -96,7 +97,6 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         GetNewsModel item = ((NewsAdapter) listView.getAdapter()).getItem(position);
-        //TODO do valid data
         DetailNewsFragment fr = DetailNewsFragment.newInstance(item.getTitle(), item.getImageUrl(), item.getCreatedAt(), item.getDescription());
         ((MainActivity) getActivity()).replaceFragment(fr);
     }

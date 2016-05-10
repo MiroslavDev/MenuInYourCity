@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.DBHelper;
 import com.miroslav.menuinyourcity.MainActivity;
+import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.ShopsAdapter;
 import com.miroslav.menuinyourcity.request.GetShops.BaseGetShopsModel;
@@ -172,6 +173,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
             cv.put("updated_at", item.getUpdatedData());
             cv.put("rating", item.getRating());
             cv.put("imageURL", item.getPhotos().size() > 0 ? item.getPhotos().get(0).getImage() : "");
+            cv.put("city_id", Model.getInstance().currentCityId);
 
             db.insert("likedList", null, cv);
 

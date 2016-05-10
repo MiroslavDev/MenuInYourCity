@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/frg_background"
     xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <ProgressBar
@@ -243,19 +244,6 @@
                 android:id="@+id/frg_details_shop_list_view"
                 android:layout_below="@+id/frg_details_shop_review">
             </com.miroslav.menuinyourcity.view.ListViewOnFullScreen>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_button_feedback"
-                android:text="@string/give_feedback"
-                android:id="@+id/frg_details_shop_give_feedback"
-                android:background="@color/feedback_button_background"
-                android:layout_alignParentBottom="true"
-                android:gravity="center"
-                android:textColor="@color/text_color_white"
-                android:textSize="@dimen/smal_standart_text_size"
-                android:layout_below="@+id/frg_details_shop_list_view" />
-
         </RelativeLayout>
 
     </ScrollView>

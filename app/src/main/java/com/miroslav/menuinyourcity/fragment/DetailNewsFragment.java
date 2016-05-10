@@ -48,6 +48,8 @@ public class DetailNewsFragment extends BaseFragment {
         String data = getArguments().getString(DATA);
         String describe = getArguments().getString(DESCRIBE);
 
+        view.findViewById(R.id.frg_shares_item_three_dots).setVisibility(View.GONE);
+        view.findViewById(R.id.frg_details_shop_description_more).setVisibility(View.GONE);
 
         ((TextView) view.findViewById(R.id.frg_shares_item_title)).setText(data);
         ((TextView) view.findViewById(R.id.frg_shares_item_description)).setText(describe);
@@ -64,6 +66,4 @@ public class DetailNewsFragment extends BaseFragment {
         ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
         ((MainActivity) getActivity()).setTitleActBar(title);
     }
-
-
 }

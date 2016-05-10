@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.MainActivity;
+import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.DetailImagePagerAdapter;
 import com.miroslav.menuinyourcity.adapter.ShopFeedbackAdapter;
@@ -58,6 +59,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
 
     private Long parentId;
     private ListViewOnFullScreen listView;
+    private ShopFeedbackAdapter feedbackAdapter;
     private ShopsModel data;
     private HackyViewPager hackyViewPager;
     private TextView title;
@@ -69,7 +71,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private TextView rating;
     private ImageView likedImage;
     private ScrollView rootScrollView;
-    private TextView addReviewButton;
+    private View addReviewButton;
     private ImageView phoneCallBtn;
     private View moreInformationBtn;
     private ProgressBar progressBar;
@@ -156,10 +158,9 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
 
     private void updaateAdapterData(ShopsModel data) {
         this.data = data;
-        ShopFeedbackAdapter adapter = (ShopFeedbackAdapter) listView.getAdapter();
-        adapter.clear();
-        adapter.addAll(data.getReviews());
-        adapter.notifyDataSetChanged();
+        feedbackAdapter.clear();
+        feedbackAdapter.addAll(data.getReviews());
+        feedbackAdapter.notifyDataSetChanged();
 
         rootScrollView.post(new Runnable() {
             @Override
@@ -215,12 +216,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     }
 
     public void setAllCenterCrop(boolean isCenterCrop) {
-//        for(int i = 0; i < adapterPhotos.getCount(); ++i)
-//            if(isCenterCrop)
-//                ((ImageView)hackyViewPager.findViewWithTag(i)).setScaleType(ImageView.ScaleType.CENTER_CROP);
-//            else
-//                ((ImageView)hackyViewPager.findViewWithTag(i)).setScaleType(ImageView.ScaleType.FIT_CENTER);
-//        hackyViewPager.invalidate();
+        adapterPhotos.setFullInformation(isCenterCrop);
+        adapterPhotos.notifyDataSetChanged();
     }
 
     private void onImageClick() {
@@ -301,9 +298,14 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
 
+        addReviewButton = LayoutInflater.from(getContext()).inflate(R.layout.add_review_button, null);
+
         listView = (ListViewOnFullScreen) view.findViewById(R.id.frg_details_shop_list_view);
-        listView.setAdapter(new ShopFeedbackAdapter(getContext(), new ArrayList<ShopsReviewsModel>()));
+        if(feedbackAdapter == null)
+            feedbackAdapter = new ShopFeedbackAdapter(getContext(), new ArrayList<ShopsReviewsModel>(), view.getHandler());
+        listView.setAdapter(feedbackAdapter);
         listView.setOnItemClickListener(this);
+        listView.addFooterView(addReviewButton);
 
         hackyViewPager = (HackyViewPager) view.findViewById(R.id.frg_details_shop_img);
         adapterPhotos = new DetailImagePagerAdapter(getContext(), new ArrayList<ShopsPhotosModel>(), this);
@@ -322,7 +324,6 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         shopTimeWork = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_open_time);
         description = (TextView) view.findViewById(R.id.frg_details_shop_description);
         likedImage = (ImageView) view.findViewById(R.id.frg_details_shop_ic_star);
-        addReviewButton = (TextView) view.findViewById(R.id.frg_details_shop_give_feedback);
         phoneCallBtn = (ImageView) view.findViewById(R.id.frg_details_shop_ic_phone);
 
         listener = new View.OnClickListener() {
@@ -362,6 +363,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             cv.put("updated_at", data.getUpdatedData());
             cv.put("rating", data.getRating());
             cv.put("imageURL", data.getPhotos().size() > 0 ? data.getPhotos().get(0).getImage() : "");
+            cv.put("city_id", Model.getInstance().currentCityId);
 
             db.insert("likedList", null, cv);
         } else {

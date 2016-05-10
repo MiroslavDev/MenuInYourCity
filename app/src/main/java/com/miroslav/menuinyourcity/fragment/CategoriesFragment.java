@@ -64,7 +64,7 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
                 String nameSubcategory = ((GetChildrenCategoriesModel) (gridLayout.getAdapter()).getItem(position)).getName();
                 Boolean isFollow = ((GetChildrenCategoriesModel) (gridLayout.getAdapter()).getItem(position)).getUserFollow();
                 Log.d("parentId = ", parentId + "");
-                ((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId, nameSubcategory, isFollow));
+                ((MainActivity) getActivity()).replaceFragment(HostSubcategoriesFragment.newInstance(parentId, nameSubcategory, isFollow == null ? false : isFollow));
 
             }
         });

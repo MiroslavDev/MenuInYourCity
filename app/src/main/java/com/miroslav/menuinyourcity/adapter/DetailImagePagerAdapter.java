@@ -25,6 +25,7 @@ public class DetailImagePagerAdapter extends SliderAdapter {
     private Context context;
     private List<ShopsPhotosModel> list;
     private PhotoViewAttacher.OnViewTapListener listener;
+    private Boolean isFullInformation = false;
 
     public DetailImagePagerAdapter(Context context, List<ShopsPhotosModel> list, PhotoViewAttacher.OnViewTapListener listener) {
         super(context);
@@ -43,10 +44,15 @@ public class DetailImagePagerAdapter extends SliderAdapter {
         this.list.addAll(list);
     }
 
+    public void setFullInformation(Boolean fullInformation) {
+        isFullInformation = fullInformation;
+    }
+
     @Override
     public View instantiateItem(ViewGroup container, int position) {
         PhotoView photoView = new PhotoView(container.getContext());
-        //photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        photoView.setTag(position);
+        photoView.setScaleType(isFullInformation ? ImageView.ScaleType.FIT_CENTER : ImageView.ScaleType.CENTER_CROP);
         ShopsPhotosModel item = list.get(position);
         Picasso.with(context).load(URLHelper.imageDomain + item.getImage()).into(photoView);
         container.addView(photoView, ViewPager.LayoutParams.MATCH_PARENT,

@@ -1,6 +1,7 @@
 package com.miroslav.menuinyourcity.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +12,27 @@ import android.widget.TextView;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsReviewsModel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by apple on 4/17/16.
  */
 public class ShopFeedbackAdapter extends ArrayAdapter<ShopsReviewsModel> {
 
-    public ShopFeedbackAdapter(Context context, List<ShopsReviewsModel> data) {
+    private Handler uihandler;
+    private Map<Integer, Boolean> isMoreInformationList = new HashMap<>();
+
+    public ShopFeedbackAdapter(Context context, List<ShopsReviewsModel> data, Handler handler) {
         super(context, R.layout.shop_review_item, data);
+
+        this.uihandler = handler;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
 
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.shop_review_item, parent, false);
@@ -32,6 +40,8 @@ public class ShopFeedbackAdapter extends ArrayAdapter<ShopsReviewsModel> {
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.frg_shop_review_name);
             holder.description = (TextView) convertView.findViewById(R.id.frg_shop_review_description);
+            holder.moreInformationBtn = (TextView) convertView.findViewById(R.id.frg_details_shop_description_more);
+
 
             holder.ratingBar[0] = (ImageView) convertView.findViewById(R.id.star1);
             holder.ratingBar[1] = (ImageView) convertView.findViewById(R.id.star2);
@@ -55,6 +65,49 @@ public class ShopFeedbackAdapter extends ArrayAdapter<ShopsReviewsModel> {
         holder.description.setText(item.getReview());
         setRating(holder, (int) Double.parseDouble(item.getRating()));
 
+        holder.moreInformationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.description.setMaxLines(Integer.MAX_VALUE);
+                holder.moreInformationBtn.setVisibility(View.GONE);
+                isMoreInformationList.put(position, true);
+            }
+        });
+
+        uihandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(!isMoreInformationList.containsKey(position)) {
+                    if (holder.description.getLineCount() <= 4) {
+                        holder.moreInformationBtn.setVisibility(View.GONE);
+                    } else {
+                        holder.description.setMaxLines(4);
+                        holder.moreInformationBtn.setVisibility(View.VISIBLE);
+                    }
+                    isMoreInformationList.put(position, false);
+                }else {
+                    if (holder.description.getLineCount() > 4 && !isMoreInformationList.get(position)) {
+                        holder.description.setMaxLines(4);
+                        holder.moreInformationBtn.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.description.setMaxLines(Integer.MAX_VALUE);
+                        holder.moreInformationBtn.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
+        holder.description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isMoreInformationList.containsKey(position) && isMoreInformationList.get(position)) {
+                    holder.description.setMaxLines(4);
+                    holder.moreInformationBtn.setVisibility(View.VISIBLE);
+                    isMoreInformationList.put(position, false);
+                }
+            }
+        });
+
         return convertView;
     }
 
@@ -68,6 +121,7 @@ public class ShopFeedbackAdapter extends ArrayAdapter<ShopsReviewsModel> {
     private class ViewHolder {
         public TextView name;
         public TextView description;
+        public TextView moreInformationBtn;
         public ImageView ratingBar[] = new ImageView[10];
     }
 }

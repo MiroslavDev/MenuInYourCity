@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.miroslav.menuinyourcity.MainActivity;
+import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.ShopsAdapter;
 import com.miroslav.menuinyourcity.dialogs.DeletedFromLikedListDialogFragment;
@@ -64,7 +65,7 @@ public class LikedListFragment extends BaseFragment implements
 
     private void updateDataFromDB() {
         SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
-        Cursor c = db.query("likedList", null, null, null, null, null, null);
+        Cursor c = db.query("likedList", null, "city_id = ?", new String[] { Model.getInstance().currentCityId.toString() }, null, null, null, null);
         ShopsAdapter adapter = (ShopsAdapter) listView.getAdapter();
         adapter.clear();
 

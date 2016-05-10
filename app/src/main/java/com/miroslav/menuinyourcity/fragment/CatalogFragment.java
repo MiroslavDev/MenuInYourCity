@@ -85,11 +85,11 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
 
             @Override
             public void onRequestSuccess(BaseChildrenCategoriesModel data) {
+                progressBar.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
                 if (!data.getError()) {
                     updaateAdapterData(data.getCategorieList());
                 } else {
-                    progressBar.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
                     Toast.makeText(getContext(), data.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -97,8 +97,6 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
     }
 
     private void updaateAdapterData(List<GetChildrenCategoriesModel> data) {
-        progressBar.setVisibility(View.GONE);
-        listView.setVisibility(View.VISIBLE);
         categorieModelList = data;
         CatalogAdapter adapter = (CatalogAdapter) listView.getAdapter();
         adapter.clear();

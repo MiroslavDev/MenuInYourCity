@@ -116,4 +116,16 @@
         android:layout_below="@+id/frg_shop_review_layout"
         android:paddingTop="@dimen/padding_xxsmall" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/frg_background"
+        android:textSize="@dimen/cat_text_size"
+        android:text="Читать полностью..."
+        android:id="@+id/frg_details_shop_description_more"
+        android:layout_alignBottom="@+id/frg_shop_review_description"
+        android:layout_alignRight="@+id/frg_shop_review_description"
+        android:textStyle="bold"
+        android:textColor="@color/text_color_black"/>
+
 </RelativeLayout>
