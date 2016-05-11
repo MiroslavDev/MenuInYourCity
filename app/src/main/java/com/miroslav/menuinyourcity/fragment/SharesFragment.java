@@ -48,6 +48,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     private TextView labelFollow;
     private ProgressBar progressBar;
     private ListView listView;
+    private TextView followBtnText;
 
     public static SharesFragment newInstance(Long id, Boolean isFollow) {
         SharesFragment fr = new SharesFragment();
@@ -77,7 +78,9 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         if (isFollow) {
             followBtn.setBackgroundColor(getResources().getColor(R.color.disable_gray));
             labelFollow.setText(getString(R.string.unfollow_on_push));
+            labelFollow.setTextColor(getResources().getColor(R.color.text_color_black));
         } else {
+            labelFollow.setTextColor(getResources().getColor(R.color.text_color_white));
             followBtn.setBackgroundColor(getResources().getColor(R.color.main_orange));
             labelFollow.setText(getString(R.string.subscribe_on_push));
         }
@@ -94,17 +97,15 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
         if (adapter == null)
             adapter = new SharesAdapter(getContext(), new ArrayList<GetEventModel>(), this, getView().getHandler());
+        listView.addHeaderView(followBtn);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        listView.addHeaderView(followBtn);
         listView.setVisibility(View.GONE);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
 
         sharesRequest(categoryId);
-
-
     }
 
     private void sharesRequest(Long id) {
@@ -117,11 +118,11 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
 
             @Override
             public void onRequestSuccess(BaseGetEventsModel data) {
-                progressBar.setVisibility(View.GONE);
-                listView.setVisibility(View.VISIBLE);
                 if (!data.getError()) {
                     updaateAdapterData(data.getEventsModel());
                 } else {
+                    progressBar.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                     Toast.makeText(getContext(), data.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -140,6 +141,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             public void onRequestSuccess(BaseFollowCategoryModel data) {
                 if (!data.getError()) {
                     followBtn.setBackgroundColor(getResources().getColor(R.color.disable_gray));
+                    labelFollow.setTextColor(getResources().getColor(R.color.text_color_black));
                     isFollow = true;
                     labelFollow.setText(getString(R.string.unfollow_on_push));
                     AttentionDialog dl = new AttentionDialog();
@@ -162,6 +164,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             public void onRequestSuccess(BaseFollowCategoryModel data) {
                 if (!data.getError()) {
                     followBtn.setBackgroundColor(getResources().getColor(R.color.main_orange));
+                    labelFollow.setTextColor(getResources().getColor(R.color.text_color_white));
                     isFollow = false;
                     labelFollow.setText(getString(R.string.subscribe_on_push));
                     AttentionDialog dl = new AttentionDialog();
@@ -173,6 +176,8 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     }
 
     private void updaateAdapterData(List<GetEventModel> data) {
+        progressBar.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
         adapter.clear();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();

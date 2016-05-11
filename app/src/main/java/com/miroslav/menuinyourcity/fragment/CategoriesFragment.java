@@ -164,6 +164,9 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
                                 try {
                                     startActivity(browserIntent);
                                 } catch (Exception e) {}
+                            } else {
+                                DetailsShopFragment fr = DetailsShopFragment.newInstance(Long.parseLong(promsModel.getShopId()), "");
+                                ((MainActivity) getActivity()).replaceFragment(fr);
                             }
                         }
                     });

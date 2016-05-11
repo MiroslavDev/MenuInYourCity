@@ -52,7 +52,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class DetailsShopFragment extends BaseFragment implements AdapterView.OnItemClickListener, PhotoViewAttacher.OnViewTapListener{
 
-    public static final String PARENT_ID = "parent_id";
+    public static final String SHOP_ID = "shop_id";
     public static final String CATEGORY_NAME_KEY = "category_name_key";
 
     private String categoryName;
@@ -88,7 +88,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     public static DetailsShopFragment newInstance(Long id, String categoryName) {
         DetailsShopFragment fr = new DetailsShopFragment();
         Bundle arg = new Bundle();
-        arg.putLong(PARENT_ID, id);
+        arg.putLong(SHOP_ID, id);
         arg.putString(CATEGORY_NAME_KEY, categoryName);
         Log.d("parentId = ", id+"");
         fr.setArguments(arg);
@@ -99,12 +99,12 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        parentId = getArguments().getLong(PARENT_ID);
+        parentId = getArguments().getLong(SHOP_ID);
         categoryName = getArguments().getString(CATEGORY_NAME_KEY);
 
         Log.d("parentId = ", parentId+"");
         setupUI(view);
-        setupAB();
+        ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
     }
 
     @Override
@@ -122,9 +122,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         } catch (Exception e) {}
     }
 
-    private void setupAB() {
-        ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
-        ((MainActivity) getActivity()).setTitleActBar(categoryName);
+    private void setupAB(String shopName) {
+        ((MainActivity) getActivity()).setTitleActBar(shopName);
     }
 
     @Nullable
@@ -177,6 +176,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             }
         });
 
+        setupAB(data.getTitle());
         title.setText(data.getTitle());
         category.setText(categoryName);
         shopURL.setText(data.getPhone());
@@ -303,9 +303,9 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         listView = (ListViewOnFullScreen) view.findViewById(R.id.frg_details_shop_list_view);
         if(feedbackAdapter == null)
             feedbackAdapter = new ShopFeedbackAdapter(getContext(), new ArrayList<ShopsReviewsModel>(), view.getHandler());
+        listView.addFooterView(addReviewButton);
         listView.setAdapter(feedbackAdapter);
         listView.setOnItemClickListener(this);
-        listView.addFooterView(addReviewButton);
 
         hackyViewPager = (HackyViewPager) view.findViewById(R.id.frg_details_shop_img);
         adapterPhotos = new DetailImagePagerAdapter(getContext(), new ArrayList<ShopsPhotosModel>(), this);
@@ -363,7 +363,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             cv.put("updated_at", data.getUpdatedData());
             cv.put("rating", data.getRating());
             cv.put("imageURL", data.getPhotos().size() > 0 ? data.getPhotos().get(0).getImage() : "");
-            cv.put("city_id", Model.getInstance().currentCityId);
+            cv.put("category_name", categoryName);
 
             db.insert("likedList", null, cv);
         } else {

@@ -29,6 +29,7 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
 
     private ListView listView;
     private ProgressBar progressBar;
+    private List<GetNewsModel> data;
 
     public static NewsListFragment newInstance() {
         NewsListFragment fr = new NewsListFragment();
@@ -61,6 +62,16 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(data == null) {
+            newRequest();
+        } else {
+            updaateAdapterData(data);
+        }
+    }
+
     private void setupAB(String title) {
         ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
         ((MainActivity) getActivity()).setTitleActBar(title);
@@ -76,11 +87,11 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
 
             @Override
             public void onRequestSuccess(BaseGetNewsModel data) {
-                progressBar.setVisibility(View.GONE);
-                listView.setVisibility(View.VISIBLE);
                 if (!data.getError()) {
                     updaateAdapterData(data.getNewsModel());
                 } else {
+                    progressBar.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                     Toast.makeText(getContext(), data.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -88,6 +99,9 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
     }
 
     private void updaateAdapterData(List<GetNewsModel> data) {
+        progressBar.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
+        this.data = data;
         NewsAdapter adapter = (NewsAdapter) listView.getAdapter();
         adapter.clear();
         adapter.addAll(data);

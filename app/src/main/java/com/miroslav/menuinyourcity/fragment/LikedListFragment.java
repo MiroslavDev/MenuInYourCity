@@ -23,6 +23,10 @@ import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsPhotosModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by apple on 4/22/16.
@@ -33,6 +37,7 @@ public class LikedListFragment extends BaseFragment implements
         DeletedFromLikedListDialogFragment.DialogCallback {
 
     private ListView listView;
+    private Map<Long, String> categoryNameSets= new HashMap<>();
 
     public static LikedListFragment newInstance() {
         LikedListFragment fr = new LikedListFragment();
@@ -86,6 +91,7 @@ public class LikedListFragment extends BaseFragment implements
             int updatedAtColIndex = c.getColumnIndex("updated_at");
             int ratingColIndex = c.getColumnIndex("rating");
             int imageURLColIndex = c.getColumnIndex("imageURL");
+            int categoryNameIndex = c.getColumnIndex("category_name");
 
             do {
                 ShopsModel shopModel = new ShopsModel();
@@ -112,6 +118,8 @@ public class LikedListFragment extends BaseFragment implements
 
                 adapter.add(shopModel);
 
+                categoryNameSets.put(c.getLong(idColIndex), c.getString(categoryNameIndex));
+
             } while (c.moveToNext());
         }
 
@@ -131,7 +139,7 @@ public class LikedListFragment extends BaseFragment implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ShopsAdapter adapter = (ShopsAdapter) listView.getAdapter();
-        String title = adapter.getItem(position).getTitle();
+        String title = categoryNameSets.get(adapter.getItem(position).getId());
         BaseFragment fr = DetailsShopFragment.newInstance(adapter.getItem(position).getId(), title);
         ((MainActivity) getActivity()).replaceFragment(fr);
     }

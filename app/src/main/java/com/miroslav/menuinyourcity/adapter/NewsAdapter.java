@@ -13,6 +13,9 @@ import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.GetNews.GetNewsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,8 +23,11 @@ import java.util.List;
  */
 public class NewsAdapter extends ArrayAdapter<GetNewsModel> {
 
+    private SimpleDateFormat formatStart, formatEnd;
     public NewsAdapter(Context context, List<GetNewsModel> data) {
         super(context, R.layout.event_item, data);
+        formatStart = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        formatEnd = new SimpleDateFormat("dd MMMM yyyy");
     }
 
     @Override
@@ -44,8 +50,15 @@ public class NewsAdapter extends ArrayAdapter<GetNewsModel> {
 
         GetNewsModel item = getItem(position);
         holder.name.setText(item.getTitle());
-        //TODO set valid data
-        holder.data.setText(item.getCreatedAt());
+
+        try {
+            Date newDate = formatStart.parse(item.getCreatedAt());
+            holder.data.setText(formatEnd.format(newDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
         holder.description.setText(item.getDescription());
 
         if(!item.getImageUrl().isEmpty())

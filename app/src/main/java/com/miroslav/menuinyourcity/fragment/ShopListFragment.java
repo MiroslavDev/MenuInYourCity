@@ -78,13 +78,12 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if(data == null) {
+    public void onStart() {
+        super.onStart();
+        if(data == null)
             shopsRequest(id);
-        } else {
+        else
             updaateAdapterData(data);
-        }
     }
 
     private void fillLikedList() {
@@ -145,7 +144,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ShopsAdapter adapter = (ShopsAdapter) listView.getAdapter();
-        BaseFragment fr = DetailsShopFragment.newInstance(adapter.getItem(position).getId(), adapter.getItem(position).getTitle());
+        BaseFragment fr = DetailsShopFragment.newInstance(adapter.getItem(position).getId(), title);
         ((MainActivity) getActivity()).replaceFragment(fr);
     }
 
@@ -173,7 +172,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
             cv.put("updated_at", item.getUpdatedData());
             cv.put("rating", item.getRating());
             cv.put("imageURL", item.getPhotos().size() > 0 ? item.getPhotos().get(0).getImage() : "");
-            cv.put("city_id", Model.getInstance().currentCityId);
+            cv.put("category_name", title);
 
             db.insert("likedList", null, cv);
 
