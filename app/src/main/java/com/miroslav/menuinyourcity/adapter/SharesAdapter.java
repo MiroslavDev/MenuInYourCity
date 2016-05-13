@@ -13,6 +13,7 @@ import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.GetEvents.GetEventModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +48,6 @@ public class SharesAdapter extends ArrayAdapter<GetEventModel> {
             holder.description = (TextView) convertView.findViewById(R.id.frg_shares_item_description);
             holder.image = (ImageView) convertView.findViewById(R.id.frg_shares_item_img);
             holder.threeDots = (TextView) convertView.findViewById(R.id.frg_shares_item_three_dots);
-            holder.moreInformationBtn = (TextView) convertView.findViewById(R.id.frg_details_shop_description_more);
 
             convertView.setTag(holder);
         } else {
@@ -65,35 +65,20 @@ public class SharesAdapter extends ArrayAdapter<GetEventModel> {
         });
 
         if (!item.getImageUrl().isEmpty())
-            MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getImageUrl(), holder.image);
-
-        holder.moreInformationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.description.setMaxLines(Integer.MAX_VALUE);
-                holder.moreInformationBtn.setVisibility(View.GONE);
-                isMoreInformationList.put(position, true);
-            }
-        });
+            Picasso.with(getContext()).load(URLHelper.imageDomain + item.getImageUrl()).into(holder.image);
 
         uihandler.post(new Runnable() {
             @Override
             public void run() {
                 if(!isMoreInformationList.containsKey(position)) {
-                    if (holder.description.getLineCount() <= 4) {
-                        holder.moreInformationBtn.setVisibility(View.GONE);
-                    } else {
+                    if (holder.description.getLineCount() > 4)
                         holder.description.setMaxLines(4);
-                        holder.moreInformationBtn.setVisibility(View.VISIBLE);
-                    }
                     isMoreInformationList.put(position, false);
                 }else {
                     if (holder.description.getLineCount() > 4 && !isMoreInformationList.get(position)) {
                         holder.description.setMaxLines(4);
-                        holder.moreInformationBtn.setVisibility(View.VISIBLE);
                     } else {
                         holder.description.setMaxLines(Integer.MAX_VALUE);
-                        holder.moreInformationBtn.setVisibility(View.GONE);
                     }
                 }
             }
@@ -102,10 +87,14 @@ public class SharesAdapter extends ArrayAdapter<GetEventModel> {
         holder.description.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isMoreInformationList.containsKey(position) && isMoreInformationList.get(position)) {
-                    holder.description.setMaxLines(4);
-                    holder.moreInformationBtn.setVisibility(View.VISIBLE);
-                    isMoreInformationList.put(position, false);
+                if(isMoreInformationList.containsKey(position)) {
+                    if(isMoreInformationList.get(position)) {
+                        holder.description.setMaxLines(4);
+                        isMoreInformationList.put(position, false);
+                    } else {
+                        holder.description.setMaxLines(Integer.MAX_VALUE);
+                        isMoreInformationList.put(position, true);
+                    }
                 }
             }
         });
@@ -118,7 +107,6 @@ public class SharesAdapter extends ArrayAdapter<GetEventModel> {
         public TextView description;
         public ImageView image;
         public TextView threeDots;
-        public TextView moreInformationBtn;
     }
 
     public interface SharesCallback{

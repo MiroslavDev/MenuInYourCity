@@ -74,7 +74,8 @@ public class ShopFeedbackAdapter extends ArrayAdapter<ShopsReviewsModel> {
             }
         });
 
-        uihandler.post(new Runnable() {
+        if(uihandler != null)
+            uihandler.post(new Runnable() {
             @Override
             public void run() {
                 if(!isMoreInformationList.containsKey(position)) {

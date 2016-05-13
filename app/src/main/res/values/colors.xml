@@ -8,6 +8,8 @@
     <color name="frg_background">#FFFFFF</color>
     <color name="toolbar_color">@color/main_green</color>
 
+    <color name="slider_background">#000000</color>
+
     <color name="text_color_black">#000000</color>
     <color name="text_color_detail_shop">#0076ff</color>
     <color name="text_color_actbar">#FFFFFF</color>

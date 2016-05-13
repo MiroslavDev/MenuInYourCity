@@ -60,10 +60,4 @@
         android:padding="@dimen/padding_xsmall"
         android:visibility="invisible" />
 
-    <!--<ImageView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/padding_xxsmall"-->
-    <!--android:src="@drawable/actionbar_shadow"-->
-    <!--android:layout_alignParentBottom="true" />-->
-
 </RelativeLayout>

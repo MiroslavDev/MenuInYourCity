@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.miroslav.menuinyourcity.MainActivity;
@@ -19,7 +22,9 @@ import com.miroslav.menuinyourcity.R;
  */
 public class SplashFragment extends Fragment {
     private static final String TAG = "SplashFragment";
-    private final int SPLASH_DISPLAY_LENGTH = 3000;
+    private final int SPLASH_DISPLAY_LENGTH = 7000;
+    private View logoLayout;
+    private View bottomLayout;
     private TextView numberTV;
     private Handler handler = new Handler();
     private Runnable myRunnable = new Runnable() {
@@ -34,6 +39,8 @@ public class SplashFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity)getActivity()).hideActBar();
 
+        logoLayout = view.findViewById(R.id.frg_splash_screen_logo_layout);
+        bottomLayout = view.findViewById(R.id.frg_splash_screen_bottom_layout);
         numberTV = (TextView) view.findViewById(R.id.frg_splash_phone_number);
         view.findViewById(R.id.frg_splash_call_ic).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +49,18 @@ public class SplashFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+
+        TranslateAnimation logoAnimation = new TranslateAnimation(0, 0, view.getMeasuredHeight() / 4, 0);
+        logoAnimation.setDuration(500);
+        logoAnimation.setStartOffset(1500);
+
+        Animation bottomAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.bottom);
+        bottomAnimation.setStartOffset(2000);
+
+        logoLayout.startAnimation(logoAnimation);
+        bottomLayout.startAnimation(bottomAnimation);
     }
 
     @Nullable

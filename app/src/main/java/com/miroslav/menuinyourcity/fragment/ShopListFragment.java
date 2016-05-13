@@ -87,7 +87,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     }
 
     private void fillLikedList() {
-        SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
+        SQLiteDatabase db = ((MainActivity) getActivity()).getDbHelper().getWritableDatabase();
         Cursor c = db.query("likedList", null, null, null, null, null, null);
         likedList.clear();
 
@@ -151,7 +151,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     @Override
     public void onLikedImageClick(int position) {
         ShopsModel item = ((ShopsAdapter) listView.getAdapter()).getItem(position);
-        SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
+        SQLiteDatabase db = ((MainActivity) getActivity()).getDbHelper().getWritableDatabase();
         if(!likedList.contains(item.getId())) {
             likedList.add(item.getId());
 

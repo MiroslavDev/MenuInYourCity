@@ -14,7 +14,7 @@
             android:layout_width="@dimen/card_height"
             android:layout_height="@dimen/card_height"
             android:id="@+id/shop_item_image"
-            android:src="@drawable/bigbang"
+            android:src="@color/transparent_background"
             android:scaleType="fitXY" />
 
     </com.miroslav.menuinyourcity.view.CategorieItemView>

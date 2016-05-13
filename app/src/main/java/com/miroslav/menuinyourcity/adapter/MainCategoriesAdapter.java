@@ -13,6 +13,7 @@ import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.Categories.CategorieModel;
 import com.miroslav.menuinyourcity.request.ChildrenCategories.GetChildrenCategoriesModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class MainCategoriesAdapter extends BaseAdapter{
 
         GetChildrenCategoriesModel item = data.get(position);
 
-        MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getImageUrl(),holder.image);
+        Picasso.with(context).load(URLHelper.imageDomain + item.getImageUrl()).into(holder.image);
 
         holder.name.setText(item.getName());
 

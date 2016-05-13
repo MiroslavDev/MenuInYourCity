@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.miroslav.menuinyourcity.ImageLoaderWithCache.ImageLoader;
 import com.miroslav.menuinyourcity.adapter.SpinnerAdapter;
 import com.miroslav.menuinyourcity.fragment.DetailPushFragment;
 import com.miroslav.menuinyourcity.fragment.SplashFragment;
@@ -40,12 +39,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //381294291923
 
     private SpiceManager spiceManager = new SpiceManager(Jackson2GoogleHttpClientSpiceService.class);
-    public static ImageLoader imageLoader;
     private View actBar, btnBackActBar, btnMenuActBar;
     private TextView titleActBar;
     private Spinner menuSpinner;
     private SpinnerAdapter adapter;
-    private GetCitiesRequest getCitiesRequest;
     public static MainActivity rootAcvitityInstance = null;
     private DBHelper dbHelper;
     private Callbacks callback;
@@ -56,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         rootAcvitityInstance = this;
         this.registerApp(GCMManager.getInstance().registrationId);
-        imageLoader = new ImageLoader(this);
 
         if (this.checkPlayServices()) {
             GCMManager.getInstance().initialize(this);
@@ -80,8 +76,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onStart() {
         super.onStart();
         spiceManager.start(this);
-        if(getCitiesRequest == null)
-            citiesRequest();
     }
 
     @Override
@@ -97,10 +91,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onResume(){
         super.onResume();
         this.registerApp(GCMManager.getInstance().registrationId);
+        citiesRequest();
     }
 
     private void citiesRequest() {
-        getCitiesRequest = new GetCitiesRequest();
+        GetCitiesRequest getCitiesRequest = new GetCitiesRequest();
         spiceManager.execute(getCitiesRequest, getCitiesRequest.getResourceUri(), getCitiesRequest.getCacheExpiryDuration(), new RequestListener<BaseCitiesModel>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
@@ -233,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     public SharedPreferences sharedPreferences() {
-        return this.getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+        return getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
     }
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;

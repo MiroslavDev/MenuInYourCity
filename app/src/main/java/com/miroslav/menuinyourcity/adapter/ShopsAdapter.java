@@ -12,6 +12,7 @@ import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +54,7 @@ public class ShopsAdapter extends ArrayAdapter<ShopsModel> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final ShopsModel item = getItem(position);
+        ShopsModel item = getItem(position);
         holder.name.setText(item.getTitle());
         holder.address.setText(item.getStreet());
         holder.timeWork.setText(item.getTime());
@@ -73,7 +74,7 @@ public class ShopsAdapter extends ArrayAdapter<ShopsModel> {
         }
 
         if(item.getPhotos() != null && !item.getPhotos().isEmpty())
-            MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getPhotos().get(0).getImage(), holder.image);
+            Picasso.with(getContext()).load(URLHelper.imageDomain + item.getPhotos().get(0).getImage()).into(holder.image);
 
         return convertView;
     }

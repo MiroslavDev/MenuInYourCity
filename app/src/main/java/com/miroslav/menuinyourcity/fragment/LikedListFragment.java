@@ -69,8 +69,9 @@ public class LikedListFragment extends BaseFragment implements
     }
 
     private void updateDataFromDB() {
-        SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
-        Cursor c = db.query("likedList", null, "city_id = ?", new String[] { Model.getInstance().currentCityId.toString() }, null, null, null, null);
+        SQLiteDatabase db = ((MainActivity) getActivity()).getDbHelper().getWritableDatabase();
+        String curCityId = Model.getInstance().currentCityId.toString() == null ? "" : Model.getInstance().currentCityId.toString();
+        Cursor c = db.query("likedList", null, "city_id = ?", new String[] { curCityId }, null, null, null, null);
         ShopsAdapter adapter = (ShopsAdapter) listView.getAdapter();
         adapter.clear();
 
@@ -146,7 +147,7 @@ public class LikedListFragment extends BaseFragment implements
 
     @Override
     public void onResultFromDLG(Long id) {
-        SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
+        SQLiteDatabase db = ((MainActivity) getActivity()).getDbHelper().getWritableDatabase();
         db.execSQL("DELETE FROM likedList WHERE shop_id=" + id + ";");
         db.close();
         updateDataFromDB();

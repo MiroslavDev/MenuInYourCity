@@ -12,6 +12,7 @@ import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.GetNews.GetNewsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,7 +63,7 @@ public class NewsAdapter extends ArrayAdapter<GetNewsModel> {
         holder.description.setText(item.getDescription());
 
         if(!item.getImageUrl().isEmpty())
-            MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + item.getImageUrl(), holder.image);
+            Picasso.with(getContext()).load(URLHelper.imageDomain + item.getImageUrl()).into(holder.image);
 
         return convertView;
     }

@@ -1,15 +1,15 @@
 package com.miroslav.menuinyourcity.fragment;
 
-import android.os.Build;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,21 +23,17 @@ import com.miroslav.menuinyourcity.request.FollowCategory.UnfollowCategoryReques
 import com.miroslav.menuinyourcity.request.GetEvents.BaseGetEventsModel;
 import com.miroslav.menuinyourcity.request.GetEvents.GetEventByCategoryRequest;
 import com.miroslav.menuinyourcity.request.GetEvents.GetEventModel;
-import com.miroslav.menuinyourcity.view.ListViewOnFullScreen;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * Created by apple on 4/8/16.
  */
 public class SharesFragment extends BaseFragment implements AdapterView.OnItemClickListener, SharesAdapter.SharesCallback {
 
-    public static final String TITLE = "title";
     public static final String IS_FOLLOW_KEY = "is_follow_key";
     public static final String CATEGORY_ID = "category_id";
 
@@ -48,7 +44,9 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     private TextView labelFollow;
     private ProgressBar progressBar;
     private ListView listView;
-    private TextView followBtnText;
+    private View header;
+    private int headerHeight = 0;
+    private Boolean isFirstVisible = true;
 
     public static SharesFragment newInstance(Long id, Boolean isFollow) {
         SharesFragment fr = new SharesFragment();
@@ -62,7 +60,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.frg_list_view, container, false);
+        return inflater.inflate(R.layout.frg_shares, container, false);
     }
 
     @Override
@@ -73,15 +71,15 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         categoryId = arg.getLong(CATEGORY_ID);
         isFollow = arg.getBoolean(IS_FOLLOW_KEY);
 
-        followBtn = LayoutInflater.from(getContext()).inflate(R.layout.follow_button, null);
-        labelFollow = (TextView) followBtn.findViewById(R.id.frg_shares_btn_subscribe_label);
+        followBtn = view.findViewById(R.id.frg_shares_btn_subscribe);
+        labelFollow = (TextView) view.findViewById(R.id.frg_shares_btn_subscribe_label);
         if (isFollow) {
-            followBtn.setBackgroundColor(getResources().getColor(R.color.disable_gray));
+            labelFollow.setBackgroundColor(getResources().getColor(R.color.disable_gray));
             labelFollow.setText(getString(R.string.unfollow_on_push));
             labelFollow.setTextColor(getResources().getColor(R.color.text_color_black));
         } else {
             labelFollow.setTextColor(getResources().getColor(R.color.text_color_white));
-            followBtn.setBackgroundColor(getResources().getColor(R.color.main_orange));
+            labelFollow.setBackgroundColor(getResources().getColor(R.color.main_orange));
             labelFollow.setText(getString(R.string.subscribe_on_push));
         }
         followBtn.setOnClickListener(new View.OnClickListener() {
@@ -94,13 +92,38 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             }
         });
 
-        listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
+        listView = (ListView) view.findViewById(R.id.frg_shares_list_view);
         if (adapter == null)
-            adapter = new SharesAdapter(getContext(), new ArrayList<GetEventModel>(), this, getView().getHandler());
-        listView.addHeaderView(followBtn);
+            adapter = new SharesAdapter(getContext(), new ArrayList<GetEventModel>(), this, view.getHandler());
+        header = LayoutInflater.from(getContext()).inflate(R.layout.follow_button, null);
+        listView.addHeaderView(header);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setVisibility(View.GONE);
+
+        followBtn.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        headerHeight = followBtn.getMeasuredHeight();
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                if(!isFirstVisible) {
+                    if (scrollState == 0)
+                        ObjectAnimator.ofFloat(followBtn, "y", 0).setDuration(200).start();
+                    else
+                        ObjectAnimator.ofFloat(followBtn, "y", -headerHeight).setDuration(200).start();
+                } else {
+                    followBtn.setY(0);
+                }
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                isFirstVisible = firstVisibleItem == 0;
+            }
+        });
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
@@ -140,7 +163,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             @Override
             public void onRequestSuccess(BaseFollowCategoryModel data) {
                 if (!data.getError()) {
-                    followBtn.setBackgroundColor(getResources().getColor(R.color.disable_gray));
+                    labelFollow.setBackgroundColor(getResources().getColor(R.color.disable_gray));
                     labelFollow.setTextColor(getResources().getColor(R.color.text_color_black));
                     isFollow = true;
                     labelFollow.setText(getString(R.string.unfollow_on_push));
@@ -163,7 +186,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             @Override
             public void onRequestSuccess(BaseFollowCategoryModel data) {
                 if (!data.getError()) {
-                    followBtn.setBackgroundColor(getResources().getColor(R.color.main_orange));
+                    labelFollow.setBackgroundColor(getResources().getColor(R.color.main_orange));
                     labelFollow.setTextColor(getResources().getColor(R.color.text_color_white));
                     isFollow = false;
                     labelFollow.setText(getString(R.string.subscribe_on_push));

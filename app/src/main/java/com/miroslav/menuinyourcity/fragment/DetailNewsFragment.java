@@ -11,6 +11,11 @@ import android.widget.TextView;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.URLHelper;
+import com.squareup.picasso.Picasso;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by apple on 4/11/16.
@@ -21,6 +26,9 @@ public class DetailNewsFragment extends BaseFragment {
     public  static final String IMAGE_URL = "image_url";
     public  static final String DATA = "data";
     public  static final String DESCRIBE = "describe";
+
+    private SimpleDateFormat formatStart = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private SimpleDateFormat formatEnd = new SimpleDateFormat("dd MMMM yyyy");
 
     public static DetailNewsFragment newInstance(String sbTitle, String imageUrl, String data, String describe) {
         DetailNewsFragment fr = new DetailNewsFragment();
@@ -51,13 +59,20 @@ public class DetailNewsFragment extends BaseFragment {
         view.findViewById(R.id.frg_shares_item_three_dots).setVisibility(View.GONE);
         view.findViewById(R.id.frg_details_shop_description_more).setVisibility(View.GONE);
 
-        ((TextView) view.findViewById(R.id.frg_shares_item_title)).setText(data);
         ((TextView) view.findViewById(R.id.frg_shares_item_description)).setText(describe);
 
         ImageView image = (ImageView) view.findViewById(R.id.frg_shares_item_img);
 
+        try {
+            Date newDate = formatStart.parse(data);
+            ((TextView) view.findViewById(R.id.frg_shares_item_title)).setText(formatEnd.format(newDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         if(!imageUrl.isEmpty())
-            MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + imageUrl, image);
+            Picasso.with(getContext()).load(URLHelper.imageDomain + imageUrl).into(image);
+
 
         setupAB(sbTitle);
     }

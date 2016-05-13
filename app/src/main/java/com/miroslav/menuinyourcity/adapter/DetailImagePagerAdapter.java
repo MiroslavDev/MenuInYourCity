@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsPhotosModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
 import com.miroslav.menuinyourcity.view.MySlider.SliderAdapter;
@@ -60,6 +61,7 @@ public class DetailImagePagerAdapter extends SliderAdapter {
 
         //photoView.setOnPhotoTapListener(listener);
         photoView.setOnViewTapListener(listener);
+        container.setBackgroundColor(context.getResources().getColor(R.color.slider_background));
         return photoView;
     }
 

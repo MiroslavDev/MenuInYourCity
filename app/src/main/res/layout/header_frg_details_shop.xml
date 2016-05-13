@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.miroslav.menuinyourcity.view.HackyViewPager
+        android:id="@+id/frg_details_shop_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_present_images"/>
+
+    <com.miroslav.menuinyourcity.view.MySlider.Indicators.PagerIndicator
+        android:id="@+id/default_center_bottom_indicator"
+        android:layout_alignBottom="@+id/frg_details_shop_img"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="10dp"
+        android:gravity="center"
+        custom:shape="oval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@color/transparent_background"
+        android:layout_alignTop="@+id/frg_details_shop_img"
+        android:layout_alignLeft="@+id/frg_details_shop_img"
+        android:layout_alignBottom="@+id/frg_details_shop_img"
+        android:layout_alignRight="@+id/frg_details_shop_img" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="пицерия"
+        android:id="@+id/frg_details_shop_category_name"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/smal_standart_text_size"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/frg_details_shop_img"
+        android:layout_marginBottom="@dimen/padding" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frg_details_shop_ic_phone"
+        android:src="@drawable/ic_small_phone"
+        android:layout_alignBottom="@+id/frg_details_shop_category_name"
+        android:layout_marginLeft="@dimen/padding" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frg_details_shop_ic_star"
+        android:src="@drawable/ic_star_inactive"
+        android:layout_alignBottom="@+id/frg_details_shop_category_name"
+        android:layout_marginRight="@dimen/padding"
+        android:layout_alignParentRight="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/frg_details_shop_icon_layout"
+        android:paddingLeft="@dimen/padding_small"
+        android:paddingRight="@dimen/padding_small"
+        android:layout_below="@+id/frg_details_shop_img">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_web"
+                android:id="@+id/frg_details_shop_layout_ic_web"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/padding" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/cat_text_size"
+                android:textColor="@color/text_color_detail_shop"
+                tools:text="http://mamamia.com"
+                android:id="@+id/frg_details_shop_layout_text_url"
+                android:singleLine="true"
+                android:paddingRight="@dimen/padding"
+                android:ellipsize="end"
+                android:layout_marginLeft="@dimen/padding"
+                android:layout_toRightOf="@+id/frg_details_shop_layout_ic_web"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_location"
+                android:id="@+id/frg_details_shop_layout_ic_location"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/padding_small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/cat_text_size"
+                android:textColor="@color/text_color_detail_shop"
+                tools:text="Астана, улица Солнечная 21"
+                android:id="@+id/frg_details_shop_layout_text_address"
+                android:layout_toRightOf="@+id/frg_details_shop_layout_ic_location"
+                android:layout_marginLeft="@dimen/padding"
+                android:singleLine="true"
+                android:paddingRight="@dimen/padding"
+                android:ellipsize="end"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_time"
+                android:id="@+id/frg_details_shop_layout_ic_time"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/padding_small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/cat_text_size"
+                android:textColor="@color/text_color_black"
+                tools:text="C 10:00 до 22:30"
+                android:id="@+id/frg_details_shop_layout_text_open_time"
+                android:layout_toRightOf="@+id/frg_details_shop_layout_ic_time"
+                android:layout_marginLeft="@dimen/padding"
+                android:singleLine="true"
+                android:paddingRight="@dimen/padding"
+                android:ellipsize="end"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/cat_text_size"
+        tools:text="Pots and pans make the most essential part of your cookware. There are lots of various types available for each particular cooking method or a few different methods."
+        android:id="@+id/frg_details_shop_description"
+        android:layout_below="@+id/frg_details_shop_icon_layout"
+        android:paddingTop="@dimen/padding_xxsmall"
+        android:paddingLeft="@dimen/padding_small"
+        android:paddingRight="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/frg_background"
+        android:textSize="@dimen/cat_text_size"
+        android:text="Читать полностью..."
+        android:id="@+id/frg_details_shop_description_more"
+        android:paddingRight="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
+        android:layout_alignBottom="@+id/frg_details_shop_description"
+        android:layout_alignRight="@+id/frg_details_shop_description"
+        android:textStyle="bold"
+        android:textColor="@color/text_color_black"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reviews"
+        android:id="@+id/frg_details_shop_review"
+        android:paddingLeft="@dimen/padding_small"
+        android:textSize="@dimen/big_title_text_size"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/text_color_black"
+        android:layout_below="@+id/frg_details_shop_description"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Рейтинг: 7.1/10"
+        android:id="@+id/frg_details_shop_review_rating_text"
+        android:paddingRight="@dimen/padding_small"
+        android:textSize="@dimen/big_title_text_size"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/text_color_black"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/frg_details_shop_description"/>
+
+</RelativeLayout>

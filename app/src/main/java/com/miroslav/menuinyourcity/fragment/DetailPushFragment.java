@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.URLHelper;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by apple on 4/11/16.
@@ -65,7 +66,8 @@ public class DetailPushFragment extends BaseFragment {
         ImageView image = (ImageView) view.findViewById(R.id.frg_shares_item_img);
 
         if(!imageUrl.isEmpty())
-            MainActivity.imageLoader.DisplayImage(URLHelper.imageDomain + imageUrl, image);
+            Picasso.with(getContext()).load(URLHelper.imageDomain + imageUrl).into(image);
+
 
         setupAB(sbTitle);
     }

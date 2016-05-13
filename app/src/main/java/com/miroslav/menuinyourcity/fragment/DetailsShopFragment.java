@@ -1,27 +1,34 @@
 package com.miroslav.menuinyourcity.fragment;
 
+import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.MainActivity;
-import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.DetailImagePagerAdapter;
 import com.miroslav.menuinyourcity.adapter.ShopFeedbackAdapter;
@@ -30,19 +37,14 @@ import com.miroslav.menuinyourcity.request.GetShops.GetShopRequest;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsPhotosModel;
 import com.miroslav.menuinyourcity.request.GetShops.ShopsReviewsModel;
-import com.miroslav.menuinyourcity.request.URLHelper;
 import com.miroslav.menuinyourcity.view.HackyViewPager;
-import com.miroslav.menuinyourcity.view.ListViewOnFullScreen;
+import com.miroslav.menuinyourcity.view.MyListView;
 import com.miroslav.menuinyourcity.view.MySlider.Indicators.PagerIndicator;
-import com.miroslav.menuinyourcity.view.MySlider.SliderTypes.BaseSliderView;
-import com.miroslav.menuinyourcity.view.MySlider.SliderTypes.TextSliderView;
 import com.miroslav.menuinyourcity.view.MySlider.Tricks.InfinitePagerAdapter;
-import com.miroslav.menuinyourcity.view.MySlider.Tricks.ViewPagerEx;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -58,11 +60,12 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private String categoryName;
 
     private Long parentId;
-    private ListViewOnFullScreen listView;
+    private View dataLayout;
+    private View rootHeaderLayout;
+    private MyListView listView;
     private ShopFeedbackAdapter feedbackAdapter;
     private ShopsModel data;
     private HackyViewPager hackyViewPager;
-    private TextView title;
     private TextView category;
     private TextView shopURL;
     private TextView shopAddress;
@@ -70,12 +73,17 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private TextView description;
     private TextView rating;
     private ImageView likedImage;
-    private ScrollView rootScrollView;
-    private View addReviewButton;
     private ImageView phoneCallBtn;
     private View moreInformationBtn;
     private ProgressBar progressBar;
     private View.OnClickListener listener;
+    private int statusBarHeight;
+
+    private View addReviewButton;
+    private View addReviewButtonLayout;
+    private float startY = 0;
+    private int headerHeight = 0;
+    private Boolean isFirstVisible = false;
 
     private Double latitude = 0.0d;
     private Double longitude = 0.0d;
@@ -104,6 +112,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
 
         Log.d("parentId = ", parentId+"");
         setupUI(view);
+
         ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
     }
 
@@ -118,7 +127,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     public void onPause() {
         super.onPause();
         try {
-            ((MainActivity) getActivity()).setOnButtonBackListener(null);
+            if(getActivity() != null)
+                ((MainActivity) getActivity()).setOnButtonBackListener(null);
         } catch (Exception e) {}
     }
 
@@ -129,6 +139,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        rootHeaderLayout = LayoutInflater.from(getContext()).inflate(R.layout.header_frg_details_shop, null);
         return inflater.inflate(R.layout.frg_details_shop, container, false);
     }
 
@@ -147,7 +159,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 progressBar.setVisibility(View.GONE);
                 if (!data.getError()) {
                     updaateAdapterData(data.getShop());
-                    rootScrollView.setVisibility(View.VISIBLE);
+                    dataLayout.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
                 }
@@ -161,23 +173,14 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         feedbackAdapter.addAll(data.getReviews());
         feedbackAdapter.notifyDataSetChanged();
 
-        rootScrollView.post(new Runnable() {
+        listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void run() {
-                rootScrollView.setScrollY(0);
-            }
-        });
-
-        rootScrollView.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent ev) {
                 return isBlockedScrollView;
             }
         });
 
         setupAB(data.getTitle());
-        title.setText(data.getTitle());
         category.setText(categoryName);
         shopURL.setText(data.getPhone());
         shopAddress.setText(data.getStreet());
@@ -213,6 +216,13 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         adapterPhotos.notifyDataSetChanged();
 
         setupListeners();
+
+        addReviewButtonLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                startY = addReviewButtonLayout.getY();
+            }
+        });
     }
 
     public void setAllCenterCrop(boolean isCenterCrop) {
@@ -223,16 +233,42 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private void onImageClick() {
         if(!isBlockedScrollView) {
             isBlockedScrollView = true;
-            hackyViewPager.getLayoutParams().height = getView().getHeight() + ((MainActivity) getActivity()).getActBarHeight();
+            listView.setBlockedScrollView(isBlockedScrollView);
+            hackyViewPager.getLayoutParams().height = getView().getHeight() + ((MainActivity) getActivity()).getActBarHeight() + statusBarHeight;
+            hackyViewPager.requestFocus();
             addReviewButton.setVisibility(View.GONE);
+            addReviewButtonLayout.setVisibility(View.GONE);
+            likedImage.setVisibility(View.GONE);
+            phoneCallBtn.setVisibility(View.GONE);
+            category.setVisibility(View.GONE);
             ((MainActivity) getActivity()).hideActBar();
             setAllCenterCrop(true);
+
+            if (Build.VERSION.SDK_INT < 16) {
+                getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            } else {
+                getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+            }
         } else {
             addReviewButton.setVisibility(View.VISIBLE);
+            addReviewButtonLayout.setVisibility(View.VISIBLE);
             ((MainActivity) getActivity()).showActBar();
             isBlockedScrollView = false;
+            listView.setBlockedScrollView(isBlockedScrollView);
             hackyViewPager.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
+            hackyViewPager.requestLayout();
+            likedImage.setVisibility(View.VISIBLE);
+            phoneCallBtn.setVisibility(View.VISIBLE);
+            category.setVisibility(View.VISIBLE);
             setAllCenterCrop(false);
+
+            if (Build.VERSION.SDK_INT < 16) {
+                getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            } else {
+                getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            }
         }
     }
 
@@ -244,7 +280,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             }
         });
 
-        addReviewButton.setOnClickListener(new View.OnClickListener() {
+        addReviewButtonLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).replaceFragment(AddReviewFragment.newInstance(shopId));
@@ -292,39 +328,44 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     }
 
     private void setupUI(View view) {
-        rootScrollView = (ScrollView) view.findViewById(R.id.frg_details_shop_root_sroll_view);
-        rootScrollView.setVisibility(View.GONE);
+        dataLayout =  view.findViewById(R.id.frg_details_shop_data_layout);
+        dataLayout.setVisibility(View.GONE);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
 
         addReviewButton = LayoutInflater.from(getContext()).inflate(R.layout.add_review_button, null);
 
-        listView = (ListViewOnFullScreen) view.findViewById(R.id.frg_details_shop_list_view);
+        addReviewButtonLayout = view.findViewById(R.id.frg_details_shop_give_feedback);
+        listView = (MyListView) view.findViewById(R.id.frg_details_shop_list_view);
         if(feedbackAdapter == null)
             feedbackAdapter = new ShopFeedbackAdapter(getContext(), new ArrayList<ShopsReviewsModel>(), view.getHandler());
+        listView.addHeaderView(rootHeaderLayout);
         listView.addFooterView(addReviewButton);
         listView.setAdapter(feedbackAdapter);
         listView.setOnItemClickListener(this);
 
-        hackyViewPager = (HackyViewPager) view.findViewById(R.id.frg_details_shop_img);
+        hackyViewPager = (HackyViewPager) rootHeaderLayout.findViewById(R.id.frg_details_shop_img);
         adapterPhotos = new DetailImagePagerAdapter(getContext(), new ArrayList<ShopsPhotosModel>(), this);
         PagerAdapter wrappedAdapter = new InfinitePagerAdapter(adapterPhotos);
         hackyViewPager.setAdapter(wrappedAdapter);
 
-        PagerIndicator pagerIndicator = (PagerIndicator) view.findViewById(R.id.default_center_bottom_indicator);
+        PagerIndicator pagerIndicator = (PagerIndicator) rootHeaderLayout.findViewById(R.id.default_center_bottom_indicator);
         pagerIndicator.setViewPager(hackyViewPager);
 
-        moreInformationBtn = view.findViewById(R.id.frg_details_shop_description_more);
-        rating = (TextView) view.findViewById(R.id.frg_details_shop_review_rating_text);
-        title = (TextView) view.findViewById(R.id.frg_details_shop_title);
-        category = (TextView) view.findViewById(R.id.frg_details_shop_category_name);
-        shopURL = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_url);
-        shopAddress = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_address);
-        shopTimeWork = (TextView) view.findViewById(R.id.frg_details_shop_layout_text_open_time);
-        description = (TextView) view.findViewById(R.id.frg_details_shop_description);
-        likedImage = (ImageView) view.findViewById(R.id.frg_details_shop_ic_star);
-        phoneCallBtn = (ImageView) view.findViewById(R.id.frg_details_shop_ic_phone);
+        moreInformationBtn = rootHeaderLayout.findViewById(R.id.frg_details_shop_description_more);
+        rating = (TextView) rootHeaderLayout.findViewById(R.id.frg_details_shop_review_rating_text);
+        category = (TextView) rootHeaderLayout.findViewById(R.id.frg_details_shop_category_name);
+        shopURL = (TextView) rootHeaderLayout.findViewById(R.id.frg_details_shop_layout_text_url);
+        shopAddress = (TextView) rootHeaderLayout.findViewById(R.id.frg_details_shop_layout_text_address);
+        shopTimeWork = (TextView) rootHeaderLayout.findViewById(R.id.frg_details_shop_layout_text_open_time);
+        description = (TextView) rootHeaderLayout.findViewById(R.id.frg_details_shop_description);
+        likedImage = (ImageView) rootHeaderLayout.findViewById(R.id.frg_details_shop_ic_star);
+        phoneCallBtn = (ImageView) rootHeaderLayout.findViewById(R.id.frg_details_shop_ic_phone);
+
+        Rect rectangle= new Rect();
+        getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        statusBarHeight= rectangle.top;
 
         listener = new View.OnClickListener() {
             @Override
@@ -340,10 +381,39 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 }
             }
         };
+
+        addReviewButtonLayout.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        headerHeight = addReviewButtonLayout.getMeasuredHeight();
+
+        listView.setOnScrollListener(new ListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                if(!isFirstVisible) {
+                    if (scrollState == 0)
+                        ObjectAnimator.ofFloat(addReviewButtonLayout, "y", startY).setDuration(200).start();
+                    else
+                        ObjectAnimator.ofFloat(addReviewButtonLayout, "y", startY + headerHeight).setDuration(200).start();
+                } else {
+                    addReviewButtonLayout.setY(startY);
+                }
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                isFirstVisible = (firstVisibleItem + visibleItemCount == totalItemCount);
+
+                if(isBlockedScrollView) {
+                    listView.getChildAt(0).setTop(0);
+                    rootHeaderLayout.setY(0);
+                }
+            }
+        });
     }
 
     public void onLikedImageClick() {
-        SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
+        SQLiteDatabase db = ((MainActivity) getActivity()).getDbHelper().getWritableDatabase();
         if(!isInLikedList()) {
             likedImage.setImageResource(R.drawable.ic_star_enable);
             ContentValues cv = new ContentValues();
@@ -375,7 +445,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     }
 
     private boolean isInLikedList() {
-        SQLiteDatabase db = MainActivity.rootAcvitityInstance.getDbHelper().getWritableDatabase();
+        SQLiteDatabase db = ((MainActivity) getActivity()).getDbHelper().getWritableDatabase();
         Cursor c = db.query("likedList", null, null, null, null, null, null);
         if (c.moveToFirst()) {
             int idColIndex = c.getColumnIndex("shop_id");

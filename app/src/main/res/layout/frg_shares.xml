@@ -3,12 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/frg_background">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/gray"
+        android:layout_height="1dp"
+        android:id="@+id/shadow"/>
+
     <ListView
         android:id="@+id/frg_shares_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:cacheColorHint="@android:color/transparent"
-        android:listSelector="@android:color/transparent"
-        android:layout_below="@+id/frg_shares_btn_subscribe" />
+        android:listSelector="@android:color/transparent" />
+
+    <RelativeLayout
+        android:id="@+id/frg_shares_btn_subscribe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
+
+        <TextView
+            android:background="@color/main_orange"
+            android:id="@+id/frg_shares_btn_subscribe_label"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/big_item_height"
+            android:textSize="@dimen/title_text_size"
+            android:text="@string/subscribe_on_push"
+            android:textColor="@color/text_color_white"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_alignParentTop="true" />
+    </RelativeLayout>
+
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>
