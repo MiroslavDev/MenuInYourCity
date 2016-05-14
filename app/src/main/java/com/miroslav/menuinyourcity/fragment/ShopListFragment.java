@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.DBHelper;
@@ -44,6 +45,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     private String title;
     private Set<Long> likedList = new HashSet<>();
     private ProgressBar progressBar;
+    private TextView labelDuringEmptyData;
 
     public static ShopListFragment newInstance(Long id, String title) {
         ShopListFragment fr = new ShopListFragment();
@@ -67,6 +69,7 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
         id = getArguments().getLong(SHOP_ID);
         title = getArguments().getString(TITLE);
 
+        labelDuringEmptyData = (TextView) view.findViewById(R.id.shop_item_label_during_empty_data);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
@@ -139,6 +142,9 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
         fillLikedList();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
+
+        if(data.isEmpty())
+            labelDuringEmptyData.setVisibility(View.VISIBLE);
     }
 
     @Override
