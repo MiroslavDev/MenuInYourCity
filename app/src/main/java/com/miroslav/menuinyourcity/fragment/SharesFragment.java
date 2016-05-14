@@ -3,6 +3,7 @@ package com.miroslav.menuinyourcity.fragment;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,7 +115,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
                     else
                         ObjectAnimator.ofFloat(followBtn, "y", -headerHeight).setDuration(200).start();
                 } else {
-                    followBtn.setY(0);
+                    ObjectAnimator.ofFloat(followBtn, "y", 0).setDuration(200).start();
                 }
 
             }

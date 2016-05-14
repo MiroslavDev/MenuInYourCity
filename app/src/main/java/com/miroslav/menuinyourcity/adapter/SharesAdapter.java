@@ -67,6 +67,7 @@ public class SharesAdapter extends ArrayAdapter<GetEventModel> {
         if (!item.getImageUrl().isEmpty())
             Picasso.with(getContext()).load(URLHelper.imageDomain + item.getImageUrl()).into(holder.image);
 
+        if(uihandler != null)
         uihandler.post(new Runnable() {
             @Override
             public void run() {

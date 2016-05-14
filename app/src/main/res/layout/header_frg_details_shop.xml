@@ -33,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="пицерия"
+        android:textColor="@color/text_color_white"
         android:id="@+id/frg_details_shop_category_name"
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
@@ -158,20 +159,21 @@
         tools:text="Pots and pans make the most essential part of your cookware. There are lots of various types available for each particular cooking method or a few different methods."
         android:id="@+id/frg_details_shop_description"
         android:layout_below="@+id/frg_details_shop_icon_layout"
+        android:ellipsize="end"
         android:paddingTop="@dimen/padding_xxsmall"
         android:paddingLeft="@dimen/padding_small"
         android:paddingRight="@dimen/padding_small"
-        android:paddingBottom="@dimen/padding_small" />
+        android:paddingBottom="@dimen/bpadding" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/frg_background"
+        android:background="@android:color/transparent"
         android:textSize="@dimen/cat_text_size"
         android:text="Читать полностью..."
         android:id="@+id/frg_details_shop_description_more"
         android:paddingRight="@dimen/padding_small"
-        android:paddingBottom="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_xsmall"
         android:layout_alignBottom="@+id/frg_details_shop_description"
         android:layout_alignRight="@+id/frg_details_shop_description"
         android:textStyle="bold"

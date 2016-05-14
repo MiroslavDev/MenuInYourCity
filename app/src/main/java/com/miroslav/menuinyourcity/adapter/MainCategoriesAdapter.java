@@ -23,6 +23,7 @@ import java.util.List;
 public class MainCategoriesAdapter extends BaseAdapter{
     private Context context;
     private List<GetChildrenCategoriesModel> data;
+    private int width, height;
 
     public MainCategoriesAdapter(Context context, List<GetChildrenCategoriesModel> data) {
         this.context = context;
@@ -57,6 +58,10 @@ public class MainCategoriesAdapter extends BaseAdapter{
             holder.image = (ImageView) convertView.findViewById(R.id.frg_main_categorie_item_img);
             holder.name = (TextView) convertView.findViewById(R.id.frg_main_categorie_item_name);
 
+            holder.image.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            width = holder.image.getMeasuredWidth();
+            height = holder.image.getMeasuredHeight();
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -64,7 +69,9 @@ public class MainCategoriesAdapter extends BaseAdapter{
 
         GetChildrenCategoriesModel item = data.get(position);
 
-        Picasso.with(context).load(URLHelper.imageDomain + item.getImageUrl()).into(holder.image);
+
+
+        Picasso.with(context).load(URLHelper.imageDomain + item.getImageUrl()).resize(width, height).into(holder.image);
 
         holder.name.setText(item.getName());
 

@@ -1,6 +1,9 @@
 package com.miroslav.menuinyourcity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +31,7 @@ import com.octo.android.robospice.Jackson2GoogleHttpClientSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +55,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+
         rootAcvitityInstance = this;
         this.registerApp(GCMManager.getInstance().registrationId);
 
@@ -85,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         super.onStop();
     }
-
 
     @Override
     protected void onResume(){
@@ -163,9 +171,44 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnBackActBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 popBackStackSupportFragmentManager();
+                if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("Вы дейстивтельно хотите выйти?")
+                            .setCancelable(false)
+                            .setPositiveButton("Да",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    closeApplication();
+                                }
+                            })
+                    .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
             }
         });
+    }
+
+    private void closeApplication() {
+        rootAcvitityInstance = null;
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

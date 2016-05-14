@@ -4,7 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding">
+    android:paddingLeft="@dimen/padding"
+    android:paddingRight="@dimen/padding"
+    android:paddingTop="@dimen/padding"
+    android:paddingBottom="@dimen/padding_xxsmall">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -114,6 +117,8 @@
         tools:text="Pots and pans make the most essential part of your cookware. There are lots of various types available for each particular cooking method or a few different methods."
         android:id="@+id/frg_shop_review_description"
         android:layout_below="@+id/frg_shop_review_layout"
+        android:ellipsize="end"
+        android:paddingBottom="@dimen/padding"
         android:paddingTop="@dimen/padding_xxsmall" />
 
     <TextView

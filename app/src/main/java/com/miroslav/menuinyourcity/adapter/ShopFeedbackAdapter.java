@@ -84,10 +84,10 @@ public class ShopFeedbackAdapter extends ArrayAdapter<ShopsReviewsModel> {
                     } else {
                         holder.description.setMaxLines(4);
                         holder.moreInformationBtn.setVisibility(View.VISIBLE);
+                        isMoreInformationList.put(position, false);
                     }
-                    isMoreInformationList.put(position, false);
-                }else {
-                    if (holder.description.getLineCount() > 4 && !isMoreInformationList.get(position)) {
+                } else {
+                    if(!isMoreInformationList.get(position)) {
                         holder.description.setMaxLines(4);
                         holder.moreInformationBtn.setVisibility(View.VISIBLE);
                     } else {

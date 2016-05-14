@@ -44,7 +44,7 @@ public class DetailNewsFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.shares_item, container, false);
+        return inflater.inflate(R.layout.frg_shares_detail, container, false);
     }
 
     @Override
@@ -57,7 +57,6 @@ public class DetailNewsFragment extends BaseFragment {
         String describe = getArguments().getString(DESCRIBE);
 
         view.findViewById(R.id.frg_shares_item_three_dots).setVisibility(View.GONE);
-        view.findViewById(R.id.frg_details_shop_description_more).setVisibility(View.GONE);
 
         ((TextView) view.findViewById(R.id.frg_shares_item_description)).setText(describe);
 

@@ -25,6 +25,8 @@ import java.util.List;
 public class NewsAdapter extends ArrayAdapter<GetNewsModel> {
 
     private SimpleDateFormat formatStart, formatEnd;
+    private float width, height;
+
     public NewsAdapter(Context context, List<GetNewsModel> data) {
         super(context, R.layout.event_item, data);
         formatStart = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -43,6 +45,9 @@ public class NewsAdapter extends ArrayAdapter<GetNewsModel> {
             holder.data = (TextView) convertView.findViewById(R.id.event_item_data);
             holder.description = (TextView) convertView.findViewById(R.id.event_description);
             holder.image = (ImageView) convertView.findViewById(R.id.event_item_image);
+
+            width = getContext().getResources().getDimension(R.dimen.card_height);
+            height = getContext().getResources().getDimension(R.dimen.card_height);
 
             convertView.setTag(holder);
         } else {
@@ -63,7 +68,7 @@ public class NewsAdapter extends ArrayAdapter<GetNewsModel> {
         holder.description.setText(item.getDescription());
 
         if(!item.getImageUrl().isEmpty())
-            Picasso.with(getContext()).load(URLHelper.imageDomain + item.getImageUrl()).into(holder.image);
+            Picasso.with(getContext()).load(URLHelper.imageDomain + item.getImageUrl()).resize((int) width, (int) height).into(holder.image);
 
         return convertView;
     }

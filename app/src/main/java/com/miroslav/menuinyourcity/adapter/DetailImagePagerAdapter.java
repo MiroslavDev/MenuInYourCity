@@ -1,7 +1,6 @@
 package com.miroslav.menuinyourcity.adapter;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +26,17 @@ public class DetailImagePagerAdapter extends SliderAdapter {
     private List<ShopsPhotosModel> list;
     private PhotoViewAttacher.OnViewTapListener listener;
     private Boolean isFullInformation = false;
+    private float width, height;
+    private boolean isDispath = false;
 
-    public DetailImagePagerAdapter(Context context, List<ShopsPhotosModel> list, PhotoViewAttacher.OnViewTapListener listener) {
+    public DetailImagePagerAdapter(Context context, List<ShopsPhotosModel> list, PhotoViewAttacher.OnViewTapListener listener, int width, int height) {
         super(context);
         this.context = context;
         this.list = list;
         this.listener = listener;
+
+        this.width = width * 5;
+        this.height = height * 5;//context.getResources().getDimension(R.dimen.height_present_images);
 
     }
 
@@ -52,10 +56,14 @@ public class DetailImagePagerAdapter extends SliderAdapter {
     @Override
     public View instantiateItem(ViewGroup container, int position) {
         PhotoView photoView = new PhotoView(container.getContext());
+        //photoView.setBlockedScrollView(isDispath);
+
         photoView.setTag(position);
         photoView.setScaleType(isFullInformation ? ImageView.ScaleType.FIT_CENTER : ImageView.ScaleType.CENTER_CROP);
+        //photoView.setZoomable(isFullInformation);
         ShopsPhotosModel item = list.get(position);
-        Picasso.with(context).load(URLHelper.imageDomain + item.getImage()).into(photoView);
+
+        Picasso.with(context).load(URLHelper.imageDomain + item.getImage()).resize((int) width, (int) height).into(photoView);
         container.addView(photoView, ViewPager.LayoutParams.MATCH_PARENT,
                 ViewPager.LayoutParams.MATCH_PARENT);
 

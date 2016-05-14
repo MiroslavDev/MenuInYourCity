@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.miroslav.menuinyourcity.view.MySlider.Tricks.ViewPagerEx;
 
@@ -14,6 +15,16 @@ import com.miroslav.menuinyourcity.view.MySlider.Tricks.ViewPagerEx;
 public class HackyViewPager extends ViewPagerEx {
 
     private static final String TAG = "HackyViewPager";
+
+    private Boolean isBlockedScrollView = false;
+
+    public Boolean getBlockedScrollView() {
+        return isBlockedScrollView;
+    }
+
+    public void setBlockedScrollView(Boolean blockedScrollView) {
+        isBlockedScrollView = blockedScrollView;
+    }
 
 
     public HackyViewPager(Context context)
@@ -39,5 +50,12 @@ public class HackyViewPager extends ViewPagerEx {
             Log.e(TAG, "ArrayIndexOutOfBoundsException");
         }
         return false;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if(isBlockedScrollView)
+            return true;
+        return super.dispatchTouchEvent(ev);
     }
 }

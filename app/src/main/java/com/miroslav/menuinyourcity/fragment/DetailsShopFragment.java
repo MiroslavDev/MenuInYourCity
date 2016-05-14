@@ -233,7 +233,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private void onImageClick() {
         if(!isBlockedScrollView) {
             isBlockedScrollView = true;
-            listView.setBlockedScrollView(isBlockedScrollView);
+            //listView.setBlockedScrollView(isBlockedScrollView);
+            //adapterPhotos.setZoomable(isBlockedScrollView);
             hackyViewPager.getLayoutParams().height = getView().getHeight() + ((MainActivity) getActivity()).getActBarHeight() + statusBarHeight;
             hackyViewPager.requestFocus();
             addReviewButton.setVisibility(View.GONE);
@@ -255,7 +256,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             addReviewButtonLayout.setVisibility(View.VISIBLE);
             ((MainActivity) getActivity()).showActBar();
             isBlockedScrollView = false;
-            listView.setBlockedScrollView(isBlockedScrollView);
+            //listView.setBlockedScrollView(isBlockedScrollView);
+            //adapterPhotos.setBlockedScrollView(isBlockedScrollView);
             hackyViewPager.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
             hackyViewPager.requestLayout();
             likedImage.setVisibility(View.VISIBLE);
@@ -345,8 +347,9 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         listView.setAdapter(feedbackAdapter);
         listView.setOnItemClickListener(this);
 
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         hackyViewPager = (HackyViewPager) rootHeaderLayout.findViewById(R.id.frg_details_shop_img);
-        adapterPhotos = new DetailImagePagerAdapter(getContext(), new ArrayList<ShopsPhotosModel>(), this);
+        adapterPhotos = new DetailImagePagerAdapter(getContext(), new ArrayList<ShopsPhotosModel>(), this, view.getMeasuredWidth(), view.getMeasuredHeight());
         PagerAdapter wrappedAdapter = new InfinitePagerAdapter(adapterPhotos);
         hackyViewPager.setAdapter(wrappedAdapter);
 
@@ -372,10 +375,24 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             public void onClick(View v) {
                 if(isBlockedScrollView) {
                     addReviewButton.setVisibility(View.VISIBLE);
+                    addReviewButtonLayout.setVisibility(View.VISIBLE);
                     ((MainActivity) getActivity()).showActBar();
                     isBlockedScrollView = false;
+                    //listView.setBlockedScrollView(isBlockedScrollView);
+                    //adapterPhotos.setBlockedScrollView(isBlockedScrollView);
                     hackyViewPager.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
+                    hackyViewPager.requestLayout();
+                    likedImage.setVisibility(View.VISIBLE);
+                    phoneCallBtn.setVisibility(View.VISIBLE);
+                    category.setVisibility(View.VISIBLE);
                     setAllCenterCrop(false);
+
+                    if (Build.VERSION.SDK_INT < 16) {
+                        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
+                                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                    } else {
+                        getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                    }
                 } else {
                     ((MainActivity)getActivity()).popBackStackSupportFragmentManager();
                 }
@@ -395,7 +412,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                     else
                         ObjectAnimator.ofFloat(addReviewButtonLayout, "y", startY + headerHeight).setDuration(200).start();
                 } else {
-                    addReviewButtonLayout.setY(startY);
+                    ObjectAnimator.ofFloat(addReviewButtonLayout, "y", startY).setDuration(200).start();
                 }
 
             }
@@ -407,6 +424,8 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 if(isBlockedScrollView) {
                     listView.getChildAt(0).setTop(0);
                     rootHeaderLayout.setY(0);
+                    //rootHeaderLayout.requestFocus();
+                    //hackyViewPager.requestLayout();
                 }
             }
         });

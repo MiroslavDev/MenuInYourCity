@@ -25,6 +25,7 @@ import java.util.Set;
 public class ShopsAdapter extends ArrayAdapter<ShopsModel> {
 
     private OnLikedImageClickListener likedImageListener;
+    private float width, height;
 
     private Set<Long> likedList = new HashSet<>();
 
@@ -48,6 +49,9 @@ public class ShopsAdapter extends ArrayAdapter<ShopsModel> {
             holder.ratting = (TextView) convertView.findViewById(R.id.shop_item_rating);
             holder.image = (ImageView) convertView.findViewById(R.id.shop_item_image);
             holder.likedImage = (ImageView) convertView.findViewById(R.id.shop_item_favourits);
+
+            width = getContext().getResources().getDimension(R.dimen.card_height);
+            height = getContext().getResources().getDimension(R.dimen.card_height);
 
             convertView.setTag(holder);
         } else {
@@ -74,7 +78,7 @@ public class ShopsAdapter extends ArrayAdapter<ShopsModel> {
         }
 
         if(item.getPhotos() != null && !item.getPhotos().isEmpty())
-            Picasso.with(getContext()).load(URLHelper.imageDomain + item.getPhotos().get(0).getImage()).into(holder.image);
+            Picasso.with(getContext()).load(URLHelper.imageDomain + item.getPhotos().get(0).getImage()).resize((int) width, (int) height).into(holder.image);
 
         return convertView;
     }
