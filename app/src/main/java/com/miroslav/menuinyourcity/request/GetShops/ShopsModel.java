@@ -3,7 +3,6 @@ package com.miroslav.menuinyourcity.request.GetShops;
 import com.google.api.client.util.Key;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by apple on 4/10/16.
@@ -29,6 +28,8 @@ public class ShopsModel {
     private String street;
     @Key("phone")
     private String phone;
+    @Key("url")
+    private String url;
     @Key("date_start")
     private String dataStart;
     @Key("date_stop")
@@ -116,6 +117,13 @@ public class ShopsModel {
         this.street = street;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
     public String getPhone() {
         return phone;
     }
@@ -180,6 +188,8 @@ public class ShopsModel {
         this.reviews = reviews;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
 
@@ -201,6 +211,7 @@ public class ShopsModel {
         if (longitude != null ? !longitude.equals(that.longitude) : that.longitude != null)
             return false;
         if (street != null ? !street.equals(that.street) : that.street != null) return false;
+        if (url != null ? !url.equals(that.url) : that.url != null) return false;
         if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
         if (dataStart != null ? !dataStart.equals(that.dataStart) : that.dataStart != null)
             return false;
@@ -227,6 +238,7 @@ public class ShopsModel {
         result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
         result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (dataStart != null ? dataStart.hashCode() : 0);
         result = 31 * result + (dataStop != null ? dataStop.hashCode() : 0);
@@ -250,6 +262,7 @@ public class ShopsModel {
                 ", latitude='" + latitude + '\'' +
                 ", longitude='" + longitude + '\'' +
                 ", street='" + street + '\'' +
+                ", url='" + url + '\'' +
                 ", phone='" + phone + '\'' +
                 ", dataStart='" + dataStart + '\'' +
                 ", dataStop='" + dataStop + '\'' +

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.MainActivity;
@@ -30,6 +31,8 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
     private ListView listView;
     private ProgressBar progressBar;
     private List<GetNewsModel> data;
+    private TextView labelDuringEmptyData;
+
 
     public static NewsListFragment newInstance() {
         NewsListFragment fr = new NewsListFragment();
@@ -47,7 +50,7 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        labelDuringEmptyData = (TextView) view.findViewById(R.id.shop_item_label_during_empty_data);
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
         listView.setAdapter(new NewsAdapter(getContext(), new ArrayList<GetNewsModel>()));
         listView.setOnItemClickListener(this);
@@ -106,6 +109,13 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
         adapter.clear();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
+
+        if(data.isEmpty()){
+            labelDuringEmptyData.setVisibility(View.VISIBLE);
+            labelDuringEmptyData.setText("На данный момент в этом городе нет новостей.");
+        }
+
+
     }
 
     @Override

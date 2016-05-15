@@ -1,9 +1,7 @@
 package com.miroslav.menuinyourcity.fragment;
 
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,10 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -79,7 +75,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private View.OnClickListener listener;
     private int statusBarHeight;
 
-    private View addReviewButton;
+    private View addReviewButtonFooter;
     private View addReviewButtonLayout;
     private float startY = 0;
     private int headerHeight = 0;
@@ -88,6 +84,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private Double latitude = 0.0d;
     private Double longitude = 0.0d;
     private String address;
+    private String phoneNumber;
     private String shopId;
     private Boolean isBlockedScrollView = false;
     private DetailImagePagerAdapter adapterPhotos;
@@ -173,22 +170,16 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         feedbackAdapter.addAll(data.getReviews());
         feedbackAdapter.notifyDataSetChanged();
 
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent ev) {
-                return isBlockedScrollView;
-            }
-        });
-
         setupAB(data.getTitle());
         category.setText(categoryName);
-        shopURL.setText(data.getPhone());
+        shopURL.setText(data.getUrl());
         shopAddress.setText(data.getStreet());
         shopTimeWork.setText(data.getTime());
         description.setText(data.getDescription());
         String ratingS = String.format( Locale.US, "%.2f", data.getRating());
         rating.setText(getContext().getString(R.string.rating) + " " + ratingS + "/10");
         address = data.getStreet();
+        phoneNumber = data.getPhone();
         try {
             latitude = Double.parseDouble(data.getLatitude());
         } catch (NumberFormatException e) {
@@ -233,11 +224,11 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private void onImageClick() {
         if(!isBlockedScrollView) {
             isBlockedScrollView = true;
-            //listView.setBlockedScrollView(isBlockedScrollView);
-            //adapterPhotos.setZoomable(isBlockedScrollView);
             hackyViewPager.getLayoutParams().height = getView().getHeight() + ((MainActivity) getActivity()).getActBarHeight() + statusBarHeight;
+            hackyViewPager.requestLayout();
             hackyViewPager.requestFocus();
-            addReviewButton.setVisibility(View.GONE);
+            listView.removeFooterView(addReviewButtonFooter);
+            addReviewButtonFooter.setVisibility(View.GONE);
             addReviewButtonLayout.setVisibility(View.GONE);
             likedImage.setVisibility(View.GONE);
             phoneCallBtn.setVisibility(View.GONE);
@@ -252,7 +243,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
             }
         } else {
-            addReviewButton.setVisibility(View.VISIBLE);
+            addReviewButtonFooter.setVisibility(View.VISIBLE);
             addReviewButtonLayout.setVisibility(View.VISIBLE);
             ((MainActivity) getActivity()).showActBar();
             isBlockedScrollView = false;
@@ -260,6 +251,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             //adapterPhotos.setBlockedScrollView(isBlockedScrollView);
             hackyViewPager.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
             hackyViewPager.requestLayout();
+            listView.addFooterView(addReviewButtonFooter);
             likedImage.setVisibility(View.VISIBLE);
             phoneCallBtn.setVisibility(View.VISIBLE);
             category.setVisibility(View.VISIBLE);
@@ -292,7 +284,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         phoneCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + shopURL.getText()));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
                 startActivity(intent);
             }
         });
@@ -303,6 +295,18 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 ((MainActivity) getActivity()).replaceFragment(MapFragment.newInstance(latitude, longitude, address));
             }
         });
+
+
+        shopURL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(shopURL.getText().toString()));
+                try {
+                    startActivity(browserIntent);
+                } catch (Exception e) {}
+            }
+        });
+
 
         moreInformationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -336,14 +340,14 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
 
-        addReviewButton = LayoutInflater.from(getContext()).inflate(R.layout.add_review_button, null);
+        addReviewButtonFooter = LayoutInflater.from(getContext()).inflate(R.layout.add_review_button, null);
 
         addReviewButtonLayout = view.findViewById(R.id.frg_details_shop_give_feedback);
         listView = (MyListView) view.findViewById(R.id.frg_details_shop_list_view);
         if(feedbackAdapter == null)
             feedbackAdapter = new ShopFeedbackAdapter(getContext(), new ArrayList<ShopsReviewsModel>(), view.getHandler());
         listView.addHeaderView(rootHeaderLayout);
-        listView.addFooterView(addReviewButton);
+        listView.addFooterView(addReviewButtonFooter);
         listView.setAdapter(feedbackAdapter);
         listView.setOnItemClickListener(this);
 
@@ -374,12 +378,11 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 if(isBlockedScrollView) {
-                    addReviewButton.setVisibility(View.VISIBLE);
+                    addReviewButtonFooter.setVisibility(View.VISIBLE);
                     addReviewButtonLayout.setVisibility(View.VISIBLE);
                     ((MainActivity) getActivity()).showActBar();
                     isBlockedScrollView = false;
-                    //listView.setBlockedScrollView(isBlockedScrollView);
-                    //adapterPhotos.setBlockedScrollView(isBlockedScrollView);
+                    listView.addFooterView(addReviewButtonFooter);
                     hackyViewPager.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.height_present_images);
                     hackyViewPager.requestLayout();
                     likedImage.setVisibility(View.VISIBLE);
@@ -414,7 +417,6 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 } else {
                     ObjectAnimator.ofFloat(addReviewButtonLayout, "y", startY).setDuration(200).start();
                 }
-
             }
 
             @Override
@@ -424,8 +426,6 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
                 if(isBlockedScrollView) {
                     listView.getChildAt(0).setTop(0);
                     rootHeaderLayout.setY(0);
-                    //rootHeaderLayout.requestFocus();
-                    //hackyViewPager.requestLayout();
                 }
             }
         });

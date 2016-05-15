@@ -122,12 +122,6 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
         promsRequest();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        categoriesRequest();
-    }
-
     private void promsRequest() {
         PromsRequest request = new PromsRequest();
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BasePromsModel>() {

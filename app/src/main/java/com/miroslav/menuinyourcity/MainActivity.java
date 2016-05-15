@@ -31,7 +31,6 @@ import com.octo.android.robospice.Jackson2GoogleHttpClientSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onRequestFailure(SpiceException spiceException) {
 
             }
-
             @Override
             public void onRequestSuccess(BaseCitiesModel baseCitiesModel) {
                 if (!baseCitiesModel.getError()) {
@@ -248,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void addCities(List<CitiesModel> data) {
+        adapter.clear();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
     }

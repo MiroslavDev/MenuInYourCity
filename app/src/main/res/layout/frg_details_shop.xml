@@ -22,7 +22,8 @@
         android:layout_height="match_parent"
         android:id="@+id/frg_details_shop_list_view" />
 
-    <RelativeLayout  android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/frg_details_shop_give_feedback"
         android:layout_alignParentBottom="true">

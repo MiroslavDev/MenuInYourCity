@@ -9,7 +9,8 @@ import com.octo.android.robospice.request.googlehttpclient.GoogleHttpClientSpice
 
 public abstract class BaseRequest<Result> extends GoogleHttpClientSpiceRequest<Result> {
 
-    private static final String DOMAIN = "http://menu.frameapp.com.ua/api";
+    private static final String DOMAIN = "http://menucity.kz/api";
+//    private static final String DOMAIN = "http://menu.frameapp.com.ua/api";
 
     protected String CITY_ID = "city_id";
     protected String USER_ID = "user_id";
@@ -28,7 +29,7 @@ public abstract class BaseRequest<Result> extends GoogleHttpClientSpiceRequest<R
     }
 
     public long getCacheExpiryDuration() {
-        return DurationInMillis.ALWAYS_EXPIRED;
+        return DurationInMillis.ONE_HOUR;
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.miroslav.menuinyourcity.fragment;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +47,8 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     private View header;
     private int headerHeight = 0;
     private Boolean isFirstVisible = true;
+    private TextView labelDuringEmptyData;
+
 
     public static SharesFragment newInstance(Long id, Boolean isFollow) {
         SharesFragment fr = new SharesFragment();
@@ -72,6 +73,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         categoryId = arg.getLong(CATEGORY_ID);
         isFollow = arg.getBoolean(IS_FOLLOW_KEY);
 
+        labelDuringEmptyData = (TextView) view.findViewById(R.id.shop_item_label_during_empty_data);
         followBtn = view.findViewById(R.id.frg_shares_btn_subscribe);
         labelFollow = (TextView) view.findViewById(R.id.frg_shares_btn_subscribe_label);
         if (isFollow) {
@@ -205,6 +207,9 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         adapter.clear();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
+
+        if(data.isEmpty())
+            labelDuringEmptyData.setVisibility(View.VISIBLE);
     }
 
     @Override

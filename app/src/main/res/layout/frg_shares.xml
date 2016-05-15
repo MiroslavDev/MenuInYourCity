@@ -45,5 +45,16 @@
         android:layout_gravity="center"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text_size"
+        android:textColor="@color/end_shadow_color"
+        android:text="На данный момент в данной категории нет акций."
+        android:id="@+id/shop_item_label_during_empty_data"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:padding="@dimen/padding_xsmall"
+        android:visibility="gone"/>
 
 </RelativeLayout>

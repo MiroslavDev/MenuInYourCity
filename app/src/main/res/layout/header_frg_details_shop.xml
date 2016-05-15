@@ -165,19 +165,47 @@
         android:paddingRight="@dimen/padding_small"
         android:paddingBottom="@dimen/bpadding" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:textSize="@dimen/cat_text_size"
-        android:text="Читать полностью..."
+    <LinearLayout
         android:id="@+id/frg_details_shop_description_more"
-        android:paddingRight="@dimen/padding_small"
-        android:paddingBottom="@dimen/padding_xsmall"
         android:layout_alignBottom="@+id/frg_details_shop_description"
-        android:layout_alignRight="@+id/frg_details_shop_description"
-        android:textStyle="bold"
-        android:textColor="@color/text_color_black"/>
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/common_action_bar_splitter"
+            android:layout_height="0.5dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:textSize="@dimen/cat_text_size"
+                android:text="Подробнее"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding_small"
+                android:textStyle="bold"
+                android:textColor="@color/devider_color"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_button_back"
+                android:id="@+id/btn_back_actbar"
+                android:rotation="180"
+                android:padding="@dimen/padding_xxsmall"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/common_action_bar_splitter"
+            android:layout_height="0.5dp"/>
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -185,6 +213,7 @@
         android:text="@string/reviews"
         android:id="@+id/frg_details_shop_review"
         android:paddingLeft="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
         android:textSize="@dimen/big_title_text_size"
         android:textStyle="bold"
         android:gravity="center"
@@ -198,6 +227,7 @@
         tools:text="Рейтинг: 7.1/10"
         android:id="@+id/frg_details_shop_review_rating_text"
         android:paddingRight="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
         android:textSize="@dimen/big_title_text_size"
         android:textStyle="bold"
         android:gravity="center"

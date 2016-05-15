@@ -52,10 +52,10 @@ public class HackyViewPager extends ViewPagerEx {
         return false;
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if(isBlockedScrollView)
-            return true;
-        return super.dispatchTouchEvent(ev);
-    }
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        if(isBlockedScrollView)
+//            return true;
+//        return super.dispatchTouchEvent(ev);
+//    }
 }

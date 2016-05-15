@@ -17,8 +17,8 @@
     <dimen name="xxxxlarg_padding">64dp</dimen>
     <dimen name="xxxlarg_padding">48dp</dimen>
     <dimen name="xlarge_padding">32dp</dimen>
-    <dimen name="bpadding">24dp</dimen>
-    <dimen name="padding">16dp</dimen>
+    <dimen name="bpadding">40dp</dimen>
+    <dimen name="padding">17dp</dimen>
     <dimen name="padding_small">12dp</dimen>
     <dimen name="padding_xsmall">8dp</dimen>
     <dimen name="padding_xxsmall">4dp</dimen>

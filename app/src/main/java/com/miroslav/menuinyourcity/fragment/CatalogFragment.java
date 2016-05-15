@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.MainActivity;
@@ -34,6 +35,7 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
     private ListView listView;
     private List<GetChildrenCategoriesModel> categorieModelList;
     private ProgressBar progressBar;
+    private TextView labelDuringEmptyData;
 
     public static CatalogFragment newInstance(Long id) {
         CatalogFragment fr = new CatalogFragment();
@@ -50,6 +52,7 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
 
         parentId = getArguments().getLong(CatalogFragment.PARENT_ID);
         Log.d("parentId = ", parentId+"");
+        labelDuringEmptyData = (TextView) view.findViewById(R.id.shop_item_label_during_empty_data);
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
         listView.setVisibility(View.GONE);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
@@ -104,6 +107,9 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
         adapter.clear();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
+
+        if(data.isEmpty())
+            labelDuringEmptyData.setVisibility(View.VISIBLE);
     }
 
     @Override
