@@ -3,7 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="height_present_images">220dp</dimen>
+    <dimen name="height_present_images">240dp</dimen>
 
     <dimen name="group_size">56dp</dimen>
     <dimen name="item_height">48dp</dimen>

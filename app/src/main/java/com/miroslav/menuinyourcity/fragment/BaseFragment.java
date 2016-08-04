@@ -33,4 +33,10 @@ public abstract class BaseFragment extends Fragment {
         }
         super.onStop();
     }
+
+    @Override
+    public void onDestroyView() {
+        ((MainActivity) getActivity()).collapseSearchToolbar();
+        super.onDestroyView();
+    }
 }

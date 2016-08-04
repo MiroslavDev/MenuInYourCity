@@ -3,6 +3,7 @@ package com.miroslav.menuinyourcity.fragment;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
         labelDuringEmptyData = (TextView) view.findViewById(R.id.shop_item_label_during_empty_data);
         followBtn = view.findViewById(R.id.frg_shares_btn_subscribe);
         labelFollow = (TextView) view.findViewById(R.id.frg_shares_btn_subscribe_label);
+        Log.d("isFollow", " "+isFollow.toString());
         if (isFollow) {
             labelFollow.setBackgroundColor(getResources().getColor(R.color.disable_gray));
             labelFollow.setText(getString(R.string.unfollow_on_push));
@@ -156,6 +158,7 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     }
 
     private void followShares(Long id) {
+        progressBar.setVisibility(View.VISIBLE);
         FollowCategoryRequest request = new FollowCategoryRequest(id);
         spiceManager.execute(request, request.getResourceUri(), request.getCacheExpiryDuration(), new RequestListener<BaseFollowCategoryModel>() {
             @Override
@@ -166,9 +169,11 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             @Override
             public void onRequestSuccess(BaseFollowCategoryModel data) {
                 if (!data.getError()) {
+                    progressBar.setVisibility(View.GONE);
                     labelFollow.setBackgroundColor(getResources().getColor(R.color.disable_gray));
                     labelFollow.setTextColor(getResources().getColor(R.color.text_color_black));
                     isFollow = true;
+                    Log.d("isFollow", " "+isFollow.toString());
                     labelFollow.setText(getString(R.string.unfollow_on_push));
                     AttentionDialog dl = new AttentionDialog();
                     dl.setMessage(getContext().getString(R.string.you_follow_the_shares));
@@ -189,9 +194,11 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
             @Override
             public void onRequestSuccess(BaseFollowCategoryModel data) {
                 if (!data.getError()) {
+                    progressBar.setVisibility(View.GONE);
                     labelFollow.setBackgroundColor(getResources().getColor(R.color.main_orange));
                     labelFollow.setTextColor(getResources().getColor(R.color.text_color_white));
                     isFollow = false;
+                    Log.d("isFollow", " "+isFollow.toString());
                     labelFollow.setText(getString(R.string.subscribe_on_push));
                     AttentionDialog dl = new AttentionDialog();
                     dl.setMessage(getContext().getString(R.string.you_unfollow_the_shares));

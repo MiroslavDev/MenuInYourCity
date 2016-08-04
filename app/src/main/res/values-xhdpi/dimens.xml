@@ -3,7 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="height_present_images">200dp</dimen>
+    <dimen name="height_present_images">255dp</dimen>
 
     <dimen name="group_size">54dp</dimen>
     <dimen name="item_height">54dp</dimen>
@@ -30,9 +30,10 @@
     <dimen name="menu_title_size_actbar">14sp</dimen>
     <dimen name="name_text_size">15sp</dimen>
     <dimen name="cat_text_size">16sp</dimen>
-    <dimen name="smal_standart_text_size">17sp</dimen>
+    <dimen name="cat_text_size2">14sp</dimen>
+    <dimen name="smal_standart_text_size">15sp</dimen>
     <dimen name="standart_text_size">18sp</dimen>
-    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="title_text_size">18sp</dimen>
     <dimen name="big_title_text_size">21sp</dimen>
 
     <dimen name="title_text_size_actbar">18sp</dimen>

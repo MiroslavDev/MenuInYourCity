@@ -59,6 +59,40 @@
         android:layout_marginRight="@dimen/padding"
         android:layout_alignParentRight="true" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:layout_below="@+id/frg_details_shop_img"
+        android:id="@+id/frg_details_call_layout"
+        android:background="@color/taxi_button_background">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_web"
+            android:padding="@dimen/padding"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/standart_text_size"
+            android:textColor="@color/text_color_white"
+            android:text="@string/want_there"
+            android:singleLine="true"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_web"
+            android:padding="@dimen/padding"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,7 +100,8 @@
         android:id="@+id/frg_details_shop_icon_layout"
         android:paddingLeft="@dimen/padding_small"
         android:paddingRight="@dimen/padding_small"
-        android:layout_below="@+id/frg_details_shop_img">
+        android:layout_below="@+id/frg_details_call_layout">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >

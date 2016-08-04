@@ -5,6 +5,7 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.miroslav.menuinyourcity.request.BaseRequest;
+import com.octo.android.robospice.persistence.DurationInMillis;
 
 /**
  * Created by apple on 4/8/16.
@@ -20,6 +21,10 @@ public class GetCitiesRequest extends BaseRequest<BaseCitiesModel> {
 
     public GetCitiesRequest() {
         super(BaseCitiesModel.class);
+    }
+
+    public long getCacheExpiryDuration() {
+        return DurationInMillis.ALWAYS_EXPIRED;
     }
 
     @Override

@@ -8,8 +8,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -19,8 +24,11 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.miroslav.menuinyourcity.adapter.SpinnerAdapter;
+import com.miroslav.menuinyourcity.fragment.BaseFragment;
 import com.miroslav.menuinyourcity.fragment.DetailPushFragment;
+import com.miroslav.menuinyourcity.fragment.SearchFragment;
 import com.miroslav.menuinyourcity.fragment.SplashFragment;
+import com.miroslav.menuinyourcity.fragment.TaxiFragment;
 import com.miroslav.menuinyourcity.gcm.GCMManager;
 import com.miroslav.menuinyourcity.request.Cities.BaseCitiesModel;
 import com.miroslav.menuinyourcity.request.Cities.CitiesModel;
@@ -49,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static MainActivity rootAcvitityInstance = null;
     private DBHelper dbHelper;
     private Callbacks callback;
+    private Toolbar toolbar;
+    private MenuItem searchItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +83,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     DetailPushFragment.newInstance(getIntent().getStringExtra("message"),
                             getIntent().getStringExtra("image"), getIntent().getStringExtra("message"),
                             getIntent().getStringExtra("desc"), getIntent().getStringExtra("shop_id"));
-            addFragment(fr);
+            addFragmentWithoutBackStack(fr);
         }else {
-            addFragment(new SplashFragment());
+            addFragmentWithoutBackStack(new SplashFragment());
         }
 
     }
@@ -99,6 +109,77 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onResume();
         this.registerApp(GCMManager.getInstance().registrationId);
         citiesRequest();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+
+
+        final MenuItem taxiItem = menu.findItem(R.id.action_taxi);
+        searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.length() >= 3)
+                    ((SearchFragment) getFragmentByTag(SearchFragment.TAG)).searchRequest(newText);
+
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                removeFragmentByTag(SearchFragment.TAG);
+                return false;
+            }
+        });
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                taxiItem.setVisible(true);
+                removeFragmentByTag(SearchFragment.TAG);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                taxiItem.setVisible(false);
+                BaseFragment fr = SearchFragment.newInstance();
+                addFragmentWithoutBackStackWithTag(fr, SearchFragment.TAG);
+                return true;
+            }
+        });
+
+
+        return true;
+    }
+
+    public void collapseSearchToolbar() {
+        searchItem.collapseActionView();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_search) {
+            //TODO SearchFragment.NewInstance set editText listener
+            return true;
+        } else if(item.getItemId() == R.id.action_taxi) {
+            Fragment fragment = getFragmentByTag(TaxiFragment.TAG);
+            if(fragment == null || !fragment.isVisible())
+                replaceFragmentWithTag(TaxiFragment.newInstance(), TaxiFragment.TAG);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void citiesRequest() {
@@ -140,10 +221,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void showActBar() {
         actBar.setVisibility(View.VISIBLE);
+        toolbar.setVisibility(View.VISIBLE);
     }
 
     public void hideActBar() {
         actBar.setVisibility(View.GONE);
+        toolbar.setVisibility(View.GONE);
     }
 
     private void setupUI() {
@@ -151,6 +234,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnBackActBar = findViewById(R.id.btn_back_actbar);
         btnMenuActBar = findViewById(R.id.menu_actbar_btn);
         titleActBar = (TextView) findViewById(R.id.title_actbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         adapter = new SpinnerAdapter(this, new ArrayList<CitiesModel>());
         adapter.setDropDownViewResource(R.layout.spinner_item);
@@ -241,8 +326,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, fragment).addToBackStack(null).commit();
     }
 
+    public void addFragmentWithoutBackStackWithTag(Fragment fragment, String tag) {
+        getSupportFragmentManager().beginTransaction().add(R.id.main_fragment_container, fragment, tag).commit();
+    }
+
+    public void replaceFragmentWithTag(Fragment fragment, String tag) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, fragment, tag).addToBackStack(null).commit();
+    }
+
+    public Fragment getFragmentByTag(String name) {
+        return getSupportFragmentManager().findFragmentByTag(name);
+    }
+
     public void addFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().add(R.id.main_fragment_container, fragment).addToBackStack(null).commit();
+    }
+
+    public void addFragmentWithoutBackStack(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().add(R.id.main_fragment_container, fragment).commit();
+    }
+
+    public void removeFragmentByTag(String tag) {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+        if(fragment != null)
+            getSupportFragmentManager().beginTransaction().hide(fragment).remove(fragment).commit();
     }
 
     public void addCities(List<CitiesModel> data) {

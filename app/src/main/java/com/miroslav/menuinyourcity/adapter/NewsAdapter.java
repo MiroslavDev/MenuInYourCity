@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.GetNews.GetNewsModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
@@ -58,7 +57,7 @@ public class NewsAdapter extends ArrayAdapter<GetNewsModel> {
         holder.name.setText(item.getTitle());
 
         try {
-            Date newDate = formatStart.parse(item.getCreatedAt());
+            Date newDate = formatStart.parse(item.getDate());
             holder.data.setText(formatEnd.format(newDate));
         } catch (ParseException e) {
             e.printStackTrace();

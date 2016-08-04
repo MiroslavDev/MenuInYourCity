@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by apple on 4/5/16.
  */
-public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPageChangeListener, MainActivity.Callbacks{
+public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPageChangeListener, MainActivity.Callbacks {
     private static final String TAG = "CategoriesFragment";
 
     private GridViewOnFullScreen gridLayout;
@@ -48,7 +48,7 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ((MainActivity)getActivity()).setVisibleSpinnerInActBar();
+        ((MainActivity) getActivity()).setVisibleSpinnerInActBar();
         ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity);
 
         setupUI(view);
@@ -92,24 +92,32 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
         return inflater.inflate(R.layout.frg_categories, container, false);
     }
 
+
+//    @Override
+//    public void onResume() {
+//       super.onResume();
+//
+//    }
+
     @Override
     public void onStart() {
         super.onStart();
 
         ((MainActivity) getActivity()).setCallback(this);
 
-        if(categorieModelList == null) {
+        if (categorieModelList == null) {
             categoriesRequest();
         } else {
             updaateAdapterData(categorieModelList);
         }
 
-        if(promsModelList == null) {
+        if (promsModelList == null) {
             promsRequest();
         } else {
             updatePromos(promsModelList);
         }
     }
+
 
     @Override
     public void onStop() {
@@ -145,7 +153,7 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
         this.promsModelList = promsModelList;
 
         topSlider.removeAllSliders();
-        for(final PromsModel promsModel : promsModelList){
+        for (final PromsModel promsModel : promsModelList) {
             TextSliderView textSliderView = new TextSliderView(getContext());
             textSliderView
                     .image(URLHelper.imageDomain + promsModel.getImage())
@@ -153,11 +161,12 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
                     .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                         @Override
                         public void onSliderClick(BaseSliderView slider) {
-                            if(promsModel.getUrl() != null && !promsModel.getUrl().isEmpty()) {
+                            if (promsModel.getUrl() != null && !promsModel.getUrl().isEmpty()) {
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(promsModel.getUrl()));
                                 try {
                                     startActivity(browserIntent);
-                                } catch (Exception e) {}
+                                } catch (Exception e) {
+                                }
                             } else {
                                 DetailsShopFragment fr = DetailsShopFragment.newInstance(Long.parseLong(promsModel.getShopId()), "");
                                 ((MainActivity) getActivity()).replaceFragment(fr);
@@ -190,9 +199,11 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
     }
 
     private void updaateAdapterData(List<GetChildrenCategoriesModel> data) {
-        categorieModelList = data;
         MainCategoriesAdapter adapter = (MainCategoriesAdapter) gridLayout.getAdapter();
-        adapter.clear();
+        if (categorieModelList != data) {
+            categorieModelList = data;
+            adapter.clear();
+        }
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
     }

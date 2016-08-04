@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miroslav.menuinyourcity.MainActivity;
+import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.DetailImagePagerAdapter;
 import com.miroslav.menuinyourcity.adapter.ShopFeedbackAdapter;
@@ -74,6 +75,7 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     private ProgressBar progressBar;
     private View.OnClickListener listener;
     private int statusBarHeight;
+    private View callToTaxi;
 
     private View addReviewButtonFooter;
     private View addReviewButtonLayout;
@@ -109,8 +111,12 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
 
         Log.d("parentId = ", parentId+"");
         setupUI(view);
+        setupAB();
+    }
 
+    private void setupAB() {
         ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
+        ((MainActivity) getActivity()).setTitleActBar("");
     }
 
     @Override
@@ -236,12 +242,12 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
             ((MainActivity) getActivity()).hideActBar();
             setAllCenterCrop(true);
 
-            if (Build.VERSION.SDK_INT < 16) {
-                getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            } else {
-                getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-            }
+//            if (Build.VERSION.SDK_INT < 16) {
+//                getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//            } else {
+//                getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+//            }
         } else {
             addReviewButtonFooter.setVisibility(View.VISIBLE);
             addReviewButtonLayout.setVisibility(View.VISIBLE);
@@ -369,10 +375,19 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
         description = (TextView) rootHeaderLayout.findViewById(R.id.frg_details_shop_description);
         likedImage = (ImageView) rootHeaderLayout.findViewById(R.id.frg_details_shop_ic_star);
         phoneCallBtn = (ImageView) rootHeaderLayout.findViewById(R.id.frg_details_shop_ic_phone);
+        callToTaxi = rootHeaderLayout.findViewById(R.id.frg_details_call_layout);
 
         Rect rectangle= new Rect();
         getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(rectangle);
         statusBarHeight= rectangle.top;
+
+        callToTaxi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Model.getInstance().taxiNumber));
+                startActivity(intent);
+            }
+        });
 
         listener = new View.OnClickListener() {
             @Override

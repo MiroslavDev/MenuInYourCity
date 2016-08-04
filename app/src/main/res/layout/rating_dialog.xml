@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/padding_xsmall"
+    android:paddingRight="@dimen/padding_xsmall">
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating_bar"
+        android:numStars="10"
+        android:rating="5"
+        android:stepSize="1"
+        android:progressDrawable="@drawable/rating_bar_layer_list"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/padding"/>
+
+</LinearLayout>

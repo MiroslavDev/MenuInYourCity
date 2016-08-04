@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="false"
-        android:textSize="@dimen/cat_text_size"
+        android:textSize="@dimen/cat_text_size2"
         android:textStyle="bold"
         android:layout_alignBottom="@+id/frg_main_categorie_item_img"
         android:layout_marginLeft="@dimen/padding"

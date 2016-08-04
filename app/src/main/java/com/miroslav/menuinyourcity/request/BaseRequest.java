@@ -12,8 +12,8 @@ public abstract class BaseRequest<Result> extends GoogleHttpClientSpiceRequest<R
     private static final String DOMAIN = "http://menucity.kz/api";
 //    private static final String DOMAIN = "http://menu.frameapp.com.ua/api";
 
-    protected String CITY_ID = "city_id";
-    protected String USER_ID = "user_id";
+    protected String CITY_ID = "city-id";
+    protected String USER_ID = "user-id";
 
 
     protected BaseRequest(Class<Result> clazz) {
@@ -29,7 +29,7 @@ public abstract class BaseRequest<Result> extends GoogleHttpClientSpiceRequest<R
     }
 
     public long getCacheExpiryDuration() {
-        return DurationInMillis.ONE_HOUR;
+        return DurationInMillis.ALWAYS_EXPIRED;
     }
 
     @Override

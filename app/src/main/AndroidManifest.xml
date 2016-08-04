@@ -52,7 +52,7 @@
         android:icon="@mipmap/menu_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
 
         <!-- GCM Receiver -->
         <receiver

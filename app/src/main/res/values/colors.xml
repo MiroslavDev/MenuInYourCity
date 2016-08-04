@@ -18,6 +18,7 @@
     <color name="end_shadow_color">#33000000</color>
     <color name="transparent_background">#3d000000</color>
 
+    <color name="taxi_button_background">#fac60c</color>
     <color name="text_color_white">#FFFFFF</color>
     <color name="accent_green">#27AE60</color>
     <color name="devider_color">#455A64</color>

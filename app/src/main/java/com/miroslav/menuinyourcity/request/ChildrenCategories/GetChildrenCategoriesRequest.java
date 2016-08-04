@@ -6,8 +6,6 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.request.BaseRequest;
-import com.miroslav.menuinyourcity.request.Categories.BaseCategoriesModel;
-import com.miroslav.menuinyourcity.request.Categories.GetCategoriesRequest;
 
 /**
  * Created by apple on 4/8/16.
@@ -25,6 +23,11 @@ public class GetChildrenCategoriesRequest extends BaseRequest<BaseChildrenCatego
     public String getResourceUri() {
         return "categories/" + id + "/childrens";
     }
+
+//    public long getCacheExpiryDuration() {
+//        return DurationInMillis.ALWAYS_EXPIRED;
+//    }
+
 
     @Override
     public BaseChildrenCategoriesModel loadDataFromNetwork() throws Exception {

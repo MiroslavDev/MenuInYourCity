@@ -16,10 +16,20 @@ public class GetNewsModel {
     private String description;
     @Key("image")
     private String imageUrl;
+    @Key("date")
+    private String date;
     @Key("created_at")
     private String createdAt;
     @Key("updated_at")
     private String updateAt;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public Long getId() {
         return id;
@@ -88,6 +98,7 @@ public class GetNewsModel {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (cityId != null ? !cityId.equals(that.cityId) : that.cityId != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null)
             return false;
         if (imageUrl != null ? !imageUrl.equals(that.imageUrl) : that.imageUrl != null)
@@ -105,6 +116,7 @@ public class GetNewsModel {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updateAt != null ? updateAt.hashCode() : 0);
         return result;
@@ -118,6 +130,7 @@ public class GetNewsModel {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", date='" + date + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", updateAt='" + updateAt + '\'' +
                 '}';

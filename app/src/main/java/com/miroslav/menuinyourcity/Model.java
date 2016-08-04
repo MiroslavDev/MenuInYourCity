@@ -6,6 +6,7 @@ package com.miroslav.menuinyourcity;
 public class Model {
     private static Model model;
 
+    public String taxiNumber = "+7 702 310 42 42";
     public String currentCity;
     public Long currentCityId;
     public Long currentUserId;
