@@ -3,16 +3,14 @@ package com.miroslav.menuinyourcity.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.TextViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.Toast;
 
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
-import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.Utils;
 import com.miroslav.menuinyourcity.dialogs.AttentionDialog;
@@ -20,8 +18,6 @@ import com.miroslav.menuinyourcity.dialogs.AttentionResultableDialog;
 import com.miroslav.menuinyourcity.dialogs.LoadingDialog;
 import com.miroslav.menuinyourcity.request.Reviews.StoreReviewModel;
 import com.miroslav.menuinyourcity.request.Reviews.StoreReviewRequest;
-import com.miroslav.menuinyourcity.request.StoreUsers.BaseStoreUsersModel;
-import com.miroslav.menuinyourcity.request.StoreUsers.PostStoreUsersRequest;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -56,7 +52,12 @@ public class AddReviewFragment extends BaseFragment implements DialogInterface.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
 
+        }
         shopId = getArguments().getString(SHOP_ID_KEY);
         
         name = (EditText) view.findViewById(R.id.frg_give_review_name);

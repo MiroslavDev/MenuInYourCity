@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.URLHelper;
@@ -47,7 +48,12 @@ public class DetailPushFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
 
+        }
         String sbTitle = getArguments().getString(ACTION_BAR_TITLE);
         String imageUrl = getArguments().getString(IMAGE_URL);
         String data = getArguments().getString(DATA);

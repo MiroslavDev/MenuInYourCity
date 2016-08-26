@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
@@ -105,7 +106,12 @@ public class DetailsShopFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
 
+        }
         parentId = getArguments().getLong(SHOP_ID);
         categoryName = getArguments().getString(CATEGORY_NAME_KEY);
 

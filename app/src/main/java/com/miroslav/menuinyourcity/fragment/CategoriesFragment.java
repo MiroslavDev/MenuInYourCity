@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
@@ -47,7 +48,12 @@ public class CategoriesFragment extends BaseFragment implements ViewPagerEx.OnPa
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
 
+        }
         ((MainActivity) getActivity()).setVisibleSpinnerInActBar();
         ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity);
 

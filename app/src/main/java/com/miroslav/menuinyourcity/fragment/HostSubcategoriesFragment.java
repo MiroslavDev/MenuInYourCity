@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
@@ -45,7 +46,12 @@ public class HostSubcategoriesFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
 
+        }
         parentId = getArguments().getLong(CatalogFragment.PARENT_ID);
         nameSubcategory = getArguments().getString(NAME_SUBCATEGORY);
         isFollow = getArguments().getBoolean(IS_FOLLOW_KEY);
@@ -57,7 +63,7 @@ public class HostSubcategoriesFragment extends Fragment {
 
     private void setupActionBar() {
         ((MainActivity) getActivity()).setVisibleButtonBackInActBar();
-        ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity +  ", " + nameSubcategory);
+        ((MainActivity) getActivity()).setTitleActBar(nameSubcategory);
     }
 
     @Nullable

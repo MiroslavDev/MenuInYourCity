@@ -69,8 +69,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_web"
-            android:padding="@dimen/padding"
+            android:src="@drawable/shashki"
+            android:padding="8dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true" />
 
@@ -86,8 +86,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_web"
-            android:padding="@dimen/padding"
+            android:src="@drawable/shashki"
+            android:padding="8dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />
 

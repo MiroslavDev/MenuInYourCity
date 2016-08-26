@@ -27,6 +27,7 @@
         android:id="@+id/frg_shares_item_three_dots"
         android:textColor="@android:color/white"
         android:textSize="25sp"
+        android:visibility="gone"
         android:textStyle="bold"
         android:text="..."
         android:layout_alignParentRight="true"

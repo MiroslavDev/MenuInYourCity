@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.CatalogAdapter;
@@ -49,7 +50,12 @@ public class CatalogFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
 
+        }
         parentId = getArguments().getLong(CatalogFragment.PARENT_ID);
         Log.d("parentId = ", parentId+"");
         labelDuringEmptyData = (TextView) view.findViewById(R.id.shop_item_label_during_empty_data);

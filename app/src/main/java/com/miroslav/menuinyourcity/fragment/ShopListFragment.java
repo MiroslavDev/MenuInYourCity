@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.miroslav.menuinyourcity.DBHelper;
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
-import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.ShopsAdapter;
 import com.miroslav.menuinyourcity.request.GetShops.BaseGetShopsModel;
-import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
 import com.miroslav.menuinyourcity.request.GetShops.GetShopsByCategoryRequest;
+import com.miroslav.menuinyourcity.request.GetShops.ShopsModel;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -65,7 +62,12 @@ public class ShopListFragment extends BaseFragment implements AdapterView.OnItem
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
 
+        }
         id = getArguments().getLong(SHOP_ID);
         title = getArguments().getString(TITLE);
 

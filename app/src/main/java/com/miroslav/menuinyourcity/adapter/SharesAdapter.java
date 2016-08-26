@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.request.GetEvents.GetEventModel;
 import com.miroslav.menuinyourcity.request.URLHelper;
@@ -57,7 +56,7 @@ public class SharesAdapter extends ArrayAdapter<GetEventModel> {
         GetEventModel item = getItem(position);
         holder.name.setText(item.getTitle());
         holder.description.setText(item.getDescription());
-        holder.threeDots.setOnClickListener(new View.OnClickListener() {
+        holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callback.onItemThreeDotsClick(position);

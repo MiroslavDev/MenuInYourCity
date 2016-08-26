@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.SharesAdapter;
@@ -69,7 +70,12 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
 
+        }
         Bundle arg = getArguments();
         categoryId = arg.getLong(CATEGORY_ID);
         isFollow = arg.getBoolean(IS_FOLLOW_KEY);
@@ -221,8 +227,8 @@ public class SharesFragment extends BaseFragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //BaseFragment fr = DetailsShopFragment.newInstance(Long.parseLong(adapter.getItem(position).getShopId()), adapter.getItem(position).getTitle());
-        //((MainActivity) getActivity()).replaceFragment(fr);
+//        BaseFragment fr = DetailsShopFragment.newInstance(Long.parseLong(adapter.getItem(position).getShopId()), adapter.getItem(position).getTitle());
+//        ((MainActivity) getActivity()).replaceFragment(fr);
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.Model;
 import com.miroslav.menuinyourcity.R;
@@ -53,7 +54,12 @@ public class LikedListFragment extends BaseFragment implements
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
 
+        }
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
         listView.setAdapter(new ShopsAdapter(getContext(), new ArrayList<ShopsModel>(), this, null));
         listView.setOnItemClickListener(this);

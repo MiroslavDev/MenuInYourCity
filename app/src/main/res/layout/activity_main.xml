@@ -11,6 +11,10 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/main_green"
         android:gravity="start"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
         style="@style/AppTheme.WhiteBackground"
         app:titleTextColor="@android:color/white">
 

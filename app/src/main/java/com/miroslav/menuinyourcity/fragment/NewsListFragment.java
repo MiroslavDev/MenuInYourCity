@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crittercism.app.Crittercism;
 import com.miroslav.menuinyourcity.MainActivity;
 import com.miroslav.menuinyourcity.R;
 import com.miroslav.menuinyourcity.adapter.NewsAdapter;
@@ -50,6 +51,12 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
+            Crittercism.initialize(getActivity(),
+                    "9df78e5d8b3243289652e05a3de44c6000555300");
+        } catch (NoClassDefFoundError e) {
+
+        }
         labelDuringEmptyData = (TextView) view.findViewById(R.id.shop_item_label_during_empty_data);
         listView = (ListView) view.findViewById(R.id.frg_catalog_listview);
         listView.setAdapter(new NewsAdapter(getContext(), new ArrayList<GetNewsModel>()));
