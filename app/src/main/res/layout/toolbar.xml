@@ -51,7 +51,6 @@
         android:src="@drawable/ic_button_back"
         android:id="@+id/btn_back_actbar"
         android:padding="@dimen/padding_xsmall"
-        android:visibility="invisible"
-        android:scaleType="fitStart" />
+        android:visibility="invisible" />
 
 </RelativeLayout>
