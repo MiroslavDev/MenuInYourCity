@@ -92,12 +92,6 @@ public class HostSubcategoriesFragment extends Fragment {
             public void onPageSelected(int position) {
                 Log.d("onPageSelected ", position + "");
                 tabLayout.getTabAt(position).select();
-
-                if(position == 0) {
-                    ((MainActivity) getActivity()).setTitleActBar(Model.getInstance().currentCity +  ", " + nameSubcategory);
-                } else {
-                    ((MainActivity) getActivity()).setTitleActBar(getString(R.string.shares) +  ", " + nameSubcategory);
-                }
             }
 
             @Override
